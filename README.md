@@ -1,12 +1,12 @@
-# Team *<Reggie>* Small Group project
+# Team *Reggie* Small Group project
 
 ## Team members
 The members of the team are:
-- *<ALI ALKHARS>*
-- *<ABDIRAHMAN AHMED>*
-- *<ILIA JAMASB>*
-- *<AMRA MIRZAZADA>*
-- *<CHIN WAN>*
+- *ALI ALKHARS*
+- *ABDIRAHMAN AHMED*
+- *ILIA JAMASB*
+- *AMRA MIRZAZADA*
+- *CHIN WAN*
 
 ## Project structure
 The project is called `msms` (Music School Management System).  It currently consists of a single app `lessons` where all functionality resides.
