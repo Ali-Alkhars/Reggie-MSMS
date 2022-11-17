@@ -1,0 +1,38 @@
+/*
+*   Home Page
+*/
+
+#cover-image{
+    background: url('images/music_background.jpg') center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+h1.home_title
+{
+    color: black;
+    font-size: 4rem;
+    font-family: "Times New Roman", Times, serif;
+}
+
+p.home_description
+{
+    color: black;
+    font-size: 1.5rem;
+}
+
+.home_card
+{
+    background-color: wheat;
+    max-width: 30rem;
+    border-radius: 5%;
+}
+
+a.home_button
+{
+    border-radius: 10%;
+    background-color: darkgrey;
+    color: black;
+}

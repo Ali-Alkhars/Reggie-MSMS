@@ -1,20 +1,14 @@
 {% extends 'partials/center_card.html' %}
 {% block content %}
 
-<h1 class = "home_title mt-2">MSMS</h1>
-<p class = "home_description">Learn to play an instrument!</p>
-<p>
-    <a href='{% url 'log_in' %}' class="btn home_button btn-lg btn-secondary">
-        Log in
-    </a>
-</p>
+<h1 class="mt-2">
+    Log in
+</h1>
 
-<p>
-    <a href  = '{% url 'sign_up' %}' class="btn home_button btn-lg btn-secondary mb=2">
-        Sign up
-    </a>
-</p>
-
+<form action="{% 'log_in'}" method="post">
+    {% csrf_token %}
+    {% include 'partials/bootstrap_form.html' with form=form %}
+    <input type="submit" value="Log in" class="btn btn-primary">
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
