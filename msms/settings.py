@@ -128,3 +128,6 @@ AUTH_USER_MODEL = 'lessons.User'
 
 # URL where logged-in users who are not supposed to access a page get redirected to
 REDIRECT_URL_WHEN_LOGGED_IN = 'feed'
+
+# Login URL for redirecting users from login protected views
+LOGIN_URL = 'home'
