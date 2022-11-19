@@ -6,7 +6,7 @@ from lessons.helpers.helper_functions import USER_GROUPS
 Class representing a command to create user groups.
 Used to create different user level authorisations
 """
-class Command(BaseCommand):
+class CreateGroupsCommand(BaseCommand):
     def __init__(self):
         super().__init__()
     

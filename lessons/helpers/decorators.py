@@ -14,9 +14,9 @@ def login_prohibited(view_function):
 A decorator used to allow only the users who belong to one of the groups
 given in the parameter list to access a page
 """
-def allowed_groups(group_names = []):
+def permitted_groups(group_names = []):
     def decorator(view_function):
-        def wrapper(request, *args, **kwargs):
+        def wrapper(request):
             group = None
             if request.user.groups.exists():
                 group = request.user.groups.all()[0].name
