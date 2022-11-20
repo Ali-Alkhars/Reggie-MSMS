@@ -10,6 +10,27 @@
     -o-background-size: cover;
 }
 
+.table_scrollbar
+{
+    overflow: auto;
+    height: 10rem;
+}
+
+.table_header
+{
+    position: sticky;
+    top: 0;
+}
+
+.table-wrapper-scroll-y {
+display: block;
+}
+
+.add_bottom_margin
+{
+    margin-bottom: 5%;
+}
+
 h1.home_title
 {
     color: black;
@@ -30,9 +51,18 @@ p.home_description
     border-radius: 5%;
 }
 
+.main_card
+{
+    background-color: wheat;
+    width:100;
+    margin: auto;
+}
+
+
 a.home_button
 {
     border-radius: 10%;
     background-color: darkgrey;
     color: black;
+    margin-bottom: 5%;
 }

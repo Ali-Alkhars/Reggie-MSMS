@@ -6,3 +6,6 @@ class LogInForm(forms.Form):
 
 class SignUpForm(forms.Form):
     print("test")
+
+class NewBookingForm(forms.Form):
+    test = forms.CharField(label="TEST")
