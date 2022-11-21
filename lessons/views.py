@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import LessonRequestForm
 from .models import Lesson_request
 from django.contrib import messages
+from lessons.helpers.decorators import login_prohibited, permitted_groups
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -9,6 +11,8 @@ def home(request):
     return render(request,"home.html")
 
 # Request a lesson using form
+# @login_required
+# @permitted_groups(['student'])
 def lesson_request(request):
     if request.method == "POST":
         form = LessonRequestForm(request.POST)
@@ -29,10 +33,14 @@ def lesson_request(request):
         form = LessonRequestForm()
     return render(request, "lesson_request.html", {"form":form})
 
+# @login_required
+# @permitted_groups(['student'])
 def lesson_page(request):
     data = {'object_list':Lesson_request.objects.all()}
     return render(request, "lesson_page.html", data);
 
+# @login_required
+# @permitted_groups(['admin', 'director'])
 def lesson_admin(request):
     return render(request, "lesson_admin.html");
 
