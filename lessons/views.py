@@ -10,6 +10,13 @@ def home(request):
     return render(request, 'temp.html')
 
 """
+A page for students to register an account
+"""
+@login_prohibited
+def register(request):
+    return render(request, 'temp.html')
+
+"""
 A page for students to make a lesson request
 NOT YET FULLY IMPLEMENTED
 """
