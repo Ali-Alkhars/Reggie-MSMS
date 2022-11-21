@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>Available days</th>
+                <th>Availble times</th>
+                <th>Number of lessons</th>
+                <th>Interval</th>
+                <th>Lesson duration</th>
+                <th>Learning objectives</th>
+                <th>Notes</th>
+            </tr>
+            {% for user in object_list %}
+            <tr>
+                <td>{{user.availableDays}}</td>
+                <td>{{user.availableTimes}}</td>
+                <td>{{user.numberOfLessons}}</td>
+                <td>{{user.IntervalBetweenLessons}}</td>
+                <td>{{user.DurationOfLesson}}</td>
+                <td>{{user.LearningObjectives}}</td>
+                <td>{{user.AdditionalNotes}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </body>
+</html>
