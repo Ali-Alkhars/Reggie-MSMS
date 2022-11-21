@@ -19,9 +19,9 @@ from lessons import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('log_in/', views.log_in, name='log_in'),
     path('sign_up/', views.sign_up, name='sign_up'),
-    path('main/', views.main, name='main'),
+    path('', views.main, name='main'),
     path('new_booking/', views.new_booking, name='new_booking'),
 ]

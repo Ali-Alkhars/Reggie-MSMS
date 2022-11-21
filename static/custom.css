@@ -61,8 +61,7 @@ p.home_description
 
 a.home_button
 {
-    border-radius: 10%;
-    background-color: darkgrey;
+    border-radius: 0%;
+    background-color: white;
     color: black;
-    margin-bottom: 5%;
 }
