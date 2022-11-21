@@ -19,3 +19,26 @@ class User(AbstractUser):
     )
     first_name = models.CharField(max_length=20, blank=False)
     last_name = models.CharField(max_length=20, blank=False)
+
+weekday_choices = [
+    ('Monday', 'Monday'),
+    ('Tuesday', 'Tuesday'),
+    ('Wednesday', 'Wednesday'),
+    ('Thursday', 'Thursday'),
+    ('Friday', 'Friday'),
+]
+
+time_choices = [
+    ('Morning', 'Morning'),
+    ('Afternoon', 'Afternoon'),
+    ('Night', 'Night'),
+]
+class Lesson_request(models.Model):
+    availableDays = models.CharField(max_length=100, blank=False, choices=weekday_choices)
+    availableTimes = models.CharField(max_length=255, blank=False, choices=time_choices)
+    numberOfLessons = models.PositiveIntegerField(blank=False);
+    IntervalBetweenLessons = models.PositiveIntegerField(blank=False);
+    DurationOfLesson = models.PositiveIntegerField(blank = False);
+    LearningObjectives = models.CharField(max_length= 255);
+    AdditionalNotes = models.CharField(max_length = 255);
+

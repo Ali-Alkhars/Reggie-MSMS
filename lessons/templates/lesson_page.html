@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        {% if messages %}
+        <ul class="messages">
+            {% for msg in messages %}
+            {{ msg }}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <p><a href='{%url 'lesson_request' %}' class="btn btn-lg btn-secondary"><button>Request a new lesson</button></a></p>
+    </body>
+</html>

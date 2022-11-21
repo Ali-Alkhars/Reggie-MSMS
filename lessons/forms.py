@@ -1,5 +1,5 @@
 from django import forms
-
+from .models import Lesson_request
 
 weekday_choices = [
     ('Monday', 'Monday'),
@@ -15,15 +15,27 @@ time_choices = [
     ('Night', 'Night'),
 ]
 
+
 # Request form for the lesson
-class LessonRequestForm(forms.Form):
-    avaiableDays = forms.CharField(label="Available days: ", widget=forms.Select(choices=weekday_choices), blank=False)
-    availableTimes = forms.CharField(label="Available times: ", widget=forms.Select(choices=time_choices), blank=False)
-    numberOfLessons = forms.IntegerField(label="Number of lessons desired: ", blank=False);
-    IntervalBetweenLessons = forms.IntegerField(label="Interval between lessons (In weeks): ", blank=False);
-    DurationOfLesson = forms.DecimalField(label="Duration of lesson (In minutes): ", blank = False);
-    LearningObjectives = forms.CharField(widget=forms.Textarea);
-    AdditionalNotes = forms.CharField(widget=forms.Textarea);
+class LessonRequestForm(forms.ModelForm):
+    class Meta:
+        model = Lesson_request
+        fields = ["availableDays", "availableTimes", "numberOfLessons", "IntervalBetweenLessons", "DurationOfLesson", "LearningObjectives", "AdditionalNotes"]
+        labels = {
+            'availableDays': "Available days: ",
+            'availableTimes': "Available times: ",
+            'numberOfLessons': "Number of lessons desired: ",
+            'IntervalBetweenLessons': "Interval between lessons (In weeks): ",
+            'DurationOfLesson': "Duration of lesson (In minutes): ",
+            'LearningObjectives': "What do you want to learn? ",
+            'AdditionalNotes': "Additional notes/comments: " 
+        }
+        widget = {
+            "LearningObjectives": forms.Textarea(),
+            "AdditionalNotes": forms.Textarea()
+        }
+
+
 
 
 
