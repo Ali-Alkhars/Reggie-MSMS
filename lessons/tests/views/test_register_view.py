@@ -8,7 +8,7 @@ from lessons.tests.helpers import LogInTester
 from lessons.management.commands.create_user_groups import Command
 
 
-class SignUpViewTestCase(TestCase, LogInTester):
+class RegisterViewTestCase(TestCase, LogInTester):
     """Tests of the register view."""
 
     fixtures = ['lessons/tests/fixtures/default_user.json']
@@ -42,7 +42,7 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
         self.assertTemplateUsed(response, 'base.html')
 
-    def test_unsuccesful_register(self):
+    def test_unsuccessful_register(self):
         self.form_input['username'] = 'BAD_USERNAME'
         before_count = User.objects.count()
         response = self.client.post(self.url, self.form_input)
@@ -55,7 +55,7 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertTrue(form.is_bound)
         self.assertFalse(self._is_logged_in())
 
-    def test_succesful_register(self):
+    def test_successful_register(self):
         create_groups_command = Command()
         create_groups_command.handle()
 

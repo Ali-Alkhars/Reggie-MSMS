@@ -17,7 +17,11 @@ class MainPageRedirectsTest(TestCase):
     def test_log_in_button_redirect(self):
         response = self.client.post(reverse('log_in'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'log_in.html')
 
-    def test_sign_up_button_redirect(self):
-        response = self.client.post(reverse('sign_up'))
+
+    def test_register_button_redirect(self):
+        response = self.client.post(reverse('register'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'register.html')
+
