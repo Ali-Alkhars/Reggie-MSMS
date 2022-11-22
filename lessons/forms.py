@@ -4,6 +4,15 @@ from django.core.validators import RegexValidator
 from lessons.models import User
 from django.contrib.auth.models import Group
 
+# This is just a placeholder form
+class LogInForm(forms.Form):
+    username = forms.CharField(label="Username")
+    password = forms.CharField(label="Password", widget=forms.PasswordInput())
+
+# This is just a placeholder form
+class NewLessonForm(forms.Form):
+    test = forms.CharField(label="TEST")
+
 class RegisterForm(forms.ModelForm):
     """Form enabling students to register an account"""
 

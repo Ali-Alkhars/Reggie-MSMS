@@ -64,6 +64,78 @@
   --bs-body-bg: #fff;
 }
 
+/**
+* Custom classes for the Main Page  -- START --
+*/
+
+#cover-image{
+  background: url('images/music_background.jpg') center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.table_scrollbar
+{
+  overflow: auto;
+  height: 10rem;
+}
+
+.table_header
+{
+  position: sticky;
+  top: 0;
+}
+
+.table-wrapper-scroll-y {
+display: block;
+}
+
+.add_bottom_margin
+{
+  margin-bottom: 5%;
+}
+
+h1.home_title
+{
+  color: black;
+  font-size: 4rem;
+  font-family: "Times New Roman", Times, serif;
+}
+
+p.home_description
+{
+  color: black;
+  font-size: 1.5rem;
+}
+
+.home_card
+{
+  background-color: wheat;
+  max-width: 30rem;
+  border-radius: 5%;
+}
+
+.main_card
+{
+  background-color: wheat;
+  width:100;
+  margin: auto;
+}
+
+
+a.home_button
+{
+  border-radius: 0%;
+  background-color: white;
+  color: black;
+}
+
+/**
+* Custom classes for the Main Page  -- END --
+*/
+
 *,
 *::before,
 *::after {

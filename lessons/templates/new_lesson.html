@@ -1,0 +1,13 @@
+{% extends 'partials/center_card.html' %}
+{% block content %}
+
+<h1 class="mt-2">
+    Request a new lesson
+</h1>
+
+<form action="{% 'new_lesson'}" method="post">
+    {% csrf_token %}
+    {% include 'partials/bootstrap_form.html' with form=form %}
+    <input type="submit" value="Request" class="btn btn-primary">
+
+{% endblock %}

@@ -132,7 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'lessons.User'
 
 # URL where logged-in users who are not supposed to access a page get redirected to
-REDIRECT_URL_WHEN_LOGGED_IN = 'home'
+REDIRECT_URL_WHEN_LOGGED_IN = 'main'
 
 # Login URL for redirecting users from login protected views
-LOGIN_URL = 'home'
+LOGIN_URL = 'log_in'

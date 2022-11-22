@@ -19,8 +19,10 @@ from lessons import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('', views.main, name='main'),
+    path('home/', views.home, name='home'),
+    path('log_in/', views.log_in, name='log_in'),
+    path('register/', views.register, name='register'),
     path('new_lesson/', views.new_lesson, name='new_lesson'),
     path('lesson_requests/', views.lesson_requests, name='lesson_requests'),
-    path('register/', views.register, name='register'),
 ]
