@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-class HomePageRedirectsTest(TestCase):
+class MainPageRedirectsTest(TestCase):
 
     def setUp(self):
         self.url=reverse('main')
