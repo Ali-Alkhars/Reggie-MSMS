@@ -21,6 +21,18 @@ class UserModelTestCase(TestCase):
         self.user.username = ''
         self._assert_user_is_invalid()
 
+    def test_username_can_contain_two_dots_after_at(self):
+        self.user.username = 'johndoe@example.co.uk'
+        self._assert_user_is_valid()
+
+    def test_username_may_contain_80_characters(self):
+        self.user.username = ('x' * 30) + '@' + ('y' * 45) + '.com'
+        self._assert_user_is_valid()
+
+    def test_username_must_not_contain_more_than_80_characters(self):
+        self.user.username = ('x' * 30) + '@' + ('y' * 46) + '.com'
+        self._assert_user_is_invalid()
+
     def test_username_must_be_unique(self):
         second_user = User.objects.get(username = "janedoe@example.org")
         self.user.username = second_user.username

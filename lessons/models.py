@@ -7,7 +7,7 @@ class User(AbstractUser):
     """User model used for creating different users in the MSMS."""
 
     username = models.CharField(
-        max_length=20,
+        max_length=80,
         unique=True,
         validators=[
             RegexValidator(
