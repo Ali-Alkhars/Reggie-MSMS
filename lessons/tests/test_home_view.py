@@ -6,10 +6,10 @@ class HomePageRedirectsTest(TestCase):
     def setUp(self):
         self.url=reverse('main')
 
-    def test_home_url(self):
+    def test_main_url(self):
         self.assertEqual(self.url, '/')
 
-    def test_get_home(self):
+    def test_get_main(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'main.html')
