@@ -15,6 +15,7 @@ def home(request):
 """
 The main landing page where users can sign-in or register as students
 """
+@login_prohibited
 def main(request):
     return render(request, 'main.html')
 
