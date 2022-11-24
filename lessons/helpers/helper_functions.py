@@ -49,3 +49,11 @@ A helper function which deletes the given user (as user id)
 def delete_user(user_id):
     user = User.objects.get(id=user_id)
     user.delete()
+
+"""
+A helper function which returns the given user's (as user id)
+full name
+"""
+def get_user_full_name(user_id):
+    user = User.objects.get(id=user_id)
+    return f"{user.first_name} {user.last_name}"

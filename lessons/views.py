@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
 from lessons.models import User
-from lessons.helpers.helper_functions import promote_admin_to_director, delete_user
+from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name
+from django.contrib import messages
 
 """
 The home page that users see when they log in
@@ -88,13 +89,14 @@ def admin_actions(request, action, user_id):
 
     if action == 'promote':
         promote_admin_to_director(user_id)
+        messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
     elif action == 'edit':
         # TODO: implement the edit account functionality
         print(f"EDIT: {user_id}")
     elif action == 'delete':
+        messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully deleted!")
         delete_user(user_id)
 
-    # TODO: Add an update message with the redirection 
     return redirect('admin_accounts')
 
 """
