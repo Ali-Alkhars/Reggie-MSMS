@@ -65,7 +65,7 @@
 }
 
 /**
-* Custom classes for the Main Page  -- START --
+* Custom classes by team Reggie  -- START --
 */
 
 #cover-image{
@@ -132,8 +132,24 @@ a.home_button
   color: black;
 }
 
+.admin-user-colour
+{
+  color: var(--bs-primary);
+}
+
+.admin-icon-margins
+{
+  margin-right: 4px;
+}
+
+.admin-card-borders
+{
+  border:none;
+  border-radius: 12px;
+}
+
 /**
-* Custom classes for the Main Page  -- END --
+* Custom classes by team Reggie  -- END --
 */
 
 *,

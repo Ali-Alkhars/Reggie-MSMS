@@ -66,8 +66,8 @@ def lesson_requests(request):
 A page for directors to view/edit/delete admin accounts or promote
 them to directors
 """
-@login_required
-@permitted_groups(['director'])
+# @login_required
+# @permitted_groups(['director'])
 def admin_accounts(request):
-    return render(request, 'temp.html')
+    return render(request, 'admin_accounts.html')
 

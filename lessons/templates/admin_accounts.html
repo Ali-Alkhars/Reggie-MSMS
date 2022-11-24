@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-3 mb-4 d-flex justify-content-center">
+<div class="col-lg-9 mt-4 mt-lg-0">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm admin-card-borders">
+          <table class="table manage-candidates-top mb-0">
+            
+            <thead>
+              <tr>
+                <th>Admin Name</th>
+                <th class="text-center">Email address</th>
+                <th class="action text-right">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+               <tr class="candidates-list">
+                <td class="title">
+                  <div class="candidate-list-details">
+                    <div class="candidate-list-info">
+                      <div class="candidate-list-title">
+
+                        <h5 class="mb-0 admin-user-colour">Insert name here</h5>
+
+                      </div>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="candidate-list-favourite-time text-center">
+                  <span class="candidate-list-time admin-user-colour order-1">Insert email here</span>
+                </td>
+
+                <td>
+                  <ul class="list-unstyled mb-0 d-flex justify-content-start">
+                    <li><a href="#" class="text-success" data-toggle="tooltip" title="Promote to director" data-original-title="promote"><i class="bi-person-fill-up admin-icon-margins"></i></a></li>
+                    <li><a href="#" class="text-warning" data-toggle="tooltip" title="Edit account" data-original-title="Edit"><i class="bi-person-fill-gear admin-icon-margins"></i></a></li>
+                    <li><a href="#" class="text-danger" data-toggle="tooltip" title="Delete account" data-original-title="Delete"><i class="bi-person-x-fill admin-icon-margins"></i></a></li>
+                  </ul>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
