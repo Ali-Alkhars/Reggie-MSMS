@@ -62,3 +62,12 @@ NOT YET FULLY IMPLEMENTED
 def lesson_requests(request):
     return render(request, 'temp.html')
 
+"""
+A page for directors to view/edit/delete admin accounts or promote
+them to directors
+"""
+@login_required
+@permitted_groups(['director'])
+def admin_accounts(request):
+    return render(request, 'temp.html')
+
