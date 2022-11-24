@@ -1,4 +1,5 @@
 from lessons.models import User
+from django.contrib.auth.models import Group
 
 """A dictionary of user groups, giving each group their set of permissions"""
 USER_GROUPS = {
@@ -26,3 +27,18 @@ def get_user_group(request):
             return key
 
     return ''
+
+"""
+A helper function which assigns the user given (as user id) to the 
+director user group
+"""
+def promote_admin_to_director(user_id):
+    user = User.objects.get(id=user_id)
+
+    # Remove the user from the admin group
+    admin_group = Group.objects.get(name='admin') 
+    admin_group.user_set.remove(user)
+
+    # Add the user to the director group
+    director_group = Group.objects.get(name='director') 
+    director_group.user_set.add(user)

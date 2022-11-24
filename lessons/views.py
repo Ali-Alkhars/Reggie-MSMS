@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
 from lessons.models import User
+from lessons.helpers.helper_functions import promote_admin_to_director
 
 """
 The home page that users see when they log in
@@ -86,7 +87,7 @@ in the admin_accounts view
 def admin_actions(request, action, user_id):
 
     if action == 'promote':
-        print(f"PROMOTE: {user_id}")
+        promote_admin_to_director(user_id)
     elif action == 'edit':
         print(f"EDIT: {user_id}")
     elif action == 'delete':
