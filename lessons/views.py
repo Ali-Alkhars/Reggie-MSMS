@@ -67,8 +67,8 @@ def lesson_requests(request):
 A page for directors to view/edit/delete admin accounts or promote
 them to directors
 """
-@login_required
-@permitted_groups(['director'])
+# @login_required
+# @permitted_groups(['director'])
 def admin_accounts(request):
     if request.method == 'POST':
         user_type = request.POST.get("user_type")
@@ -78,10 +78,27 @@ def admin_accounts(request):
     return render(request, 'admin_accounts.html', {'admins': admins})
 
 """
+A view which does the page redirections for the action buttons
+in the admin_accounts view
+"""
+# @login_required
+# @permitted_groups(['director'])
+def admin_actions(request, action, user_id):
+
+    if action == 'promote':
+        print(f"PROMOTE: {user_id}")
+    elif action == 'edit':
+        print(f"EDIT: {user_id}")
+    elif action == 'delete':
+        print(f"DELETE: {user_id}")
+
+    return redirect('admin_accounts')
+
+"""
 A page for directors to create either an admin or director account
 """
-@login_required
-@permitted_groups(['director'])
+# @login_required
+# @permitted_groups(['director'])
 def register_super(request, user_type):
     if request.method == 'POST':
         form = RegisterForm(request.POST)

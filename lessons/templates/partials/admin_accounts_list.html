@@ -30,9 +30,9 @@
 
         <td>
         <ul class="list-unstyled mb-0 d-flex justify-content-start">
-            <li><a href="#" class="text-success" data-toggle="tooltip" title="Promote to director" data-original-title="promote"><i class="bi-person-fill-up admin-icon-margins"></i></a></li>
-            <li><a href="#" class="text-warning" data-toggle="tooltip" title="Edit account" data-original-title="Edit"><i class="bi-person-fill-gear admin-icon-margins"></i></a></li>
-            <li><a href="#" class="text-danger" data-toggle="tooltip" title="Delete account" data-original-title="Delete"><i class="bi-person-x-fill admin-icon-margins"></i></a></li>
+            <li><a href="{% url 'admin_actions' 'promote' admin.id %}" class="text-success" data-toggle="tooltip" title="Promote to director" data-original-title="promote"><i class="bi-person-fill-up admin-icon-margins"></i></a></li>
+            <li><a href="{% url 'admin_actions' 'edit' admin.id %}" class="text-warning" data-toggle="tooltip" title="Edit account" data-original-title="Edit"><i class="bi-person-fill-gear admin-icon-margins"></i></a></li>
+            <li><a href="{% url 'admin_actions' 'delete' admin.id %}" class="text-danger" data-toggle="tooltip" title="Delete account" data-original-title="Delete"><i class="bi-person-x-fill admin-icon-margins"></i></a></li>
         </ul>
         </td>
     </tr>
