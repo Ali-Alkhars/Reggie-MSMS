@@ -4,6 +4,7 @@ from lessons.forms import LogInForm, NewLessonForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
+from lessons.models import User
 
 """
 The home page that users see when they log in
@@ -69,5 +70,6 @@ them to directors
 # @login_required
 # @permitted_groups(['director'])
 def admin_accounts(request):
-    return render(request, 'admin_accounts.html')
+    admins = User.objects.filter(groups__name='admin')
+    return render(request, 'admin_accounts.html', {'admins': admins})
 

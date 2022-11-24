@@ -15,6 +15,7 @@
               </tr>
             </thead>
 
+            {% for admin in admins %}
             <tbody>
 
                <tr class="candidates-list">
@@ -23,7 +24,7 @@
                     <div class="candidate-list-info">
                       <div class="candidate-list-title">
 
-                        <h5 class="mb-0 admin-user-colour">Insert name here</h5>
+                        <h5 class="mb-0 admin-user-colour">{{admin.first_name}} {{admin.last_name}}</h5>
 
                       </div>
                     </div>
@@ -31,7 +32,7 @@
                 </td>
 
                 <td class="candidate-list-favourite-time text-center">
-                  <span class="candidate-list-time admin-user-colour order-1">Insert email here</span>
+                  <span class="candidate-list-time admin-user-colour order-1">{{admin.username}}</span>
                 </td>
 
                 <td>
@@ -44,6 +45,7 @@
               </tr>
 
             </tbody>
+            {% endfor %}
 
           </table>
         </div>
