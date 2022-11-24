@@ -42,3 +42,10 @@ def promote_admin_to_director(user_id):
     # Add the user to the director group
     director_group = Group.objects.get(name='director') 
     director_group.user_set.add(user)
+
+"""
+A helper function which deletes the given user (as user id)
+"""
+def delete_user(user_id):
+    user = User.objects.get(id=user_id)
+    user.delete()
