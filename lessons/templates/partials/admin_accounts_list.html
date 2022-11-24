@@ -1,0 +1,43 @@
+<table class="table manage-candidates-top mb-0">
+    
+    <thead>
+    <tr>
+        <th>Admin Name</th>
+        <th class="text-center">Email address</th>
+        <th class="action text-right">Actions</th>
+    </tr>
+    </thead>
+
+    {% for admin in admins %}
+    <tbody>
+
+        <tr class="candidates-list">
+        <td class="title">
+        <div class="candidate-list-details">
+            <div class="candidate-list-info">
+            <div class="candidate-list-title">
+
+                <h5 class="mb-0 admin-user-colour">{{admin.first_name}} {{admin.last_name}}</h5>
+
+            </div>
+            </div>
+        </div>
+        </td>
+
+        <td class="candidate-list-favourite-time text-center">
+        <span class="candidate-list-time admin-user-colour order-1">{{admin.username}}</span>
+        </td>
+
+        <td>
+        <ul class="list-unstyled mb-0 d-flex justify-content-start">
+            <li><a href="#" class="text-success" data-toggle="tooltip" title="Promote to director" data-original-title="promote"><i class="bi-person-fill-up admin-icon-margins"></i></a></li>
+            <li><a href="#" class="text-warning" data-toggle="tooltip" title="Edit account" data-original-title="Edit"><i class="bi-person-fill-gear admin-icon-margins"></i></a></li>
+            <li><a href="#" class="text-danger" data-toggle="tooltip" title="Delete account" data-original-title="Delete"><i class="bi-person-x-fill admin-icon-margins"></i></a></li>
+        </ul>
+        </td>
+    </tr>
+
+    </tbody>
+    {% endfor %}
+
+</table>
