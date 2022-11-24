@@ -30,7 +30,7 @@ class RegisterViewTestCase(TestCase, LogInTester):
     def test_get_register(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'register.html')
+        self.assertTemplateUsed(response, 'register_as_student.html')
         form = response.context['form']
         self.assertTrue(isinstance(form, RegisterForm))
         self.assertFalse(form.is_bound)
@@ -49,7 +49,7 @@ class RegisterViewTestCase(TestCase, LogInTester):
         after_count = User.objects.count()
         self.assertEqual(after_count, before_count)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'register.html')
+        self.assertTemplateUsed(response, 'register_as_student.html')
         form = response.context['form']
         self.assertTrue(isinstance(form, RegisterForm))
         self.assertTrue(form.is_bound)

@@ -43,9 +43,25 @@ class RegisterForm(forms.ModelForm):
             self.add_error('confirm_password', 'Confirmation does not match password.')
 
     """Assign a given user to the student group"""
-    def assign_user_as_student(self, user):
+    def save_user_as_student(self):
+        user = self.save()
         student_group = Group.objects.get(name='student') 
         student_group.user_set.add(user)
+        return user
+    
+    """Assign a given user to the director group"""
+    def save_user_as_director(self):
+        user = self.save()
+        director_group = Group.objects.get(name='director') 
+        director_group.user_set.add(user)
+        return user
+    
+    """Assign a given user to the admin group"""
+    def save_user_as_admin(self):
+        user = self.save()
+        admin_group = Group.objects.get(name='admin') 
+        admin_group.user_set.add(user)
+        return user
 
     def save(self):
         """Create a new user."""
@@ -57,7 +73,5 @@ class RegisterForm(forms.ModelForm):
             last_name=self.cleaned_data.get('last_name'),
             password=self.cleaned_data.get('new_password'),
         )
-
-        self.assign_user_as_student(user)
 
         return user

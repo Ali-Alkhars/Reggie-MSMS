@@ -1,0 +1,9 @@
+{% extends 'partials/registration_form.html' %}
+
+{% block title %}
+Register as a Student
+{% endblock %}
+
+{% block form_header %}
+  <form action="{% url 'register' %}" method="post">
+{% endblock %}

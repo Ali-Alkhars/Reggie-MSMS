@@ -7,25 +7,7 @@
           <div class="col-md-12"> 
                 <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm admin-card-borders">
                 
-                    <h6 class="card-title mb-3">Create a new account for a</h6>
-
-                    <div class="d-flex flex-row"> 
-                        <label class="radio mr-1"> 
-                            <input type="radio" name="add" value="admin" checked> 
-                            <span> <i class="fa fa-user"></i> Admin </span> 
-                        </label> 
-                    </div>
-
-                    <div class="d-flex flex-row"> 
-                        <label class="radio mr-1"> 
-                            <input type="radio" name="add" value="director" checked> 
-                            <span> <i class="fa fa-user"></i> Director </span> 
-                        </label> 
-                    </div>
-
-                    <div class="col text-center">
-                        <a class="btn btn-primary" href="/register">Create</a>
-                    </div>
+                    {% include "partials/admin_creation_choice.html" %}
 
                 </div>
            </div>

@@ -30,18 +30,18 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save_user_as_student()
             login(request, user)
             return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
     else:
         form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'register_as_student.html', {'form': form})
 
 #TODO: Merge with log-in task
 def log_in(request):
 
     form = LogInForm()
-    return render(request, 'log_in.html', {'form': form})
+    return render(request, 'log_in.html', {'form': form, 'post_url' : 'register'})
 
 """
 A page for students to make a lesson request
@@ -67,9 +67,36 @@ def lesson_requests(request):
 A page for directors to view/edit/delete admin accounts or promote
 them to directors
 """
-# @login_required
-# @permitted_groups(['director'])
+@login_required
+@permitted_groups(['director'])
 def admin_accounts(request):
+    if request.method == 'POST':
+        user_type = request.POST.get("user_type")
+        return redirect('register_super', user_type)
+
     admins = User.objects.filter(groups__name='admin')
     return render(request, 'admin_accounts.html', {'admins': admins})
+
+"""
+A page for directors to create either an admin or director account
+"""
+@login_required
+@permitted_groups(['director'])
+def register_super(request, user_type):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            if user_type == 'director':
+                form.save_user_as_director()
+            else:
+                form.save_user_as_admin()
+
+            return redirect('admin_accounts')
+    else:
+        form = RegisterForm()
+
+    if user_type == 'director':
+        return render(request, 'register_as_director.html', {'form': form})
+    else:
+        return render(request, 'register_as_admin.html', {'form': form})
 
