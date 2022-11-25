@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from lessons.forms import LogInForm, NewLessonForm, RegisterForm, EditAdminForm
+from lessons.forms import LogInForm, NewLessonForm, RegisterForm, EditLoginsForm, EditPasswordForm
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
@@ -91,7 +92,7 @@ def admin_actions(request, action, user_id):
         promote_admin_to_director(user_id)
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
     elif action == 'edit':
-        return redirect('edit_admin', user_id)
+        return redirect('edit_admin', 'None', user_id)
 
     elif action == 'delete':
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully deleted!")
@@ -104,17 +105,37 @@ A view for directors to edit the account of an admin
 """
 # @login_required
 # @permitted_groups(['director'])
-def edit_admin(request, user_id):
+def edit_admin(request, action, user_id):
+    admin_user = User.objects.get(id=user_id)
+
     if request.method == 'POST':
-        form = EditAdminForm(request.POST)
-        if form.is_valid():
-            # TODO: Implement the form validation functionality
-            # TODO: Reorder the "current_password" field in the form
-            # TODO: Make the current fields appear in the form
+        # User chose to update the admin's login info
+        if action == 'logins':
+            form = EditLoginsForm(instance=admin_user, data=request.POST)
+            if form.is_valid():
+                messages.add_message(request, messages.SUCCESS, "Admin login information updated!")
+                form.save()
+                return redirect('edit_admin', 'None', user_id)
+            
+        # User chose to update the admin's password
+        elif action == 'password':
+            form = EditPasswordForm(data=request.POST)
+            if form.is_valid():
+                current_password = form.cleaned_data.get('current_password')
+                if check_password(current_password, admin_user.password):
+                    new_password = form.cleaned_data.get('new_password')
+                    admin_user.set_password(new_password)
+                    admin_user.save()
+                    messages.add_message(request, messages.SUCCESS, "Admin password updated!")
+                    return redirect('edit_admin', 'None', user_id)
+                
+        # User is done editing
+        else:
             return redirect('admin_accounts')
-    else:
-        form = EditAdminForm()
-    return render(request, 'edit_admin.html', {'form': form, 'user_id': user_id})
+        
+    edit_logins_form = EditLoginsForm(instance=admin_user)
+    edit_password_form = EditPasswordForm()
+    return render(request, 'edit_admin.html', {'logins_form': edit_logins_form, 'password_form': edit_password_form, 'user_id': user_id})
 
 """
 A page for directors to create either an admin or director account
