@@ -4,6 +4,8 @@ from lessons.forms import LogInForm, NewLessonForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+from django.contrib import messages
 
 """
 The home page that users see when they log in
@@ -25,6 +27,7 @@ def main(request):
 A page for students to register an account
 """
 @login_prohibited
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -37,10 +40,24 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 #TODO: Merge with log-in task
-def log_in(request):
 
+def log_in(request):
+    if request.method == 'POST':
+        form = LogInForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('feed')
+        messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
+
+def log_out(request):
+    logout(request)
+    return redirect('home')
 
 """
 A page for students to make a lesson request
