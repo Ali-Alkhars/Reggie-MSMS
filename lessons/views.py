@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from lessons.forms import LogInForm, NewLessonForm, RegisterForm
+from lessons.forms import LogInForm, NewLessonForm, RegisterForm, EditAdminForm
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
@@ -91,8 +91,8 @@ def admin_actions(request, action, user_id):
         promote_admin_to_director(user_id)
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
     elif action == 'edit':
-        # TODO: implement the edit account functionality
-        print(f"EDIT: {user_id}")
+        return redirect('edit_admin', user_id)
+
     elif action == 'delete':
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully deleted!")
         delete_user(user_id)
@@ -105,7 +105,13 @@ A view for directors to edit the account of an admin
 # @login_required
 # @permitted_groups(['director'])
 def edit_admin(request, user_id):
-    pass
+    if request.method == 'POST':
+        form = EditAdminForm(request.POST)
+        if form.is_valid():
+            return redirect('admin_accounts')
+    else:
+        form = EditAdminForm()
+    return render(request, 'edit_admin.html', {'form': form, 'user_id': user_id})
 
 """
 A page for directors to create either an admin or director account

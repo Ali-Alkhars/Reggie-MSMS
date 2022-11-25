@@ -13,9 +13,9 @@ class LogInForm(forms.Form):
 class NewLessonForm(forms.Form):
     test = forms.CharField(label="TEST")
 
-class RegisterForm(forms.ModelForm):
-    """Form enabling students to register an account"""
-
+class GeneralUserForm(forms.ModelForm):
+    """A general form for editing or creating a user"""
+    
     class Meta:
         """Form options."""
 
@@ -41,6 +41,15 @@ class RegisterForm(forms.ModelForm):
         confirm_password = self.cleaned_data.get('confirm_password')
         if new_password != confirm_password:
             self.add_error('confirm_password', 'Confirmation does not match password.')
+
+class EditAdminForm(GeneralUserForm):
+    """Form enabling directors to edit admin accounts"""
+
+    current_password = forms.CharField(label='Current password', widget=forms.PasswordInput())
+
+
+class RegisterForm(GeneralUserForm):
+    """Form enabling students to register an account"""
 
     """Assign a given user to the student group"""
     def save_user_as_student(self):
