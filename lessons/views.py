@@ -108,6 +108,9 @@ def edit_admin(request, user_id):
     if request.method == 'POST':
         form = EditAdminForm(request.POST)
         if form.is_valid():
+            # TODO: Implement the form validation functionality
+            # TODO: Reorder the "current_password" field in the form
+            # TODO: Make the current fields appear in the form
             return redirect('admin_accounts')
     else:
         form = EditAdminForm()
