@@ -100,6 +100,14 @@ def admin_actions(request, action, user_id):
     return redirect('admin_accounts')
 
 """
+A view for directors to edit the account of an admin
+"""
+# @login_required
+# @permitted_groups(['director'])
+def edit_admin(request, user_id):
+    pass
+
+"""
 A page for directors to create either an admin or director account
 """
 # @login_required
