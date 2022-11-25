@@ -18,7 +18,11 @@ A helper function which checks the user group of the user who made the request
 and return the group's name as string
 """
 def get_user_group(request):
+    if not request.user.groups.exists():
+        print("No groups created!")
+
     for key in USER_GROUPS.keys():
+        print(key+"\n")
         if key == request.user.groups.all()[0].name:
             return key
 

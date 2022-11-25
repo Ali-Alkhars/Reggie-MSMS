@@ -42,7 +42,7 @@ def lesson_page(request):
         # user_lessons = Lesson_request.objects.filter(user=request.user)
         # data = {'object_list': user_lessons}
     # else:
-        # data = {'object_list': Lesson_request.objects.all()}
+        # data = {'object_list': Lesson_request.objects.all()}}
     data = {'object_list':Lesson_request.objects.all()}
     return render(request, "lesson_page.html", data);
 

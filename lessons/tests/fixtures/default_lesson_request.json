@@ -1,0 +1,15 @@
+[
+    {
+        "model": "lessons.lesson_request",
+        "pk": 3,
+        "fields": {
+            "availableDays": "Monday",
+            "availableTimes": "Night",
+            "numberOfLessons": 1,
+            "IntervalBetweenLessons": 5,
+            "DurationOfLesson": 30,
+            "LearningObjectives": "I want to learn music.",
+            "AdditionalNotes": "I know how to play piano."
+        }
+    }
+]

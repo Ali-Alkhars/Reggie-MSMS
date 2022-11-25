@@ -37,17 +37,19 @@ time_choices = [
 
 # Make sure values are not non-zero
 def validate_nonzero(value):
-    if value ==0:
+    if (value <= 0):
         raise ValidationError(
             ('%(value) is not allowed'),
             params={'value':value},
         )
+
+
 class Lesson_request(models.Model):
     availableDays = models.CharField(max_length=100, blank=False, choices=weekday_choices)
     availableTimes = models.CharField(max_length=255, blank=False, choices=time_choices)
     numberOfLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero]);
     IntervalBetweenLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero]);
     DurationOfLesson = models.PositiveIntegerField(blank = False, validators=[validate_nonzero]);
-    LearningObjectives = models.CharField(max_length= 255, blank=True);
-    AdditionalNotes = models.CharField(max_length = 255, blank=True);
+    LearningObjectives = models.TextField(blank=True);
+    AdditionalNotes = models.TextField(blank=True);
 
