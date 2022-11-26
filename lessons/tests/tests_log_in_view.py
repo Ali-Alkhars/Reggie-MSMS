@@ -6,20 +6,18 @@ from lessons.forms import LogInForm
 from lessons.models import User
 from .helpers import LogInTester
 
-class LogInViewTestCase(TestCase):
+class LogInViewTestCase(TestCase, LogInTester):
     """Tests of the log in view."""
+
+    fixtures = ['lessons/tests/fixtures/default_user.json']
 
     def setUp(self):
         self.url = reverse('log_in')
+        self.user = User.objects.get(username='johndoe@example.org')
 
     def test_log_in_url(self):
         self.assertEqual(self.url,'/log_in/')
-        self.user = User.objects.create_user("johndoe@example.org",
-            first_name =  "John",
-            last_name="Doe",
-            password= "Password123",
-            is_active = True
-        )
+        
 
     def test_get_log_in(self):
         response = self.client.get(self.url)
@@ -43,9 +41,6 @@ class LogInViewTestCase(TestCase):
         form_input = { 'username': 'johndoe@example.org', 'password': 'Password123' }
         response = self.client.post(self.url, form_input, follow=True)
         self.assertTrue(self._is_logged_in())
-        response_url = reverse('main')
+        response_url = reverse('home')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-        self.assertTemplateUsed(response, 'main.html')
-        
-    def _is_logged_in(self):
-        return '_auth_user_id' in self.client.session.keys()
+        self.assertTemplateUsed(response, 'home.html')
