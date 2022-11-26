@@ -3,6 +3,7 @@ from lessons.models import User
 from lessons.forms import EditPasswordForm
 
 class EditPasswordFormTestCase(TestCase):
+    """Unit tests of the EditPassword form"""
 
     fixtures = ['lessons/tests/fixtures/default_user.json']
 
