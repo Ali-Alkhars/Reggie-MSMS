@@ -29,6 +29,21 @@ def get_user_group(request):
     return ''
 
 """
+A helper function which checks the user group of the user with the given id
+and return the group's name as string
+"""
+def get_user_group_from_id(user_id):
+    user = User.objects.get(id=user_id)
+    if not user.groups.exists():
+        raise Exception("User groups do not exist. Try running 'python3 manage.py create_user_groups'")
+
+    for key in USER_GROUPS.keys():
+        if key == user.groups.all()[0].name:
+            return key
+
+    return ''
+
+"""
 A helper function which assigns the user given (as user id) to the 
 director user group
 """

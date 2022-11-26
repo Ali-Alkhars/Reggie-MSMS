@@ -91,6 +91,7 @@ def admin_actions(request, action, user_id):
     if action == 'promote':
         promote_admin_to_director(user_id)
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
+    
     elif action == 'edit':
         return redirect('edit_admin', 'None', user_id)
 
