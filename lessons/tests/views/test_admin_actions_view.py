@@ -30,21 +30,51 @@ class AdminActionsViewTestCase(TestCase):
     def test_admin_actions_url(self):
         self.assertEqual(self.url, f'/admin_actions/{self.action}/{self.peter.id}')
 
-    def test_admin_is_promoted_to_director(self):
+    def test_promote_action_promotes_admin_to_director(self):
         self.client.login(username = self.user.username, password = "Password123")
         director_group = Group.objects.get(name='director') 
         director_group.user_set.add(self.user)
 
         self.assertEqual('admin', get_user_group_from_id(self.peter.id))
         promotion_url = reverse('admin_actions', kwargs={'action': 'promote', 'user_id': self.peter.id})
-        self.client.get(promotion_url)
+        response = self.client.get(promotion_url)
         self.assertEqual('director', get_user_group_from_id(self.peter.id))
-        # TODO: add assert redirect to admin_accounts
+        redirect_url = reverse('admin_accounts')
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
 
-    """
-    TODO: test delete action deletes the admin
-    TODO: test edit action redirects user to edit_admin
-    """
+    def test_edit_action_redirects_to_edit_admin(self):
+        self.client.login(username = self.user.username, password = "Password123")
+        director_group = Group.objects.get(name='director') 
+        director_group.user_set.add(self.user)
+
+        edit_url = reverse('admin_actions', kwargs={'action': 'edit', 'user_id': self.peter.id})
+        response = self.client.get(edit_url)
+        redirect_url = reverse('edit_admin', kwargs={'action': 'None', 'user_id': self.peter.id})
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+
+    def test_delete_action_deletes_admin_user(self):
+        self.client.login(username = self.user.username, password = "Password123")
+        director_group = Group.objects.get(name='director') 
+        director_group.user_set.add(self.user)
+
+        before_user_count = len(User.objects.all())
+        before_admins_count = len(User.objects.filter(groups__name='admin'))
+        delete_url = reverse('admin_actions', kwargs={'action': 'delete', 'user_id': self.peter.id})
+        response = self.client.get(delete_url)
+        self.assertEqual(len(User.objects.all()), before_user_count-1)
+        self.assertEqual(len(User.objects.filter(groups__name='admin')), before_admins_count-1)
+        redirect_url = reverse('admin_accounts')
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+
+    def test_None_action_redirects_to_admin_accounts(self):
+        self.client.login(username = self.user.username, password = "Password123")
+        director_group = Group.objects.get(name='director') 
+        director_group.user_set.add(self.user)
+
+        edit_url = reverse('admin_actions', kwargs={'action': 'None', 'user_id': self.peter.id})
+        response = self.client.get(edit_url)
+        redirect_url = reverse('admin_accounts')
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
 
     def test_get_admin_actions_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next(settings.LOGIN_URL, self.url)
