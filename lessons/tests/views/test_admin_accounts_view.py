@@ -25,7 +25,6 @@ class AdminAccountsViewTestCase(TestCase):
         self.client.login(username=self.user.username, password='Password123')
         director_group = Group.objects.get(name='director') 
         director_group.user_set.add(self.user)
-
         self._create_test_admins(10)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -36,6 +35,22 @@ class AdminAccountsViewTestCase(TestCase):
             self.assertContains(response, f'First{user_id}')
             self.assertContains(response, f'Last{user_id}')
 
+    def test_post_admin_accounts_redirects_to_register_super_director(self):
+        self.client.login(username=self.user.username, password='Password123')
+        director_group = Group.objects.get(name='director') 
+        director_group.user_set.add(self.user)
+        response = self.client.post(self.url, data={'user_type': 'director'})
+        redirect_url = reverse('register_super', kwargs={'user_type': 'director'})
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+
+    def test_post_admin_accounts_redirects_to_register_super_admin(self):
+        self.client.login(username=self.user.username, password='Password123')
+        director_group = Group.objects.get(name='director') 
+        director_group.user_set.add(self.user)
+        response = self.client.post(self.url, data={'user_type': 'admin'})
+        redirect_url = reverse('register_super', kwargs={'user_type': 'admin'})
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+
     def test_get_admin_accounts_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next(settings.LOGIN_URL, self.url)
         response = self.client.get(self.url)
@@ -45,14 +60,12 @@ class AdminAccountsViewTestCase(TestCase):
         self.client.login(username = self.user.username, password = "Password123")
         director_group = Group.objects.get(name='director') 
         director_group.user_set.add(self.user)
-
         response = self.client.get(reverse('admin_accounts'))
         self.assertEqual(response.status_code, 200)
 
     def test_logged_out_director_cannot_access_admin_accounts_page(self):
         director_group = Group.objects.get(name='director') 
         director_group.user_set.add(self.user)
-
         response = self.client.get(reverse('admin_accounts'))
         self.assertEqual(response.status_code, 302)
 
@@ -60,7 +73,6 @@ class AdminAccountsViewTestCase(TestCase):
         self.client.login(username = self.user.username, password = "Password123")
         student_group = Group.objects.get(name='student') 
         student_group.user_set.add(self.user)
-
         response = self.client.get(reverse('admin_accounts'))
         self.assertEqual(response.status_code, 302)
 
@@ -68,7 +80,6 @@ class AdminAccountsViewTestCase(TestCase):
         self.client.login(username = self.user.username, password = "Password123")
         admin_group = Group.objects.get(name='admin') 
         admin_group.user_set.add(self.user)
-
         response = self.client.get(reverse('admin_accounts'))
         self.assertEqual(response.status_code, 302)
 
