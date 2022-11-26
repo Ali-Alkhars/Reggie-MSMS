@@ -39,17 +39,19 @@ class AdminAccountsViewTestCase(TestCase):
         self.client.login(username=self.user.username, password='Password123')
         director_group = Group.objects.get(name='director') 
         director_group.user_set.add(self.user)
-        response = self.client.post(self.url, data={'user_type': 'director'})
+        response = self.client.post(self.url, data={'user_type': 'director'}, follow=True)
         redirect_url = reverse('register_super', kwargs={'user_type': 'director'})
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertTemplateUsed(response, 'register_as_director.html')
 
     def test_post_admin_accounts_redirects_to_register_super_admin(self):
         self.client.login(username=self.user.username, password='Password123')
         director_group = Group.objects.get(name='director') 
         director_group.user_set.add(self.user)
-        response = self.client.post(self.url, data={'user_type': 'admin'})
+        response = self.client.post(self.url, data={'user_type': 'admin'}, follow=True)
         redirect_url = reverse('register_super', kwargs={'user_type': 'admin'})
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertTemplateUsed(response, 'register_as_admin.html')
 
     def test_get_admin_accounts_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next(settings.LOGIN_URL, self.url)

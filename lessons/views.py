@@ -108,23 +108,25 @@ A view for directors to edit the account of an admin
 @permitted_groups(['director'])
 def edit_admin(request, action, user_id):
     admin_user = User.objects.get(id=user_id)
+    edit_logins_form = EditLoginsForm(instance=admin_user)
+    edit_password_form = EditPasswordForm()
 
     if request.method == 'POST':
         # User chose to update the admin's login info
         if action == 'logins':
-            form = EditLoginsForm(instance=admin_user, data=request.POST)
-            if form.is_valid():
+            edit_logins_form = EditLoginsForm(instance=admin_user, data=request.POST)
+            if edit_logins_form.is_valid():
                 messages.add_message(request, messages.SUCCESS, "Admin login information updated!")
-                form.save()
+                edit_logins_form.save()
                 return redirect('edit_admin', 'None', user_id)
             
         # User chose to update the admin's password
         elif action == 'password':
-            form = EditPasswordForm(data=request.POST)
-            if form.is_valid():
-                current_password = form.cleaned_data.get('current_password')
+            edit_password_form = EditPasswordForm(data=request.POST)
+            if edit_password_form.is_valid():
+                current_password = edit_password_form.cleaned_data.get('current_password')
                 if check_password(current_password, admin_user.password):
-                    new_password = form.cleaned_data.get('new_password')
+                    new_password = edit_password_form.cleaned_data.get('new_password')
                     admin_user.set_password(new_password)
                     admin_user.save()
                     messages.add_message(request, messages.SUCCESS, "Admin password updated!")
@@ -134,8 +136,6 @@ def edit_admin(request, action, user_id):
         else:
             return redirect('admin_accounts')
         
-    edit_logins_form = EditLoginsForm(instance=admin_user)
-    edit_password_form = EditPasswordForm()
     return render(request, 'edit_admin.html', {'logins_form': edit_logins_form, 'password_form': edit_password_form, 'user_id': user_id})
 
 """
