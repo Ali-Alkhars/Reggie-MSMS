@@ -110,27 +110,19 @@ p.home_description
   font-size: 1.5rem;
 }
 
-.home_card
-{
-  background-color: wheat;
-  max-width: 30rem;
-  border-radius: 5%;
-}
-
-.main_card
+div.card_format
 {
   background-color: wheat;
   width:100;
   margin: auto;
 }
 
-
-a.home_button
+div.container_padding_and_margin
 {
-  border-radius: 0%;
-  background-color: white;
-  color: black;
+    padding: 1%;
+    margin: 1%;
 }
+
 
 /**
 * Custom classes for the Main Page  -- END --
