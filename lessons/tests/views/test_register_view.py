@@ -7,7 +7,6 @@ from lessons.models import User
 from lessons.tests.helpers import LogInTester
 from lessons.management.commands.create_user_groups import Command
 
-
 class RegisterViewTestCase(TestCase, LogInTester):
     """Tests of the register view."""
 
@@ -40,7 +39,7 @@ class RegisterViewTestCase(TestCase, LogInTester):
         response = self.client.get(self.url, follow=True)
         redirect_url = reverse(settings.REDIRECT_URL_WHEN_LOGGED_IN)
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
-        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'home.html')
 
     def test_unsuccessful_register(self):
         self.form_input['username'] = 'BAD_USERNAME'
@@ -65,7 +64,7 @@ class RegisterViewTestCase(TestCase, LogInTester):
         self.assertEqual(after_count, before_count+1)
         response_url = reverse(settings.REDIRECT_URL_WHEN_LOGGED_IN)
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'home.html')
         user = User.objects.get(username='janedoe@example.org')
         self.assertEqual(user.first_name, 'Jane')
         self.assertEqual(user.last_name, 'Doe')
@@ -82,4 +81,4 @@ class RegisterViewTestCase(TestCase, LogInTester):
         self.assertEqual(after_count, before_count)
         redirect_url = reverse(settings.REDIRECT_URL_WHEN_LOGGED_IN)
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
-        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'home.html')
