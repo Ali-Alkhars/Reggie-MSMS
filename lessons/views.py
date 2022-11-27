@@ -29,6 +29,7 @@ def lesson_request(request):
 
 # @login_required
 # @permitted_groups(['student'])
+# @permitted_groups(['admin', 'director'])
 def lesson_page(request):
     # isStudent = userOrAdmin(request);
     # if (isStudent):
@@ -38,13 +39,6 @@ def lesson_page(request):
         # data = {'object_list': Lesson_request.objects.all()}}
     data = {'object_list':Lesson_request.objects.all()}
     return render(request, "lesson_page.html", data);
-
-# @login_required
-# @permitted_groups(['admin', 'director'])
-def lesson_admin(request):
-    user_lessons = Lesson_request.objects.filter(user=request.user)
-    data = {'object_list':user_lessons}
-    return render(request, "lesson_admin.html", data);
 
 def userOrAdmin(request):
     if (get_user_group(request) == 'student'):
