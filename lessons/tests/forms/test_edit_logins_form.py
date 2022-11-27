@@ -1,4 +1,3 @@
-from django import forms
 from django.test import TestCase
 from lessons.forms import EditLoginsForm
 from lessons.models import User

@@ -162,6 +162,14 @@ class EditAdminViewTestCase(TestCase):
         is_password_correct = check_password('Password123', self.peter.password)
         self.assertTrue(is_password_correct)
 
+    def test_user_is_redirected_to_admin_accounts_if_no_action_given(self):
+        self.client.login(username=self.user.username, password='Password123')
+        director_group = Group.objects.get(name='director') 
+        director_group.user_set.add(self.user)
+        response = self.client.post(self.url, self.password_form_input, follow=True)
+        redirect_url = reverse('admin_accounts')
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+
     def test_get_edit_admin_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next(settings.LOGIN_URL, self.url)
         response = self.client.get(self.url)
