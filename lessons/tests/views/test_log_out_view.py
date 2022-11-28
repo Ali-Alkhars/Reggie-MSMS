@@ -2,7 +2,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from lessons.models import User
-from .helpers import LogInTester
+from ..helpers import LogInTester
 
 class LogOutViewTestCase(TestCase, LogInTester):
     """Tests of the log out view."""

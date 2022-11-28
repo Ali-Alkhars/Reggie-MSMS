@@ -52,6 +52,8 @@ def log_in(request):
                 login(request, user)
                 return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
         messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+    else:
+        next = request.GET.get('next') or ''
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
 
