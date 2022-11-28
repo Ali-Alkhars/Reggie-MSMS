@@ -3,7 +3,7 @@ from lessons.models import User
 from django.urls import reverse
 from django.contrib.auth.models import Group
 from django.conf import settings 
-from lessons.management.commands.create_user_groups import CreateGroupsCommand
+from lessons.management.commands.create_user_groups import Command
 
 class PermittedGroupsTestCase(TestCase):
     """
@@ -17,7 +17,7 @@ class PermittedGroupsTestCase(TestCase):
     fixtures = ['lessons/tests/fixtures/default_user.json']
     
     def setUp(self):
-        create_groups_command = CreateGroupsCommand()
+        create_groups_command = Command()
         create_groups_command.handle()
         self.user = User.objects.get(username= "johndoe@example.org")
         self.client.login(username = self.user.username, password = "Password123")

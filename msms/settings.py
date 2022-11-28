@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lessons',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -116,12 +119,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Message level tags using Bootstrap terms
+MESSAGE_TAGS = {
+    messages.DEBUG: 'dark',
+    messages.ERROR: 'danger',
+ }
 
 # For authorising the user model
 AUTH_USER_MODEL = 'lessons.User'
@@ -130,4 +142,4 @@ AUTH_USER_MODEL = 'lessons.User'
 REDIRECT_URL_WHEN_LOGGED_IN = 'home'
 
 # Login URL for redirecting users from login protected views
-LOGIN_URL = 'home'
+LOGIN_URL = 'log_in'

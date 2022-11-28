@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-12">
+
+        <h1>
+        Edit admin's login details
+        </h1>
+
+        <form action="{% url 'edit_admin' 'logins' user_id %}" method="post">
+            {% csrf_token %}
+            {% include 'partials/bootstrap_form.html' with form=logins_form %}
+            <input type="submit" value="Update logins" class="btn btn-primary">
+        </form>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+
+        <h1>
+        Edit admin's account
+        </h1>
+
+        <form action="{% url 'edit_admin' 'password' user_id %}" method="post">
+            {% csrf_token %}
+            {% include 'partials/bootstrap_form.html' with form=password_form %}
+            <input type="submit" value="Update password" class="btn btn-primary">
+        </form>
+
+    </div>
+  </div>
+
+  <div class="col text-center">
+    <form action="{% url 'edit_admin' 'done' user_id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Done editing" class="btn btn-secondary">
+    </form>
+  </div>
+
+</div>
+{% endblock %}

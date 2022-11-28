@@ -1,10 +1,87 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Home page</title>
-    </head>
-    <body>
-        <p><a href='{%url 'lesson_page' %}'>Lesson page</a></p>
-        <p><a href='{%url 'lesson_request' %}'>Lesson request</a></p>
-    </body>
-</html>
+{% extends 'partials/main_display.html' %}
+{% block content %}
+
+<h1 class = "mt-1">Welcome to the MSMS Home Page</h1>
+<h2></<h2>
+<h2 class = "mt-2">Manage bookings:</h2>
+<p class = "mt-2">To make changes to a pending booking, click <a href="">pending</a>
+    on the booking.</p>
+
+<!--Placeholder table -->
+<div class="table_scrollbar add_margins">
+  <table class="table request_table table-bordered table-striped mb-0">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Status</th>
+        <th scope="col">Teacher</th>
+        <th scope="col">Day of Week</th>
+        <th scope="col">Time of Day</th>
+        <th scope="col">Lesson Duration (minutes)</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Interval between Lessons</th>
+        <th scope="col">Number of Lessons</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Accepted</td>
+        <td>Mr Mister</td>
+        <td>Monday</td>
+        <td>12:30</td>
+        <td>60</td>
+        <td>30/09/22</td>
+        <td>One week</td>
+        <td>6</td>
+        <td>£100</td>
+      </tr>
+      <tr>
+          <th scope="row">2</th>
+          <td>Accepted</td>
+          <td>Mrs Missus</td>
+          <td>Friday</td>
+          <td>14:00</td>
+          <td>30</td>
+          <td>06/10/22</td>
+          <td>Two weeks</td>
+          <td>12</td>
+          <td>£120</td>
+      </tr>
+      <tr>
+          <th scope="row">3</th>
+          <td><a href="">Pending</a></td>
+          <td>Blarkus Kreppleballs</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td>01/10/22</td>
+          <td>One Week</td>
+          <td>10</td>
+          <td>--</td>
+      </tr>
+      <tr>
+          <th scope="row">4</th>
+          <td>Accepted</td>
+          <td>John John-John</td>
+          <td>Thursday</td>
+          <td>14:00</td>
+          <td>120</td>
+          <td>06/09/22</td>
+          <td>Two weeks</td>
+          <td>12</td>
+          <td>£150</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<h2 class = "mt-2">Request a new lesson:</h2>
+<a href='{%url 'lesson_page' %}'>Lesson page</a>
+<a href  = '{% url 'lesson_request' %}' class="btn mb-2 home_button btn-lg btn-secondary mb=2">
+    Request
+</a>
+
+{% endblock %}

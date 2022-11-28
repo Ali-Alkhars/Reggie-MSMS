@@ -8,7 +8,7 @@ class User(AbstractUser):
     """User model used for creating different users in the MSMS."""
 
     username = models.CharField(
-        max_length=20,
+        max_length=80,
         unique=True,
         validators=[
             RegexValidator(
@@ -45,7 +45,7 @@ def validate_nonzero(value):
 
 
 class Lesson_request(models.Model):
-    # student = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     availableDays = models.CharField(max_length=100, blank=False, choices=weekday_choices)
     availableTimes = models.CharField(max_length=255, blank=False, choices=time_choices)
     numberOfLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero]);
