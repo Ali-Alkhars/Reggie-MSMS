@@ -23,5 +23,5 @@ class MainPageRedirectsTest(TestCase):
     def test_register_button_redirect(self):
         response = self.client.post(reverse('register'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'register.html')
+        self.assertTemplateUsed(response, 'register_as_student.html')
 
