@@ -22,5 +22,4 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("lesson_request/", views.lesson_request, name="lesson_request"),
     path("lesson_page/", views.lesson_page, name="lesson_page"),
-    path("lesson_admin/", views.lesson_admin, name="lesson_admin"),
 ]
