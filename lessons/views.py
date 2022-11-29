@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 """
 The home page that users see when they log in
 """
-#@login_required
+@login_required
 def home(request):
     return render(request, 'home.html', {'home': home})
 
@@ -42,6 +42,7 @@ def log_in(request):
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
 
+@login_required
 def bookings(request):
     return render(request, 'bookings.html')
 

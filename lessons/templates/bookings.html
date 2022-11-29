@@ -1,14 +1,16 @@
 {% extends 'partials/navbar.html' %}
 {% block content %}
 
-<div container class="container_padding_and_margin">
+<div class="container container_padding_and_margin vh-90">
     <h2 class = "mt-2">Manage bookings:</h2>
     <p class = "mt-2">To make changes to a pending booking, click <a href="">pending</a>
         on the booking.</p>
+    <p class = "mt-2">To create an invoice, click <a href="">Create Invoice</a>
+        on the booking.</p>
 
         <!--Placeholder table -->
-        <div class="table_scrollbar add_margins add_bottom_margin">
-            <table class="table request_table table-bordered table-striped mb-0">
+        <div class="bookings_table add_bottom_margin">
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -23,6 +25,8 @@
                         <th scope="col">Price</th>
                     </tr>
                 </thead>
+
+                <!--Add current bookings here-->
                 <tbody>
                     <tr>
                         <th scope="row">1</th>
@@ -38,7 +42,7 @@
                     </tr>
                     <tr>
                         <th scope="row">2</th>
-                        <td>Accepted</td>
+                        <td><a href="">Create Invoice</a></td>
                         <td>Mrs Missus</td>
                         <td>Friday</td>
                         <td>14:00</td>
@@ -62,7 +66,7 @@
                     </tr>
                     <tr>
                         <th scope="row">4</th>
-                        <td>Accepted</td>
+                        <td><a href="">Create Invoice</a></td>
                         <td>John John-John</td>
                         <td>Thursday</td>
                         <td>14:00</td>
