@@ -51,7 +51,7 @@ def log_in(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                redirect_url = next or 'main'
+                redirect_url = request.POST.get('next') or ''
                 return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
         messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
     else:
