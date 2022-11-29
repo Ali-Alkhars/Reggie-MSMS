@@ -16,14 +16,14 @@ given in the parameter list to access a page
 """
 def permitted_groups(group_names = []):
     def decorator(view_function):
-        def wrapper(request):
+        def wrapper(request, *args, **kwargs):
             group = None
             if request.user.groups.exists():
                 group = request.user.groups.all()[0].name
             
             # Take user to the page if they are allowed
             if group in group_names:
-                return view_function(request)
+                return view_function(request, *args, **kwargs)
             # else take them to the default page
             else:
                 return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)

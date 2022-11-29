@@ -3,12 +3,18 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h1>Student Registration</h1>
-      <form action="{% url 'register' %}" method="post">
+
+        <h1>
+        {% block title %}
+        {% endblock %}
+        </h1>
+
+    {% block form_header %}{% endblock %}
         {% csrf_token %}
         {% include 'partials/bootstrap_form.html' with form=form %}
         <input type="submit" value="Register" class="btn btn-primary">
       </form>
+
     </div>
   </div>
 </div>

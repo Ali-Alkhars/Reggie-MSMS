@@ -61,13 +61,13 @@ class RegisterFormTestCase(TestCase):
         form = RegisterForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
-    def test_form_must_save_correctly(self):
+    def test_form_must_save_student_correctly(self):
         create_groups_command = Command()
         create_groups_command.handle()
 
         form = RegisterForm(data=self.form_input)
         before_count = User.objects.count()
-        form.save()
+        form.save_user_as_student()
         after_count = User.objects.count()
         self.assertEqual(after_count, before_count+1)
 
