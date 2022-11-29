@@ -4,7 +4,8 @@ from django.test import TestCase
 from django.urls import reverse
 from lessons.forms import LogInForm
 from lessons.models import User
-from ..helpers import LogInTester
+from lessons.tests.helpers import LogInTester, reverse_with_next
+
 
 class LogInViewTestCase(TestCase, LogInTester):
     """Tests of the log in view."""
@@ -20,7 +21,6 @@ class LogInViewTestCase(TestCase, LogInTester):
     def test_log_in_url(self):
         self.assertEqual(self.url,'/log_in/')
         
-
     def test_get_log_in(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -28,26 +28,6 @@ class LogInViewTestCase(TestCase, LogInTester):
         form = response.context['form']
         self.assertTrue(isinstance(form, LogInForm))
         self.assertFalse(form.is_bound)
-    
-    def test_log_in_with_blank_username(self):
-        form_input = { 'username': '', 'password': 'Password123' }
-        response = self.client.post(self.url, form_input)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'log_in.html')
-        form = response.context['form']
-        self.assertTrue(isinstance(form, LogInForm))
-        self.assertFalse(form.is_bound)
-        self.assertFalse(self._is_logged_in())
-
-    def test_log_in_with_blank_password(self):
-        form_input = { 'username': 'johndoe@example.org', 'password': '' }
-        response = self.client.post(self.url, form_input)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'log_in.html')
-        form = response.context['form']
-        self.assertTrue(isinstance(form, LogInForm))
-        self.assertFalse(form.is_bound)
-        self.assertFalse(self._is_logged_in())
 
     def test_unsuccesful_log_in(self):
         form_input = { 'username': 'johndoe@example.org', 'password': 'WrongPassword123' }
@@ -78,4 +58,4 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertTrue(isinstance(form, LogInForm))
         self.assertFalse(form.is_bound)
         self.assertFalse(self._is_logged_in())
-        
+    
