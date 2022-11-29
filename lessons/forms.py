@@ -4,9 +4,8 @@ from django.core.validators import RegexValidator
 from lessons.models import User
 from django.contrib.auth.models import Group
 
-# This is just a placeholder form
 class LogInForm(forms.Form):
-    username = forms.CharField(label="Username")
+    username = forms.EmailField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
 # This is just a placeholder form
