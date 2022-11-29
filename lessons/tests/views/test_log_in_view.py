@@ -31,7 +31,7 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertFalse(next)
 
     def test_get_log_in_with_redirect(self):
-        destination_url = reverse('main')
+        destination_url = reverse('home')
         self.url = reverse_with_next('log_in', destination_url)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -70,6 +70,21 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertTrue(self._is_logged_in())
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_post_log_in_redirects_when_logged_in(self):
+        self.client.login(username=self.user.username, password="Password123")
+        form_input = { 'username': '@wronguser', 'password': 'WrongPassword123' }
+        response = self.client.post(self.url, form_input, follow=True)
+        redirect_url = reverse('home')
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertTemplateUsed(response, 'home.html')
+
+    def test_post_log_in_with_incorrect_credentials_and_redirect(self):
+        redirect_url = reverse('home')
+        form_input = { 'username': 'johndoe@example.org', 'password': 'WrongPassword123', 'next': redirect_url }
+        response = self.client.post(self.url, form_input)
+        next = response.context['next']
+        self.assertEqual(next, redirect_url)
 
     def test_valid_log_in_by_inactive_user(self):
         self.user.is_active = False

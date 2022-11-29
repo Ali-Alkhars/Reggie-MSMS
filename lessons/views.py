@@ -39,7 +39,6 @@ def register(request):
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
 
-#TODO: Merge with log-in task
 @login_prohibited
 def log_in(request):
     if request.method == 'POST':
@@ -51,11 +50,11 @@ def log_in(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                redirect_url = request.POST.get('next') or ''
-                return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
+                redirect_url = request.POST.get('next') or settings.REDIRECT_URL_WHEN_LOGGED_IN
+                return redirect(redirect_url)
         messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
     else:
-        next = request.GET.get('next') 
+        next = request.GET.get('next') or ''
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form, 'next': next})
 
