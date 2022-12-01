@@ -5,9 +5,11 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
-from lessons.models import User
+from lessons.models import Invoice, User
 from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name
 from django.contrib import messages
+from django.utils import timezone
+
 
 """
 The home page that users see when they log in
@@ -184,7 +186,17 @@ def register_super(request, user_type):
     else:
         return render(request, 'register_as_admin.html', {'form': form})
 
-@login_required
-@permitted_groups(['student'])
-def student_invoices(request, user_id):
-    return render(request, 'student_invoices.html')
+# @login_required
+# @permitted_groups(['student'])
+def student_invoices(request):
+    Invoice.objects.create(
+        reference= f"{request.user.id}-{468}",
+        price= '19',
+        unpaid= '19',
+        creation_date= timezone.now(),
+        update_date= timezone.now(),
+        student= request.user
+    )
+
+    invoices = Invoice.objects.filter(student=request.user)
+    return render(request, 'student_invoices.html', {'invoices': invoices})

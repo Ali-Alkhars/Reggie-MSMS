@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -23,10 +24,9 @@ class User(AbstractUser):
 class Invoice(models.Model):
     """Invoice model used to create invoices of bank transfers for the lesson payments"""
 
-    reference = models.CharField(unique=True, blank=False, max_length=50)
-    price = models.CharField(max_length=20)
-    unpaid = models.CharField(max_length=20)
-    creation_date = models.DateTimeField()
-    update_date = models.DateTimeField()
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    reference = models.CharField(unique=True, blank=False, max_length=50, primary_key=True)
+    price = models.CharField(max_length=20, blank=False)
+    unpaid = models.CharField(max_length=20, blank=False)
+    creation_date = models.DateTimeField(blank=False)
+    update_date = models.DateTimeField(blank=False)
+    student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)

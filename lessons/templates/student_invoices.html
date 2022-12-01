@@ -7,18 +7,64 @@
           <div class="col-md-12"> 
                 <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm admin-card-borders">
                     <table class="table manage-candidates-top mb-0">
-                        
-                        <thead>
-                        <tr>
-                            <th>Reference number</th>
-                            <th>Original price</th>
-                            <th>Unpaid amount</th>
-                            <th>Created on</th>
-                            <th>Last update on</th>
-                            <th>Payment status</th>
-                        </tr>
-                        </thead>
 
+                        {% if invoices %}
+                            <thead>
+                                <tr>
+                                    <th>Reference number</th>
+                                    <th>Original price</th>
+                                    <th>Unpaid amount</th>
+                                    <th>Created on</th>
+                                    <th>Last update on</th>
+                                    <th>Payment status</th>
+                                </tr>
+                            </thead>
+
+                            {% for invoice in invoices %}
+                            <tbody>
+                                <tr class="candidates-list">
+                                    <td class="title">
+                                        <div class="candidate-list-details">
+                                            <div class="candidate-list-info">
+                                            <div class="candidate-list-title">
+
+                                                <h5 class="mb-0 admin-user-colour">{{invoice.reference}}</h5>
+
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time admin-user-colour order-1">£{{invoice.price}}</span>
+                                    </td>
+
+                                    <td class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time admin-user-colour order-1">£{{invoice.unpaid}}</span>
+                                    </td>
+
+                                    <td class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time admin-user-colour order-1">{{invoice.creation_date}}</span>
+                                    </td>
+
+                                    <td class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time admin-user-colour order-1">{{invoice.update_date}}</span>
+                                    </td>
+
+                                    <td class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time admin-user-colour order-1">Paid</span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            {% endfor %}
+                        
+                        {% else %}
+                            <tbody>
+                                <h3 class="mb-0 admin-user-colour">You do not have any invoices yet!</h3>
+                            </tbody>
+                        
+                        {% endif %}
 
                     </table>
                 </div>
