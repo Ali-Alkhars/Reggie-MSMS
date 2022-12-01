@@ -29,16 +29,12 @@ def lesson_request(request):
 @permitted_groups(['student', 'admin'])
 def lesson_page(request):
     isStudent = userOrAdmin(request);
-    print(isStudent)
-    print("Hello")
     if (isStudent):
-        print("hi")
         user_lessons = Lesson_request.objects.filter(student=request.user)
         count = Lesson_request.objects.filter(student=request.user).count()
         request.session['countOfTable'] = count
         data = {'object_list': user_lessons, 'count': count}
     else:
-        print("hi2")
         count = Lesson_request.objects.all().count()
         request.session['countOfTable'] = count
         data = {'object_list': Lesson_request.objects.all(), 'count': count}
@@ -46,9 +42,7 @@ def lesson_page(request):
 
 def userOrAdmin(request):
     if (get_user_group(request) == 'student'):
-        print("success")
         return True
-    print("failure")
     return False
 
 """
