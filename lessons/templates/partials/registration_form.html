@@ -1,21 +1,16 @@
-{% extends 'base.html' %}
-{% block body %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
+{% extends 'partials/center_card.html' %}
+{% block content %}
+
 
         <h1>
         {% block title %}
         {% endblock %}
         </h1>
 
-    {% block form_header %}{% endblock %}
+    {% block thisForm %}{% endblock %}
         {% csrf_token %}
         {% include 'partials/bootstrap_form.html' with form=form %}
         <input type="submit" value="Register" class="btn btn-primary">
-      </form>
 
-    </div>
-  </div>
-</div>
+
 {% endblock %}

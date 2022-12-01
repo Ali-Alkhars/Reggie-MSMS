@@ -83,7 +83,7 @@
 }
 
 
-h1.home_title
+h1.main_title
 {
   color: black;
   font-size: 4rem;
@@ -732,6 +732,9 @@ progress {
   width: 100%;
   padding-right: var(--bs-gutter-x, 0.75rem);
   padding-left: var(--bs-gutter-x, 0.75rem);
+
+
+
   margin-right: auto;
   margin-left: auto;
 }
@@ -4617,10 +4620,12 @@ textarea.form-control-lg {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: wheat;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+  padding: inherit;
+  padding-bottom: 0.75rem;
 }
 .card > hr {
   margin-right: 0;

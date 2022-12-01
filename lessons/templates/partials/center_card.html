@@ -1,21 +1,19 @@
-<!--Standardized template for any content in a center card -->
 {% extends 'base.html' %}
 {% block body %}
-
 <div id="cover-image">
     <div container class="container_padding_and_margin vh-100">
         <div class="row h-100">
             <div class="col-4 my-auto offset-4">
-                <div class="card container_padding_and_margin card_format text-center">
-
+                <div class="card text-center">
 
                     {% block content %}
                     {% endblock %}
 
+
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
 {% endblock %}
