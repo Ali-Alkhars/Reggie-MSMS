@@ -39,9 +39,15 @@
                                         <span class="candidate-list-time admin-user-colour order-1">£{{invoice.price}}</span>
                                     </td>
 
+                                    {% if invoice.unpaid > 0 %}
                                     <td class="candidate-list-favourite-time">
-                                        <span class="candidate-list-time admin-user-colour order-1">£{{invoice.unpaid}}</span>
+                                        <span class="candidate-list-time text-danger order-1">£{{invoice.unpaid}}</span>
                                     </td>
+                                    {% else %}
+                                    <td class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time text-success order-1">£{{invoice.unpaid}}</span>
+                                    </td>
+                                    {% endif %}
 
                                     <td class="candidate-list-favourite-time">
                                         <span class="candidate-list-time admin-user-colour order-1">{{invoice.creation_date}}</span>
@@ -50,10 +56,19 @@
                                     <td class="candidate-list-favourite-time">
                                         <span class="candidate-list-time admin-user-colour order-1">{{invoice.update_date}}</span>
                                     </td>
-
+                                    
+                                    {% if invoice.unpaid > 0 %}
                                     <td class="candidate-list-favourite-time">
-                                        <span class="candidate-list-time admin-user-colour order-1">Paid</span>
+                                        <button href='#' class="btn btn-primary">
+                                            Pay
+                                        </button>
                                     </td>
+                                    {% else %}
+                                    <td class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time text-success order-1">Paid</span>
+                                    </td>
+                                    {% endif %}
+                                    
                                 </tr>
 
                             </tbody>

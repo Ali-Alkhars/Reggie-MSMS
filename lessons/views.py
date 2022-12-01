@@ -189,14 +189,15 @@ def register_super(request, user_type):
 # @login_required
 # @permitted_groups(['student'])
 def student_invoices(request):
-    Invoice.objects.create(
-        reference= f"{request.user.id}-{468}",
-        price= '19',
-        unpaid= '19',
+    temp= Invoice.objects.create(
+        reference= f"{request.user.id}-2228",
+        price= 19,
+        unpaid= 0,
         creation_date= timezone.now(),
         update_date= timezone.now(),
         student= request.user
     )
+    temp.full_clean()
 
     invoices = Invoice.objects.filter(student=request.user)
     return render(request, 'student_invoices.html', {'invoices': invoices})

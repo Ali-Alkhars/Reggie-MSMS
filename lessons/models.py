@@ -24,9 +24,19 @@ class User(AbstractUser):
 class Invoice(models.Model):
     """Invoice model used to create invoices of bank transfers for the lesson payments"""
 
-    reference = models.CharField(unique=True, blank=False, max_length=50, primary_key=True)
-    price = models.CharField(max_length=20, blank=False)
-    unpaid = models.CharField(max_length=20, blank=False)
+    reference = models.CharField(
+        unique=True, 
+        blank=False, 
+        max_length=50, 
+        primary_key=True, 
+        validators= [RegexValidator(
+            regex='^[0-9-]*$',
+            message= 'Reference number should be numbers-numbers',
+            code='invalid_reference'
+        )]
+    )
+    price = models.FloatField(max_length=20, blank=False)
+    unpaid = models.FloatField(max_length=20, blank=False)
     creation_date = models.DateTimeField(blank=False)
     update_date = models.DateTimeField(blank=False)
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
