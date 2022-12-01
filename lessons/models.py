@@ -19,3 +19,14 @@ class User(AbstractUser):
     )
     first_name = models.CharField(max_length=20, blank=False)
     last_name = models.CharField(max_length=20, blank=False)
+
+class Invoice(models.Model):
+    """Invoice model used to create invoices of bank transfers for the lesson payments"""
+
+    reference = models.CharField(unique=True, blank=False, max_length=50)
+    price = models.CharField(max_length=20)
+    unpaid = models.CharField(max_length=20)
+    creation_date = models.DateTimeField()
+    update_date = models.DateTimeField()
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+
