@@ -1,3 +1,4 @@
+"""Forms for the MSMS app"""
 from django import forms
 from .models import Lesson_request
 from django.core.validators import RegexValidator
@@ -40,7 +41,7 @@ class LessonRequestForm(forms.ModelForm):
 
 # This is just a placeholder form
 class LogInForm(forms.Form):
-    username = forms.CharField(label="Username")
+    username = forms.EmailField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
 # This is just a placeholder form

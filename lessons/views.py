@@ -76,11 +76,34 @@ def register(request):
         form = RegisterForm()
     return render(request, 'register_as_student.html', {'form': form})
 
-#TODO: Merge with log-in task
+"""
+A view for users to log-in
+"""
+@login_prohibited
 def log_in(request):
-
+    if request.method == 'POST':
+        form = LogInForm(request.POST)
+        next = request.POST.get('next') or ''
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                redirect_url = request.POST.get('next') or settings.REDIRECT_URL_WHEN_LOGGED_IN
+                return redirect(redirect_url)
+        messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+    else:
+        next = request.GET.get('next') or ''
     form = LogInForm()
-    return render(request, 'log_in.html', {'form': form, 'post_url' : 'register'})
+    return render(request, 'log_in.html', {'form': form, 'next': next})
+
+"""
+A view to make users log-out
+"""
+def log_out(request):
+    logout(request)
+    return redirect('main')
 
 """
 A page for students to make a lesson request
@@ -127,6 +150,7 @@ def admin_actions(request, action, user_id):
     if action == 'promote':
         promote_admin_to_director(user_id)
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
+        messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to a director!")
     
     elif action == 'edit':
         return redirect('edit_admin', 'None', user_id)
