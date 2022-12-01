@@ -1,0 +1,9 @@
+{% extends 'partials/registration_form.html' %}
+
+{% block title %}
+Register a new Admin
+{% endblock %}
+
+{% block form_header %}
+  <form action="{% url 'register_super' 'admin' %}" method="post">
+{% endblock %}

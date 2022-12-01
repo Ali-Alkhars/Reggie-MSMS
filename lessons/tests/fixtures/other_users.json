@@ -9,5 +9,27 @@
             "password": "pbkdf2_sha256$260000$QR0Xx6CCEgM1NUfKu85czi$wRvDFpwZgEnN1P/mlpY32eR9f9xfR2QzwzaMY5Y54a0=",
             "is_active": true
         }
+    },
+    {
+        "model": "lessons.user",
+        "pk": 3,
+        "fields": {
+            "first_name": "Petra",
+            "last_name": "Pickles",
+            "username": "petrapickles@example.org",
+            "password": "pbkdf2_sha256$260000$QR0Xx6CCEgM1NUfKu85czi$wRvDFpwZgEnN1P/mlpY32eR9f9xfR2QzwzaMY5Y54a0=",
+            "is_active": true
+        }
+    },
+    {
+        "model": "lessons.user",
+        "pk": 4,
+        "fields": {
+            "first_name": "Peter",
+            "last_name": "Pickles",
+            "username": "peterpickles@example.org",
+            "password": "pbkdf2_sha256$260000$QR0Xx6CCEgM1NUfKu85czi$wRvDFpwZgEnN1P/mlpY32eR9f9xfR2QzwzaMY5Y54a0=",
+            "is_active": true
+        }
     }
 ]
