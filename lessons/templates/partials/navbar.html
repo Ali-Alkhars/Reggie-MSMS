@@ -1,0 +1,34 @@
+<!--Standardized template for any content in a center card -->
+{% extends 'base.html' %}
+{% block body %}
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" style="margin-left:1%;" href='{% url 'home' %}'>MSMS</a>
+
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item active">
+      <a class="nav-link" href='{% url 'bookings' %}' >Bookings</a>
+    </li>
+    </ul>
+
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="bi-person-circle"style="margin-right:25%;"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown">
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'log_out' %}">Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+
+</nav>
+
+
+
+{% block content %}
+{% endblock %}
+
+{% endblock %}

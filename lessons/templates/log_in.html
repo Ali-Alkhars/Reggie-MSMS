@@ -1,15 +1,11 @@
-{% extends 'partials/center_card.html' %}
-{% block content %}
+{% extends 'partials/registration_form.html' %}
 
-<h1 class="mt-2">
-    Log in
-</h1>
+{% block title %}
+Log In
+{% endblock %}
+
+{% block thisForm %}
 
 <form action="{% url 'log_in' %}" method="post">
-    {% csrf_token %}
-<input type="hidden" name="next" value="{{ next }}">
-    {% include 'partials/bootstrap_form.html' with form=form %}
-<input type="submit" value="Log in" class="btn btn-primary">
-
 
 {% endblock %}
