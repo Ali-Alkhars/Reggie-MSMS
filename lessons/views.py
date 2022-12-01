@@ -184,3 +184,7 @@ def register_super(request, user_type):
     else:
         return render(request, 'register_as_admin.html', {'form': form})
 
+@login_required
+@permitted_groups(['student'])
+def student_invoices(request, user_id):
+    return render(request, 'student_invoices.html')
