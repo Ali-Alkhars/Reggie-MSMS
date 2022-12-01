@@ -69,7 +69,7 @@ def log_out(request):
     logout(request)
     return redirect('main')
 
-#@login_required
+@login_required
 def bookings(request):
     return render(request, 'bookings.html')
 
