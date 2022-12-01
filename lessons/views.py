@@ -10,8 +10,8 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 
 # Request a lesson using form
-# @login_required
-# @permitted_groups(['student'])
+@login_required
+@permitted_groups(['student'])
 def lesson_request(request):
     if request.method == "POST":
         form = LessonRequestForm(request.POST)
@@ -25,21 +25,30 @@ def lesson_request(request):
         form = LessonRequestForm()
     return render(request, "lesson_request.html", {"form":form})
 
-# @login_required
-# @permitted_groups(['student'])
-# @permitted_groups(['admin', 'director'])
+@login_required
+@permitted_groups(['student', 'admin'])
 def lesson_page(request):
     isStudent = userOrAdmin(request);
+    print(isStudent)
+    print("Hello")
     if (isStudent):
+        print("hi")
         user_lessons = Lesson_request.objects.filter(student=request.user)
-        data = {'object_list': user_lessons}
+        count = Lesson_request.objects.filter(student=request.user).count()
+        request.session['countOfTable'] = count
+        data = {'object_list': user_lessons, 'count': count}
     else:
-        data = {'object_list': Lesson_request.objects.all()}
+        print("hi2")
+        count = Lesson_request.objects.all().count()
+        request.session['countOfTable'] = count
+        data = {'object_list': Lesson_request.objects.all(), 'count': count}
     return render(request, "lesson_page.html", data);
 
 def userOrAdmin(request):
     if (get_user_group(request) == 'student'):
+        print("success")
         return True
+    print("failure")
     return False
 
 """
