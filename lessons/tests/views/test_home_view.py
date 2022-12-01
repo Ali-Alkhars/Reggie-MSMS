@@ -32,6 +32,8 @@ class HomePageRedirectsTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def test_log_out(self):
-        response = self.client.post(reverse('log_out'))
-        self.assertEqual(response.status_code, 200)
+        self.url = reverse('log_out')
+        response = self.client.get(self.url, follow=True)
+        response_url = reverse('main')
+        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
         self.assertTemplateUsed(response, 'main.html')
