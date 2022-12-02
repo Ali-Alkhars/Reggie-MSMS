@@ -191,7 +191,6 @@ def register_super(request, user_type):
         return render(request, 'register_as_admin.html', {'form': form})
 
 @login_required
-@permitted_groups(['admin', 'director'])
 def student_invoices(request, user_id):
     # temp= Invoice.objects.create(
     #     reference= f"{request.user.id}-19905",

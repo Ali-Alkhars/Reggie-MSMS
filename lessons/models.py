@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
-from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -20,6 +19,18 @@ class User(AbstractUser):
     )
     first_name = models.CharField(max_length=20, blank=False)
     last_name = models.CharField(max_length=20, blank=False)
+
+    def isStudent(self):
+        """True if the user is a student"""
+        return self.groups.all()[0].name == 'student'
+
+    def isAdmin(self):
+        """True if the user is an admin"""
+        return self.groups.all()[0].name == 'admin'
+
+    def isDirector(self):
+        """True if the user is a director"""
+        return self.groups.all()[0].name == 'director'
 
 class Invoice(models.Model):
     """Invoice model used to create invoices of bank transfers for the lesson payments"""

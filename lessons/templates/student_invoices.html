@@ -58,14 +58,24 @@
                                     </td>
                                     
                                     {% if invoice.unpaid > 0 %}
+                                        {% if user.isStudent %}
+                                            <td class="candidate-list-favourite-time">
+                                                <span class="candidate-list-time text-danger d-flex justify-content-center order-1">Not Paid</span>
+                                            </td>
+                                        {% else %}
+                                            <td class="candidate-list-favourite-time">
+                                                <a href="{% url 'pay_invoice' invoice.reference %}" class="btn btn-primary">
+                                                    Record payment
+                                                </a>
+                                            </td>
+                                        {% endif %}
+                                    {% elif invoice.unpaid == 0 %}
                                     <td class="candidate-list-favourite-time">
-                                        <a href="{% url 'pay_invoice' invoice.reference %}" class="btn btn-primary">
-                                            Record payment
-                                        </a>
+                                        <span class="candidate-list-time text-success d-flex justify-content-center order-1">Paid</span>
                                     </td>
                                     {% else %}
                                     <td class="candidate-list-favourite-time">
-                                        <span class="candidate-list-time text-success d-flex justify-content-center order-1">Paid</span>
+                                        <span class="candidate-list-time text-success d-flex justify-content-center order-1">Overpaid</span>
                                     </td>
                                     {% endif %}
                                     
