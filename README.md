@@ -27,11 +27,22 @@ Install all required packages:
 ```
 $ pip3 install -r requirements.txt
 ```
+Make the database migrations:
+
+```
+$ python3 manage.py makemigrations
+```
 
 Migrate the database:
 
 ```
 $ python3 manage.py migrate
+```
+
+Create the user groups:
+
+```
+$ python3 manage.py create_user_groups
 ```
 
 Seed the development database with:

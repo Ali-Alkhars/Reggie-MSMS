@@ -71,6 +71,10 @@ def log_out(request):
     logout(request)
     return redirect('main')
 
+@login_required
+def bookings(request):
+    return render(request, 'bookings.html')
+
 """
 A page for students to make a lesson request
 NOT YET FULLY IMPLEMENTED
@@ -116,7 +120,7 @@ def admin_actions(request, action, user_id):
     if action == 'promote':
         promote_admin_to_director(user_id)
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to a director!")
-    
+
     elif action == 'edit':
         return redirect('edit_admin', 'None', user_id)
 
@@ -144,7 +148,7 @@ def edit_admin(request, action, user_id):
                 messages.add_message(request, messages.SUCCESS, "Admin login information updated!")
                 edit_logins_form.save()
                 return redirect('edit_admin', 'None', user_id)
-            
+
         # User chose to update the admin's password
         elif action == 'password':
             edit_password_form = EditPasswordForm(data=request.POST)
@@ -156,11 +160,11 @@ def edit_admin(request, action, user_id):
                     admin_user.save()
                     messages.add_message(request, messages.SUCCESS, "Admin password updated!")
                     return redirect('edit_admin', 'None', user_id)
-                
+
         # User is done editing
         else:
             return redirect('admin_accounts')
-        
+
     return render(request, 'edit_admin.html', {'logins_form': edit_logins_form, 'password_form': edit_password_form, 'user_id': user_id})
 
 """

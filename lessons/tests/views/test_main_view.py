@@ -3,14 +3,8 @@ from django.urls import reverse
 
 class MainPageRedirectsTest(TestCase):
 
-    def setUp(self):
-        self.url=reverse('main')
-
-    def test_main_url(self):
-        self.assertEqual(self.url, '/')
-
     def test_get_main(self):
-        response = self.client.get(self.url)
+        response = self.client.post(reverse('main'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'main.html')
 
@@ -24,4 +18,3 @@ class MainPageRedirectsTest(TestCase):
         response = self.client.post(reverse('register'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register_as_student.html')
-
