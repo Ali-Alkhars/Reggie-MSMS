@@ -1,8 +1,6 @@
 <!--Standardized template for any content in a center card -->
 {% extends 'base.html' %}
 {% block body %}
-
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" style="margin-left:1%;" href='{% url 'home' %}'>MSMS</a>
 
@@ -26,6 +24,7 @@
 
 </nav>
 
+{% include 'partials/messages.html' %}
 
 
 {% block content %}

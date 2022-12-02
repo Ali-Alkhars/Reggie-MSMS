@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
+from lessons.helpers.invoice_helpers import paid_more_than_owed
 from lessons.models import Invoice, User
 from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name
 from django.contrib import messages
@@ -194,7 +195,7 @@ def register_super(request, user_type):
 @permitted_groups(['student'])
 def student_invoices(request):
     temp= Invoice.objects.create(
-        reference= f"{request.user.id}-12345",
+        reference= f"{request.user.id}-123455",
         price= 19,
         unpaid= 9,
         creation_date= timezone.now(),
@@ -215,7 +216,9 @@ def pay_invoice(request, reference):
         # TODO: Write helper functions to check that user didn't pay more than 'unpaid'
         # TODO: Write helper functions to update the invoice if the payment is successful
         # TODO: Redirect student to 'student_invoices' if they paid fully
-        messages.add_message(request, messages.ERROR, f"You cannot pay more than £{invoice.unpaid}")
+        paid = request.POST.get("paid")
+        if paid_more_than_owed(float(paid), invoice):
+            messages.add_message(request, messages.ERROR, f"You cannot pay more than £{invoice.unpaid}")
 
     
     return render(request, 'pay_invoice.html', {'invoice': invoice})
