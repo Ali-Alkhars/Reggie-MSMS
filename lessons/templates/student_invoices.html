@@ -59,9 +59,9 @@
                                     
                                     {% if invoice.unpaid > 0 %}
                                     <td class="candidate-list-favourite-time">
-                                        <button href='#' class="btn btn-primary">
+                                        <a href="{% url 'pay_invoice' invoice.reference %}" class="btn btn-primary">
                                             Pay
-                                        </button>
+                                        </a>
                                     </td>
                                     {% else %}
                                     <td class="candidate-list-favourite-time">

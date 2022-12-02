@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-3 mb-4 d-flex justify-content-center">
+    <div class="col-lg-9 mt-4 mt-lg-0">
+        <div class="row justify-content-center">
+          <div class="col-md-6"> 
+                    <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm admin-card-borders">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h3 class="textmuted admin-user-colour">Invoice total</h3>
+                            <h4 class="fs-14 fw-bold">£{{invoice.price}}</h4>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <h3 class="textmuted admin-user-colour">Unpaid amount</h3>
+                            <h4 class="fs-14 fw-bold text-danger">£{{invoice.unpaid}}</h4>
+                        </div>
+
+                        <div class="d-flex justify-content-center mb-2">
+                            <form action="{% url 'pay_invoice' invoice.reference %}" method="post">
+                                {% csrf_token %}
+                                <label class="text-secondary" >Amount to pay</label>
+                                <input type="number" name="amount" min="1">
+                                <input type="submit" value="Pay" class="btn btn-primary">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

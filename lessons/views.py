@@ -186,13 +186,13 @@ def register_super(request, user_type):
     else:
         return render(request, 'register_as_admin.html', {'form': form})
 
-# @login_required
-# @permitted_groups(['student'])
+@login_required
+@permitted_groups(['student'])
 def student_invoices(request):
     temp= Invoice.objects.create(
-        reference= f"{request.user.id}-2228",
+        reference= f"{request.user.id}-12345",
         price= 19,
-        unpaid= 0,
+        unpaid= 9,
         creation_date= timezone.now(),
         update_date= timezone.now(),
         student= request.user
@@ -201,3 +201,17 @@ def student_invoices(request):
 
     invoices = Invoice.objects.filter(student=request.user)
     return render(request, 'student_invoices.html', {'invoices': invoices})
+
+@login_required
+@permitted_groups(['student'])
+def pay_invoice(request, reference):
+    invoice = Invoice.objects.get(reference=reference)
+
+    if request.method == 'POST':
+        # TODO: Write helper functions to check that user didn't pay more than 'unpaid'
+        # TODO: Write helper functions to update the invoice if the payment is successful
+        # TODO: Redirect student to 'student_invoices' if they paid fully
+        messages.add_message(request, messages.ERROR, f"You cannot pay more than £{invoice.unpaid}")
+
+    
+    return render(request, 'pay_invoice.html', {'invoice': invoice})
