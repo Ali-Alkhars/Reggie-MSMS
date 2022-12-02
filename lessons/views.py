@@ -107,7 +107,7 @@ def admin_accounts(request):
         return redirect('register_super', user_type)
 
     admins = User.objects.filter(groups__name='admin')
-    return render(request, 'admin_accounts.html', {'admins': admins})
+    return render(request, 'admin_accounts.html', {'users': admins})
 
 """
 A view which does the page redirections for the action buttons
@@ -193,18 +193,24 @@ def register_super(request, user_type):
 @login_required
 @permitted_groups(['student'])
 def student_invoices(request):
-    temp= Invoice.objects.create(
-        reference= f"{request.user.id}-19905",
-        price= 19,
-        unpaid= 4,
-        creation_date= timezone.now(),
-        update_date= timezone.now(),
-        student= request.user
-    )
-    temp.full_clean()
+    # temp= Invoice.objects.create(
+    #     reference= f"{request.user.id}-19905",
+    #     price= 19,
+    #     unpaid= 4,
+    #     creation_date= timezone.now(),
+    #     update_date= timezone.now(),
+    #     student= request.user
+    # )
+    # temp.full_clean()
 
     invoices = Invoice.objects.filter(student=request.user)
     return render(request, 'student_invoices.html', {'invoices': invoices})
+
+@login_required
+@permitted_groups(['admin', 'director'])
+def students_list(request):
+    students = User.objects.filter(groups__name='student')
+    return render(request, 'students_list.html', {'users': students})
 
 @login_required
 @permitted_groups(['student'])

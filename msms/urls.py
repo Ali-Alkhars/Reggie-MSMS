@@ -32,5 +32,6 @@ urlpatterns = [
     path('admin_actions/<action>/<int:user_id>', views.admin_actions, name='admin_actions'),
     path('edit_admin/<action>/<int:user_id>', views.edit_admin, name='edit_admin'),
     path('student_invoices/', views.student_invoices, name='student_invoices'),
+    path('students_list/', views.students_list, name='students_list'),
     path('pay_invoice/<reference>', views.pay_invoice, name='pay_invoice'),
 ]
