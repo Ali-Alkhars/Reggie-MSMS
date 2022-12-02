@@ -195,7 +195,7 @@ def register_super(request, user_type):
 @permitted_groups(['student'])
 def student_invoices(request):
     temp= Invoice.objects.create(
-        reference= f"{request.user.id}-123455",
+        reference= f"{request.user.id}-12345567",
         price= 19,
         unpaid= 9,
         creation_date= timezone.now(),
@@ -213,7 +213,6 @@ def pay_invoice(request, reference):
     invoice = Invoice.objects.get(reference=reference)
 
     if request.method == 'POST':
-        # TODO: Write helper functions to check that user didn't pay more than 'unpaid'
         # TODO: Write helper functions to update the invoice if the payment is successful
         # TODO: Redirect student to 'student_invoices' if they paid fully
         paid = request.POST.get("paid")

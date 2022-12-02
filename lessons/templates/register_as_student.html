@@ -7,3 +7,7 @@ Register as a Student
 {% block thisForm %}
   <form action="{% url 'register' %}" method="post">
 {% endblock %}
+
+{% block submitButton %}
+    <input type="submit" value="Register" class="btn btn-primary">
+{% endblock %}
