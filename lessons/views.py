@@ -191,8 +191,8 @@ def register_super(request, user_type):
         return render(request, 'register_as_admin.html', {'form': form})
 
 @login_required
-@permitted_groups(['student'])
-def student_invoices(request):
+@permitted_groups(['admin', 'director'])
+def student_invoices(request, user_id):
     # temp= Invoice.objects.create(
     #     reference= f"{request.user.id}-19905",
     #     price= 19,
@@ -203,7 +203,8 @@ def student_invoices(request):
     # )
     # temp.full_clean()
 
-    invoices = Invoice.objects.filter(student=request.user)
+    student = User.objects.get(id=user_id)
+    invoices = Invoice.objects.filter(student=student)
     return render(request, 'student_invoices.html', {'invoices': invoices})
 
 @login_required
@@ -213,7 +214,7 @@ def students_list(request):
     return render(request, 'students_list.html', {'users': students})
 
 @login_required
-@permitted_groups(['student'])
+@permitted_groups(['admin', 'director'])
 def pay_invoice(request, reference):
     invoice = Invoice.objects.get(reference=reference)
 
@@ -224,9 +225,9 @@ def pay_invoice(request, reference):
             if invoice.unpaid == 0:
                 messages.add_message(request, messages.SUCCESS, f"Lesson {invoice.reference} has been fully paid!")
             else:
-                messages.add_message(request, messages.SUCCESS, f"You have overpaid for lesson {invoice.reference} by £{invoice.unpaid}")
-            return redirect('student_invoices')
+                messages.add_message(request, messages.SUCCESS, f"The lesson {invoice.reference} has been overpaid by £{-invoice.unpaid}")
+            return redirect('student_invoices', invoice.student.id)
         else:
-            messages.add_message(request, messages.SUCCESS, f"A payment of £{paid} has been recorded. You still need to pay £{invoice.unpaid}")
+            messages.add_message(request, messages.SUCCESS, f"A payment of £{paid} has been recorded. £{invoice.unpaid} is left to be paid")
         
     return render(request, 'pay_invoice.html', {'invoice': invoice})

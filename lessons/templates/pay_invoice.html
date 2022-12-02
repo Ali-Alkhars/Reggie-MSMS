@@ -18,10 +18,17 @@
                         <div class="d-flex justify-content-center mb-2">
                             <form action="{% url 'pay_invoice' invoice.reference %}" method="post">
                                 {% csrf_token %}
-                                <input type="number" step=".01" name="paid" min="1" placeholder="Amount to pay">
-                                <input type="submit" value="Pay" class="btn btn-primary">
+                                <input type="number" step=".01" name="paid" min="1" placeholder="Amount paid">
+                                <input type="submit" value="Record" class="btn btn-primary">
                             </form>
                         </div>
+
+                        <div class="col text-center">
+                            <a href="{% url 'student_invoices' invoice.student.id %}" class="btn btn-secondary">
+                                Go back
+                            </a>
+                        </div>
+
 
                     </div>
                 </div>
