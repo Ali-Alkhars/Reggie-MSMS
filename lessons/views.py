@@ -5,9 +5,8 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
-from lessons.helpers.invoice_helpers import paid_more_than_owed
 from lessons.models import Invoice, User
-from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name
+from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, record_payment
 from django.contrib import messages
 from django.utils import timezone
 
@@ -195,9 +194,9 @@ def register_super(request, user_type):
 @permitted_groups(['student'])
 def student_invoices(request):
     temp= Invoice.objects.create(
-        reference= f"{request.user.id}-12345567",
+        reference= f"{request.user.id}-19905",
         price= 19,
-        unpaid= 9,
+        unpaid= 4,
         creation_date= timezone.now(),
         update_date= timezone.now(),
         student= request.user
@@ -213,11 +212,15 @@ def pay_invoice(request, reference):
     invoice = Invoice.objects.get(reference=reference)
 
     if request.method == 'POST':
-        # TODO: Write helper functions to update the invoice if the payment is successful
-        # TODO: Redirect student to 'student_invoices' if they paid fully
-        paid = request.POST.get("paid")
-        if paid_more_than_owed(float(paid), invoice):
-            messages.add_message(request, messages.ERROR, f"You cannot pay more than £{invoice.unpaid}")
-
-    
+        paid = float(request.POST.get("paid"))
+        record_payment(paid, invoice)
+        if invoice.unpaid <= 0:
+            if invoice.unpaid == 0:
+                messages.add_message(request, messages.SUCCESS, f"Lesson {invoice.reference} has been fully paid!")
+            else:
+                messages.add_message(request, messages.SUCCESS, f"You have overpaid for lesson {invoice.reference} by £{invoice.unpaid}")
+            return redirect('student_invoices')
+        else:
+            messages.add_message(request, messages.SUCCESS, f"A payment of £{paid} has been recorded. You still need to pay £{invoice.unpaid}")
+        
     return render(request, 'pay_invoice.html', {'invoice': invoice})
