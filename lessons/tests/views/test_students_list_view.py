@@ -7,7 +7,7 @@ from lessons.management.commands.create_user_groups import Command
 from lessons.tests.helpers import reverse_with_next
 
 class StudentsListViewTestCase(TestCase):
-    """Tests of the student_list view."""
+    """Tests of the students_list view."""
 
     fixtures = [
         'lessons/tests/fixtures/default_user.json',
