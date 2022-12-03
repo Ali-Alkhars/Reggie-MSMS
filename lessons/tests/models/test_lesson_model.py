@@ -48,9 +48,9 @@ class LessonRequestModelTestCase(TestCase):
         self.lesson_request.DurationOfLesson = 0
         self._assert_lesson_request_is_invalid()
 
-    def test_LearningObjectives_can_be_empty(self):
+    def test_LearningObjectives_cannot_be_empty(self):
         self.lesson_request.LearningObjectives = ''
-        self._assert_lesson_request_is_valid()
+        self._assert_lesson_request_is_invalid()
 
     def test_AdditionalNotes_can_be_empty(self):
         self.lesson_request.AdditionalNotes = ''

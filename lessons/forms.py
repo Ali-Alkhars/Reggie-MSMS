@@ -1,24 +1,8 @@
 """Forms for the MSMS app"""
 from django import forms
-from .models import Lesson_request
 from django.core.validators import RegexValidator
-from lessons.models import User
+from lessons.models import User, Lesson_request
 from django.contrib.auth.models import Group
-
-weekday_choices = [
-    ('Monday', 'Monday'),
-    ('Tuesday', 'Tuesday'),
-    ('Wednesday', 'Wednesday'),
-    ('Thursday', 'Thursday'),
-    ('Friday', 'Friday'),
-]
-
-time_choices = [
-    ('Morning', 'Morning'),
-    ('Afternoon', 'Afternoon'),
-    ('Night', 'Night'),
-]
-
 
 # Request form for the lesson
 class LessonRequestForm(forms.ModelForm):
@@ -26,8 +10,8 @@ class LessonRequestForm(forms.ModelForm):
         model = Lesson_request
         fields = ["availableDays", "availableTimes", "numberOfLessons", "IntervalBetweenLessons", "DurationOfLesson", "LearningObjectives", "AdditionalNotes"]
         labels = {
-            'availableDays': "Available days: ",
-            'availableTimes': "Available times: ",
+            'availableDays': "Choose a day: ",
+            'availableTimes': "Choose a time: ",
             'numberOfLessons': "Number of lessons desired: ",
             'IntervalBetweenLessons': "Interval between lessons (In weeks): ",
             'DurationOfLesson': "Duration of lesson (In minutes): ",

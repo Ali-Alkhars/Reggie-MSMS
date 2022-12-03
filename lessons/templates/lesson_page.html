@@ -32,6 +32,8 @@
                 <td>{{user.DurationOfLesson}}</td>
                 <td>{{user.LearningObjectives}}</td>
                 <td>{{user.AdditionalNotes}}</td>
+                <td><a href="{% url 'lesson_request_update' user.id %}">Edit</a></td>
+                
             </tr>
             {% endfor %}
         </table>

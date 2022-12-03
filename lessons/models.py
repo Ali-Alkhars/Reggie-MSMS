@@ -3,7 +3,6 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.core.exceptions import ValidationError
 
-
 class User(AbstractUser):
     """User model used for creating different users in the MSMS."""
 
@@ -21,6 +20,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=20, blank=False)
     last_name = models.CharField(max_length=20, blank=False)
 
+
 weekday_choices = [
     ('Monday', 'Monday'),
     ('Tuesday', 'Tuesday'),
@@ -35,6 +35,11 @@ time_choices = [
     ('Night', 'Night'),
 ]
 
+value_choices = [
+]
+for i in range(1, 17):
+    value_choices.append((15*i,'{} minutes'.format(15*i)))
+
 # Make sure values are not non-zero
 def validate_nonzero(value):
     if (value <= 0):
@@ -48,9 +53,16 @@ class Lesson_request(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     availableDays = models.CharField(max_length=100, blank=False, choices=weekday_choices)
     availableTimes = models.CharField(max_length=255, blank=False, choices=time_choices)
-    numberOfLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero]);
-    IntervalBetweenLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero]);
-    DurationOfLesson = models.PositiveIntegerField(blank = False, validators=[validate_nonzero]);
-    LearningObjectives = models.TextField(blank=True);
-    AdditionalNotes = models.TextField(blank=True);
+    # availableDays = models.ManyToManyField(Weekdays_Choices, symmetrical=False)
+    # availableTimes = models.ManyToManyField(Time_Choices, symmetrical=False)
+    numberOfLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero])
+    IntervalBetweenLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero])
+    DurationOfLesson = models.PositiveIntegerField(blank = False, validators=[validate_nonzero], choices=value_choices)
+    LearningObjectives = models.TextField(blank=False)
+    AdditionalNotes = models.TextField(blank=True)
 
+    def getWeekdays_choices():
+        return weekday_choices
+    
+    def getTime_choices():
+        return time_choices

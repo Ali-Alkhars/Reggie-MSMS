@@ -5,7 +5,7 @@ from .models import Lesson_request, User
 from django.contrib import messages
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
-from lessons.helpers.helper_functions import get_user_group, promote_admin_to_director, delete_user, get_user_full_name
+from lessons.helpers.helper_functions import get_user_group, promote_admin_to_director, delete_user, get_user_full_name, userOrAdmin
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 
@@ -16,7 +16,6 @@ def lesson_request(request):
     if request.method == "POST":
         form = LessonRequestForm(request.POST)
         if form.is_valid():
-            form.save()
             form_to_be_submitted = form.save(commit=False)
             form_to_be_submitted.student = request.user
             form_to_be_submitted.save()
@@ -26,9 +25,9 @@ def lesson_request(request):
     return render(request, "lesson_request.html", {"form":form})
 
 @login_required
-@permitted_groups(['student', 'admin'])
+@permitted_groups(['student', 'admin', 'director'])
 def lesson_page(request):
-    isStudent = userOrAdmin(request);
+    isStudent = userOrAdmin(request)
     if (isStudent):
         user_lessons = Lesson_request.objects.filter(student=request.user)
         count = Lesson_request.objects.filter(student=request.user).count()
@@ -38,12 +37,22 @@ def lesson_page(request):
         count = Lesson_request.objects.all().count()
         request.session['countOfTable'] = count
         data = {'object_list': Lesson_request.objects.all(), 'count': count}
-    return render(request, "lesson_page.html", data);
+    return render(request, "lesson_page.html", data)
 
-def userOrAdmin(request):
-    if (get_user_group(request) == 'student'):
-        return True
-    return False
+@login_required
+@permitted_groups(['student'])
+def lesson_request_update(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+    if request.method == 'POST':
+        form = LessonRequestForm(request.POST, instance=lesson_request)
+        if form.is_valid():
+            form.save()
+            return redirect('lesson_page')
+    else:
+        form = LessonRequestForm(instance=lesson_request)
+    return render(request, 'lesson_request_update.html', {"form": form})
+
+
 
 """
 The home page that users see when they log in

@@ -1,25 +1,11 @@
 """Unit tests for the lesson showing page."""
-from django.test import TestCase, RequestFactory, Client
+from django.test import TestCase
 from django.urls import reverse
 from lessons.models import Lesson_request, User
-from lessons.forms import LessonRequestForm
 from django.contrib.auth.models import Group
 from lessons.management.commands.create_user_groups import Command
 from lessons.tests.helpers import reverse_with_next
 from django.conf import settings
-from lessons.views import lesson_page, lesson_request
-from django.contrib.sessions.middleware import SessionMiddleware
-from importlib import import_module
-from django.contrib.sessions.models import Session
-
-# class modifySession(object):
-#     client = Client()
-
-#     def create_session(self):
-#         sessionEngine = import_module(settings.SESSION_ENGINE)
-#         store = sessionEngine.SessionStore()
-#         store.save()
-#         self.client.cookies[settings.SESSION_COOKIE_NAME] = store.session_key
 
 class LessonPageTestCase(TestCase):
     """Unit tests for the lesson showing page"""
@@ -271,7 +257,7 @@ class LessonPageTestCase(TestCase):
         director_group = Group.objects.get(name='director') 
         director_group.user_set.add(user4)
         loggedInuser4 = self.client.login(username=user4.username, password= 'Password123')
-        response = self.client.get(self.url)
+        response = self.client.get(self.url2)
         redirect_url = reverse('home')
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
 
