@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator
 from django.db import models
-
+from django.utils import timezone
 
 class User(AbstractUser):
     """User model used for creating different users in the MSMS."""
@@ -52,8 +52,8 @@ class Invoice(models.Model):
             code='invalid_reference'
         )]
     )
-    price = models.FloatField(max_length=20, blank=False)
-    unpaid = models.FloatField(max_length=20, blank=False)
-    creation_date = models.DateTimeField(blank=False)
-    update_date = models.DateTimeField(blank=False)
+    price = models.FloatField(blank=False, validators= [MaxValueValidator(1000000)])
+    unpaid = models.FloatField(blank=False, validators= [MaxValueValidator(1000000)])
+    creation_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
+    update_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
