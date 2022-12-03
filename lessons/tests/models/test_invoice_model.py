@@ -10,10 +10,7 @@ from datetime import timedelta
 class InvoiceModelTestCase(TestCase):
     """Unit tests for the Invoice model."""
 
-    fixtures = [
-        'lessons/tests/fixtures/default_user.json',
-        'lessons/tests/fixtures/other_users.json'
-    ]
+    fixtures = ['lessons/tests/fixtures/default_user.json']
     
     def setUp(self):
         create_groups_command = Command()
