@@ -189,18 +189,31 @@ def register_super(request, user_type):
     else:
         return render(request, 'register_as_admin.html', {'form': form})
 
+"""
+A page which has different functionality depending on the user. 
+1- If it's an admin or director they could check the invoices of a 
+specific student and record their payments in the app's database.
+2- If it's a student they could check their lesson invoices status.
+"""
 @login_required
 def student_invoices(request, user_id):
     student = User.objects.get(id=user_id)
     invoices = Invoice.objects.filter(student=student)
     return render(request, 'student_invoices.html', {'invoices': invoices})
 
+"""
+A page for admins or directors to see a list of all the students in
+the system and choose one to get redirected to their student_invoices page.
+"""
 @login_required
 @permitted_groups(['admin', 'director'])
 def students_list(request):
     students = User.objects.filter(groups__name='student')
     return render(request, 'students_list.html', {'users': students})
 
+"""
+A page for admins or directors to record student invoice payments.
+"""
 @login_required
 @permitted_groups(['admin', 'director'])
 def pay_invoice(request, reference):

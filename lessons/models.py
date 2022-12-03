@@ -21,15 +21,21 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=20, blank=False)
 
     def isStudent(self):
-        """True if the user is a student"""
+        """True if groups are created and the user is a student"""
+        if not self.groups.exists():
+            return False
         return self.groups.all()[0].name == 'student'
 
     def isAdmin(self):
-        """True if the user is an admin"""
+        """True if groups are created and the user is an admin"""
+        if not self.groups.exists():
+            return False
         return self.groups.all()[0].name == 'admin'
 
     def isDirector(self):
-        """True if the user is a director"""
+        """True if groups are created and the user is a director"""
+        if not self.groups.exists():
+            return False
         return self.groups.all()[0].name == 'director'
 
 class Invoice(models.Model):
