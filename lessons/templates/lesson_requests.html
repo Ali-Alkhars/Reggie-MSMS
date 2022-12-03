@@ -1,0 +1,75 @@
+{% extends 'partials/navbar.html' %}
+{% block content %}
+    <style>
+        table tr[data-href] {
+            cursor: pointer;
+        }
+    </style>
+    <div class="container container_padding_and_margin vh-90">
+        <h2 class="mt-2">Lesson Requests:</h2>
+        <p class="mt-2">Click on a row for details.</p>
+
+        <!--Placeholder table -->
+        <div class="bookings_table add_bottom_margin">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    {% if type == "admin" %}
+                        <th scope="col">User</th>
+                    {% endif %}
+                    <th scope="col">Availability Per Week</th>
+                    <th scope="col">Duration of Lesson</th>
+                    <th scope="col">Preferred Teacher</th>
+                    <th scope="col">Additional Info</th>
+                    <th scope="col">Booked</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+
+                <!--Add current bookings here-->
+                <tbody>
+                {% for data in dataset %}
+                    <tr data-href="/lesson_requests/{{ data.id }}">
+                        <th scope="row">{{ data.id }}</th>
+                        {% if type == "admin" %}
+                            <td>{{ data.user }}</td>
+                        {% endif %}
+                        <td>{{ data.availability }}</td>
+                        <td>{{ data.duration }}</td>
+                        <td>{{ data.preferredTeacher }}</td>
+                        <td>{{ data.additionalInfo }}</td>
+                        <td>{{ data.booked }}</td>
+                        <td><a href="/lesson_requests/{{ data.id }}/edit">Edit</a></td>
+                        <td><a href="/lesson_requests/{{ data.id }}/delete">Delete</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        {% if type != "admin" %}
+            <h2 class="mt-2">Request a new lesson:</h2>
+            <a href='{% url 'new_lesson' %}' class="btn mb-2 home_button btn-lg btn-secondary mb=2">
+                Request
+            </a>
+        {% endif %}
+
+
+    </div>
+    <script>
+        document.querySelectorAll("table tr").forEach(
+            el => {
+                el.addEventListener("click", (e) => {
+                    debugger;
+                    closest = e.target.closest('tr');
+                    url = closest.dataset.href;
+                    window.location = url;
+                    return false;
+                })
+            }
+        );
+    </script>
+{% endblock %}

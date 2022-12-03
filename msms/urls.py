@@ -25,8 +25,14 @@ urlpatterns = [
     path('log_out/', views.log_out, name='log_out'),
     path('register/', views.register, name='register'),
     path('register_super/<user_type>', views.register_super, name='register_super'),
+    # Lesson Request
     path('new_lesson/', views.new_lesson, name='new_lesson'),
     path('lesson_requests/', views.lesson_requests, name='lesson_requests'),
+    path('my_requests/', views.lesson_requests_list, name='my_requests'),
+    path('lesson_requests/<lesson_request_id>', views.lesson_requests_details, name='lesson_requests_view'),
+    path('lesson_requests/<lesson_request_id>/edit', views.lesson_requests_edit, name='lesson_requests_edit'),
+    path('lesson_requests/<lesson_request_id>/delete', views.lesson_requests_delete, name='lesson_requests_delete'),
+    # End Lesson Request
     path('bookings/', views.bookings, name='bookings'),
     path('admin_accounts/', views.admin_accounts, name='admin_accounts'),
     path('admin_actions/<action>/<int:user_id>', views.admin_actions, name='admin_actions'),

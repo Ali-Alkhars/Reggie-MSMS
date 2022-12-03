@@ -10,7 +10,7 @@
     {% block thisForm %}{% endblock %}
         {% csrf_token %}
         {% include 'partials/bootstrap_form.html' with form=form %}
-        <input type="submit" value="Register" class="btn btn-primary">
+        <input type="submit" value="{{ submitText }}" class="btn btn-primary">
 
 
 {% endblock %}

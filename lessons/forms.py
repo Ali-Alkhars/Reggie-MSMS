@@ -2,15 +2,14 @@
 from django import forms
 from django.core.validators import RegexValidator
 from lessons.models import User
+from lessons.models import LessonRequest
 from django.contrib.auth.models import Group
+
 
 class LogInForm(forms.Form):
     username = forms.EmailField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
-# This is just a placeholder form
-class NewLessonForm(forms.Form):
-    test = forms.CharField(label="TEST")
 
 class RegisterForm(forms.ModelForm):
     """Form enabling students to register an account"""
@@ -28,7 +27,7 @@ class RegisterForm(forms.ModelForm):
             regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
             message='Password must contain an uppercase character, a lowercase '
                     'character and a number'
-            )]
+        )]
     )
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
 
@@ -42,23 +41,26 @@ class RegisterForm(forms.ModelForm):
             self.add_error('confirm_password', 'Confirmation does not match password.')
 
     """Assign a given user to the student group"""
+
     def save_user_as_student(self):
         user = self.save()
-        student_group = Group.objects.get(name='student') 
+        student_group = Group.objects.get(name='student')
         student_group.user_set.add(user)
         return user
-    
+
     """Assign a given user to the director group"""
+
     def save_user_as_director(self):
         user = self.save()
-        director_group = Group.objects.get(name='director') 
+        director_group = Group.objects.get(name='director')
         director_group.user_set.add(user)
         return user
-    
+
     """Assign a given user to the admin group"""
+
     def save_user_as_admin(self):
         user = self.save()
-        admin_group = Group.objects.get(name='admin') 
+        admin_group = Group.objects.get(name='admin')
         admin_group.user_set.add(user)
         return user
 
@@ -74,7 +76,8 @@ class RegisterForm(forms.ModelForm):
         )
 
         return user
-    
+
+
 class EditLoginsForm(forms.ModelForm):
     """Form for users to update their login information"""
 
@@ -83,6 +86,7 @@ class EditLoginsForm(forms.ModelForm):
 
         model = User
         fields = ['first_name', 'last_name', 'username']
+
 
 class EditPasswordForm(forms.Form):
     """Form for users to update their password"""
@@ -95,7 +99,7 @@ class EditPasswordForm(forms.Form):
             regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
             message='Password must contain an uppercase character, a lowercase '
                     'character and a number'
-            )]
+        )]
     )
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
 
@@ -107,3 +111,14 @@ class EditPasswordForm(forms.Form):
         confirm_password = self.cleaned_data.get('confirm_password')
         if new_password != confirm_password:
             self.add_error('confirm_password', 'Confirmation does not match password.')
+
+
+class LessonRequestForm(forms.ModelForm):
+    class Meta:
+        model = LessonRequest
+        fields = [
+            'availability',
+            'duration',
+            'preferredTeacher',
+            'additionalInfo'
+        ]

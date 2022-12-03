@@ -1,0 +1,23 @@
+{% extends 'partials/navbar.html' %}
+{% block content %}
+
+    <div class="container container_padding_and_margin vh-90">
+        <h1 class="mt-2">Lesson Request {{ data.id }}</h1>
+        <br />
+        <h3>Availability Per Week</h3>
+        <p>{{ data.availability }}</p>
+
+        <h3>Duration of Lesson</h3>
+        <p>{{ data.duration }} min</p>
+        <h3>Preferred Teacher</h3>
+        <p>{{ data.preferredTeacher }}</p>
+
+        <h3>Additional Information</h3>
+        <p>{{ data.additionalInfo }}</p>
+        <h3>Booked</h3>
+        <p>{{ data.booked }}</p>
+        <h3>User</h3>
+        <p>{{ data.user }}</p>
+    </div>
+
+{% endblock %}
