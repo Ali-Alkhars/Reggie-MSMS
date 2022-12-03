@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from lessons.models import Invoice, User
 from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, record_payment
 from django.contrib import messages
-from django.utils import timezone
 
 
 """
@@ -192,16 +191,6 @@ def register_super(request, user_type):
 
 @login_required
 def student_invoices(request, user_id):
-    # temp= Invoice.objects.create(
-    #     reference= f"{request.user.id}-19905",
-    #     price= 19,
-    #     unpaid= 4,
-    #     creation_date= timezone.now(),
-    #     update_date= timezone.now(),
-    #     student= request.user
-    # )
-    # temp.full_clean()
-
     student = User.objects.get(id=user_id)
     invoices = Invoice.objects.filter(student=student)
     return render(request, 'student_invoices.html', {'invoices': invoices})
