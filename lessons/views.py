@@ -9,7 +9,9 @@ from lessons.helpers.helper_functions import get_user_group, promote_admin_to_di
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 
-# Request a lesson using form
+"""
+Request a lesson 
+"""
 @login_required
 @permitted_groups(['student'])
 def lesson_request(request):
@@ -28,6 +30,9 @@ def lesson_request(request):
         form = LessonRequestForm()
     return render(request, "lesson_request.html", {"form":form})
 
+"""
+Check all the requests and bookings of lessons
+"""
 @login_required
 @permitted_groups(['student', 'admin', 'director'])
 def lesson_page(request):
@@ -43,11 +48,12 @@ def lesson_page(request):
         data = {'object_list': Lesson_request.objects.all(), 'count': count, 'currentUser': isStudent}
     return render(request, "lesson_page.html", data)
 
+"""
+Update a particular lesson request
+"""
 @login_required
 @permitted_groups(['student', 'admin', 'director'])
 def lesson_request_update(request, id):
-    # if (lesson_request.Fulfilled == 'Denied' | lesson_request.Fulfilled == 'Approved'):
-    #     return redirect('lesson_page')
     lesson_request = Lesson_request.objects.get(id=id)
     if request.method == 'POST':
         form = LessonRequestForm(request.POST, instance=lesson_request)
@@ -62,6 +68,9 @@ def lesson_request_update(request, id):
         form = LessonRequestForm(instance=lesson_request)
     return render(request, 'lesson_request_update.html', {"form": form})
 
+"""
+Delete a particular lesson request
+"""
 @login_required
 @permitted_groups(['student', 'admin', 'director'])
 def lesson_request_delete(request, id):
@@ -69,7 +78,6 @@ def lesson_request_delete(request, id):
 
     if request.method == 'POST':
         lesson_request.delete()
-
         return redirect('lesson_page')
     return render(request, 'lesson_request_delete.html', {'lesson_request': lesson_request})
 

@@ -1,4 +1,4 @@
-"""Unit tests for the lesson showing page."""
+"""Unit tests for the lesson request update page."""
 from django.test import TestCase
 from django.urls import reverse
 from lessons.models import Lesson_request, User
@@ -9,7 +9,7 @@ from django.conf import settings
 from lessons.forms import LessonRequestForm
 
 class LessonPageUpdateTestCase(TestCase):
-    """Unit tests for the lesson showing page"""
+    """Unit tests for the lesson request update page"""
     fixtures = [
             'lessons/tests/fixtures/default_user.json',
             'lessons/tests/fixtures/other_users.json',
