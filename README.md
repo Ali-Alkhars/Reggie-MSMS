@@ -6,6 +6,7 @@ The members of the team are:
 - *ABDIRAHMAN AHMED*
 - *ILIA JAMASB*
 - *CHIN WAN*
+- *AMRA MIRZAZADA*
 
 ## Project structure
 The project is called `msms` (Music School Management System).  It currently consists of a single app `lessons` where all functionality resides.
