@@ -3,7 +3,7 @@ from lessons.forms import EditLoginsForm, LessonRequestForm
 from lessons.models import User
 
 class LessonRequestFormTestCase(TestCase):
-    """Unit tests of the EditLogins form"""
+    """Unit tests of the lesson request form"""
 
     fixtures = ['lessons/tests/fixtures/default_user.json', 
                 'lessons/tests/fixtures/default_lesson_request.json'

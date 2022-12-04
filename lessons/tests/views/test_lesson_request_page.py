@@ -31,7 +31,7 @@ class LessonRequestPageTestCase(TestCase):
         student_group.user_set.add(self.user)
 
     def test_lesson_request_url(self):
-        self.assertEqual(self.url, '/lesson_request/')
+        self.assertEqual(self.url, '/lesson_page/lesson_request/')
 
     def test_lesson_request(self):
         self.client.login(username = self.user.username, password = 'Password123')
@@ -100,7 +100,7 @@ class LessonRequestPageTestCase(TestCase):
         self.assertEqual(after_count, before_count)
         self.assertEqual(response.status_code, 200)
     
-    def test_post_lesson_request_with__zero_lesson(self):
+    def test_post_lesson_request_with_zero_lesson(self):
         self.client.login(username = self.user.username, password = "Password123")
         form_input = {
             'availableDays': "Monday", 
