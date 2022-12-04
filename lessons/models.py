@@ -35,6 +35,12 @@ time_choices = [
     ('Night', 'Night'),
 ]
 
+fulfilled_choices = [
+    ('Approved', 'Approved'),
+    ('Denied', 'Denied'),
+    ('Pending', 'Pending'),
+]
+
 value_choices = [
 ]
 for i in range(1, 17):
@@ -60,6 +66,7 @@ class Lesson_request(models.Model):
     DurationOfLesson = models.PositiveIntegerField(blank = False, validators=[validate_nonzero], choices=value_choices)
     LearningObjectives = models.TextField(blank=False)
     AdditionalNotes = models.TextField(blank=True)
+    Fulfilled = models.CharField(max_length=50, blank=False, choices=fulfilled_choices, default='Pending')
 
     def getWeekdays_choices():
         return weekday_choices

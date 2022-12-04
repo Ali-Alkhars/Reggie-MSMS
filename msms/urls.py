@@ -24,6 +24,7 @@ urlpatterns = [
     path("lesson_page/lesson_request/", views.lesson_request, name="lesson_request"),
     path("lesson_page/<int:id>/update/", views.lesson_request_update, name='lesson_request_update'),
     path("lesson_page/", views.lesson_page, name="lesson_page"),
+    path("lesson_page/<int:id>/delete/", views.lesson_request_delete, name='lesson_request_delete'),
     path('log_in/', views.log_in, name='log_in'),
     path('log_out/', views.log_out, name='log_out'),
     path('register/', views.register, name='register'),

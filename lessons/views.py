@@ -15,6 +15,10 @@ from django.contrib.auth import authenticate, login, logout
 def lesson_request(request):
     if request.method == "POST":
         form = LessonRequestForm(request.POST)
+        if (userOrAdmin(request)):
+            field = form.fields['Fulfilled']
+            field.widget = field.hidden_widget()
+            form.fields['Fulfilled'].disabled = True
         if form.is_valid():
             form_to_be_submitted = form.save(commit=False)
             form_to_be_submitted.student = request.user
@@ -32,25 +36,42 @@ def lesson_page(request):
         user_lessons = Lesson_request.objects.filter(student=request.user)
         count = Lesson_request.objects.filter(student=request.user).count()
         request.session['countOfTable'] = count
-        data = {'object_list': user_lessons, 'count': count}
+        data = {'object_list': user_lessons, 'count': count, 'currentUser': isStudent}
     else:
         count = Lesson_request.objects.all().count()
         request.session['countOfTable'] = count
-        data = {'object_list': Lesson_request.objects.all(), 'count': count}
+        data = {'object_list': Lesson_request.objects.all(), 'count': count, 'currentUser': isStudent}
     return render(request, "lesson_page.html", data)
 
 @login_required
-@permitted_groups(['student'])
+@permitted_groups(['student', 'admin', 'director'])
 def lesson_request_update(request, id):
+    # if (lesson_request.Fulfilled == 'Denied' | lesson_request.Fulfilled == 'Approved'):
+    #     return redirect('lesson_page')
     lesson_request = Lesson_request.objects.get(id=id)
     if request.method == 'POST':
         form = LessonRequestForm(request.POST, instance=lesson_request)
+        if (userOrAdmin(request)):
+            field = form.fields['Fulfilled']
+            field.widget = field.hidden_widget()
+            form.fields['Fulfilled'].disabled = True
         if form.is_valid():
             form.save()
             return redirect('lesson_page')
     else:
         form = LessonRequestForm(instance=lesson_request)
     return render(request, 'lesson_request_update.html', {"form": form})
+
+@login_required
+@permitted_groups(['student', 'admin', 'director'])
+def lesson_request_delete(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+
+    if request.method == 'POST':
+        lesson_request.delete()
+
+        return redirect('lesson_page')
+    return render(request, 'lesson_request_delete.html', {'lesson_request': lesson_request})
 
 
 

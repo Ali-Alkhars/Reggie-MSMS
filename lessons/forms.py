@@ -8,7 +8,7 @@ from django.contrib.auth.models import Group
 class LessonRequestForm(forms.ModelForm):
     class Meta:
         model = Lesson_request
-        fields = ["availableDays", "availableTimes", "numberOfLessons", "IntervalBetweenLessons", "DurationOfLesson", "LearningObjectives", "AdditionalNotes"]
+        fields = ["availableDays", "availableTimes", "numberOfLessons", "IntervalBetweenLessons", "DurationOfLesson", "LearningObjectives", "AdditionalNotes", "Fulfilled"]
         labels = {
             'availableDays': "Choose a day: ",
             'availableTimes': "Choose a time: ",
@@ -22,6 +22,7 @@ class LessonRequestForm(forms.ModelForm):
             "LearningObjectives": forms.Textarea(),
             "AdditionalNotes": forms.Textarea()
         }
+
 
 # This is just a placeholder form
 class LogInForm(forms.Form):

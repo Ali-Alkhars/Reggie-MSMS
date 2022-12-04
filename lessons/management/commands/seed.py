@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def _create_user(self):
         first_name = self.faker.first_name()
         last_name = self.faker.last_name()
-        username = 'cwan@gmail.com'
+        username = 'chinwan@gmail.com'
         user = User.objects.create_user(
             username,
             first_name=first_name,
