@@ -1,11 +1,15 @@
 {% extends 'partials/registration_form.html' %}
 
 {% block title %}
-Log In
+Log in to MSMS
 {% endblock %}
 
 {% block thisForm %}
-
-<form action="{% url 'log_in' %}" method="post">
-
+    <form action="{% url 'log_in' %}" method="post">
+    <input type="hidden" name="next" value="{{ next }}">
 {% endblock %}
+
+{% block submitButton %}
+    <input type="submit" value="Log in" class="btn btn-primary">
+{% endblock %}
+

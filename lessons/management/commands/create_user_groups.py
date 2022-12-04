@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group, Permission
 from django.core.management.base import BaseCommand
 from lessons.helpers.helper_functions import USER_GROUPS
+from django.core.exceptions import MultipleObjectsReturned
 
 """
 Class representing a command to create user groups.
@@ -24,3 +25,5 @@ class Command(BaseCommand):
                         got_group.permissions.add(permission)
                     except Permission.DoesNotExist:
                         print("Tried to add a non-exisiting permission when creating user groups!")
+                    except MultipleObjectsReturned:
+                        print("User group already created!")

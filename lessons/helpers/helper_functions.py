@@ -1,5 +1,6 @@
 from lessons.models import User
 from django.contrib.auth.models import Group
+from django.utils import timezone
 
 """A dictionary of user groups, giving each group their set of permissions"""
 USER_GROUPS = {
@@ -72,3 +73,11 @@ full name
 def get_user_full_name(user_id):
     user = User.objects.get(id=user_id)
     return f"{user.first_name} {user.last_name}"
+
+"""
+A helper function which records a payment made by a student
+"""
+def record_payment(paid, invoice):
+    invoice.unpaid -= paid
+    invoice.update_date = timezone.now()
+    invoice.save()

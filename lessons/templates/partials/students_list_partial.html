@@ -1,0 +1,13 @@
+{% extends 'partials/user_list.html' %}
+
+{% block header %}
+    <th>Student Name</th> 
+{% endblock %}
+
+{% block actionButtons %}
+    <td class="list-unstyled mb-0 d-flex justify-content-start">
+        <a href="{% url 'student_invoices' user.id %}" class="btn btn-primary">
+            Check invoices
+        </a>
+    </td>
+{% endblock %}

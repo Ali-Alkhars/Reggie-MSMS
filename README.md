@@ -5,7 +5,6 @@ The members of the team are:
 - *ALI ALKHARS*
 - *ABDIRAHMAN AHMED*
 - *ILIA JAMASB*
-- *AMRA MIRZAZADA*
 - *CHIN WAN*
 
 ## Project structure

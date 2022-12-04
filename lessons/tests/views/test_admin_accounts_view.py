@@ -29,7 +29,7 @@ class AdminAccountsViewTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'admin_accounts.html')
-        self.assertEqual(len(response.context['admins']), 10)
+        self.assertEqual(len(response.context['users']), 10)
         for user_id in range(10):
             self.assertContains(response, f'user{user_id}@test.org')
             self.assertContains(response, f'First{user_id}')

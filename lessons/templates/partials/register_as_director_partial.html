@@ -1,11 +1,11 @@
 {% extends 'partials/registration_form.html' %}
 
 {% block title %}
-Register as a Student
+Register a new Director
 {% endblock %}
 
 {% block thisForm %}
-  <form action="{% url 'register' %}" method="post">
+  <form action="{% url 'register_super' 'director' %}" method="post">
 {% endblock %}
 
 {% block submitButton %}

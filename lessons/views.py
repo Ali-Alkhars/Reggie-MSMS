@@ -5,9 +5,10 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
-from lessons.models import User
-from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name
+from lessons.models import Invoice, User
+from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, record_payment
 from django.contrib import messages
+
 
 """
 The home page that users see when they log in
@@ -105,7 +106,7 @@ def admin_accounts(request):
         return redirect('register_super', user_type)
 
     admins = User.objects.filter(groups__name='admin')
-    return render(request, 'admin_accounts.html', {'admins': admins})
+    return render(request, 'admin_accounts.html', {'users': admins})
 
 """
 A view which does the page redirections for the action buttons
@@ -187,3 +188,47 @@ def register_super(request, user_type):
         return render(request, 'register_as_director.html', {'form': form})
     else:
         return render(request, 'register_as_admin.html', {'form': form})
+
+"""
+A page which has different functionality depending on the user. 
+1- If it's an admin or director they could check the invoices of a 
+specific student and record their payments in the app's database.
+2- If it's a student they could check their lesson invoices status.
+"""
+@login_required
+def student_invoices(request, user_id):
+    student = User.objects.get(id=user_id)
+    invoices = Invoice.objects.filter(student=student)
+    return render(request, 'student_invoices.html', {'invoices': invoices})
+
+"""
+A page for admins or directors to see a list of all the students in
+the system and choose one to get redirected to their student_invoices page.
+"""
+@login_required
+@permitted_groups(['admin', 'director'])
+def students_list(request):
+    students = User.objects.filter(groups__name='student')
+    return render(request, 'students_list.html', {'users': students})
+
+"""
+A page for admins or directors to record student invoice payments.
+"""
+@login_required
+@permitted_groups(['admin', 'director'])
+def pay_invoice(request, reference):
+    invoice = Invoice.objects.get(reference=reference)
+
+    if request.method == 'POST':
+        paid = float(request.POST.get("paid"))
+        record_payment(paid, invoice)
+        if invoice.unpaid <= 0:
+            if invoice.unpaid == 0:
+                messages.add_message(request, messages.SUCCESS, f"Lesson {invoice.reference} has been fully paid!")
+            else:
+                messages.add_message(request, messages.SUCCESS, f"The lesson {invoice.reference} has been overpaid by £{-invoice.unpaid}")
+            return redirect('student_invoices', invoice.student.id)
+        else:
+            messages.add_message(request, messages.SUCCESS, f"A payment of £{paid} has been recorded. £{invoice.unpaid} is left to be paid")
+        
+    return render(request, 'pay_invoice.html', {'invoice': invoice})
