@@ -56,6 +56,10 @@ class LessonRequestModelTestCase(TestCase):
         self.lesson_request.AdditionalNotes = ''
         self._assert_lesson_request_is_valid()
 
+    def test_FulFilled_cannot_be_empty(self):
+        self.lesson_request.Fulfilled = ''
+        self._assert_lesson_request_is_invalid()
+
     def _assert_lesson_request_is_valid(self):
         try:
             self.lesson_request.full_clean()
