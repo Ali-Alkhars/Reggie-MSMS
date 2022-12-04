@@ -1,0 +1,39 @@
+<table class="table manage-candidates-top mb-0">
+    
+    <thead>
+    <tr>
+        {% block header %}
+        {% endblock  %}
+        <th class="text-center">Email address</th>
+        <th class="action text-right">Actions</th>
+    </tr>
+    </thead>
+
+    {% for user in users %}
+    <tbody>
+
+        <tr class="candidates-list">
+        <td class="title">
+        <div class="candidate-list-details">
+            <div class="candidate-list-info">
+            <div class="candidate-list-title">
+
+                <h5 class="mb-0 admin-user-colour">{{user.first_name}} {{user.last_name}}</h5>
+
+            </div>
+            </div>
+        </div>
+        </td>
+
+        <td class="candidate-list-favourite-time text-center">
+        <span class="candidate-list-time admin-user-colour order-1">{{user.username}}</span>
+        </td>
+
+        {% block actionButtons %}
+        {% endblock  %}
+    </tr>
+
+    </tbody>
+    {% endfor %}
+
+</table>

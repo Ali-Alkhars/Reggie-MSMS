@@ -5,9 +5,12 @@ from .models import Lesson_request, User
 from django.contrib import messages
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
-from lessons.helpers.helper_functions import get_user_group, promote_admin_to_director, delete_user, get_user_full_name, userOrAdmin
+from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, userOrAdmin
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
+from lessons.models import Invoice, User
+from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, record_payment
+from django.contrib import messages
 
 """
 Request a lesson 
@@ -143,6 +146,10 @@ def log_out(request):
     logout(request)
     return redirect('main')
 
+@login_required
+def bookings(request):
+    return render(request, 'bookings.html')
+
 """
 A page for students to make a lesson request
 NOT YET FULLY IMPLEMENTED
@@ -175,7 +182,7 @@ def admin_accounts(request):
         return redirect('register_super', user_type)
 
     admins = User.objects.filter(groups__name='admin')
-    return render(request, 'admin_accounts.html', {'admins': admins})
+    return render(request, 'admin_accounts.html', {'users': admins})
 
 """
 A view which does the page redirections for the action buttons
@@ -189,7 +196,7 @@ def admin_actions(request, action, user_id):
         promote_admin_to_director(user_id)
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to a director!")
-    
+
     elif action == 'edit':
         return redirect('edit_admin', 'None', user_id)
 
@@ -217,7 +224,7 @@ def edit_admin(request, action, user_id):
                 messages.add_message(request, messages.SUCCESS, "Admin login information updated!")
                 edit_logins_form.save()
                 return redirect('edit_admin', 'None', user_id)
-            
+
         # User chose to update the admin's password
         elif action == 'password':
             edit_password_form = EditPasswordForm(data=request.POST)
@@ -229,11 +236,11 @@ def edit_admin(request, action, user_id):
                     admin_user.save()
                     messages.add_message(request, messages.SUCCESS, "Admin password updated!")
                     return redirect('edit_admin', 'None', user_id)
-                
+
         # User is done editing
         else:
             return redirect('admin_accounts')
-        
+
     return render(request, 'edit_admin.html', {'logins_form': edit_logins_form, 'password_form': edit_password_form, 'user_id': user_id})
 
 """
@@ -259,3 +266,46 @@ def register_super(request, user_type):
     else:
         return render(request, 'register_as_admin.html', {'form': form})
 
+"""
+A page which has different functionality depending on the user. 
+1- If it's an admin or director they could check the invoices of a 
+specific student and record their payments in the app's database.
+2- If it's a student they could check their lesson invoices status.
+"""
+@login_required
+def student_invoices(request, user_id):
+    student = User.objects.get(id=user_id)
+    invoices = Invoice.objects.filter(student=student)
+    return render(request, 'student_invoices.html', {'invoices': invoices})
+
+"""
+A page for admins or directors to see a list of all the students in
+the system and choose one to get redirected to their student_invoices page.
+"""
+@login_required
+@permitted_groups(['admin', 'director'])
+def students_list(request):
+    students = User.objects.filter(groups__name='student')
+    return render(request, 'students_list.html', {'users': students})
+
+"""
+A page for admins or directors to record student invoice payments.
+"""
+@login_required
+@permitted_groups(['admin', 'director'])
+def pay_invoice(request, reference):
+    invoice = Invoice.objects.get(reference=reference)
+
+    if request.method == 'POST':
+        paid = float(request.POST.get("paid"))
+        record_payment(paid, invoice)
+        if invoice.unpaid <= 0:
+            if invoice.unpaid == 0:
+                messages.add_message(request, messages.SUCCESS, f"Lesson {invoice.reference} has been fully paid!")
+            else:
+                messages.add_message(request, messages.SUCCESS, f"The lesson {invoice.reference} has been overpaid by £{-invoice.unpaid}")
+            return redirect('student_invoices', invoice.student.id)
+        else:
+            messages.add_message(request, messages.SUCCESS, f"A payment of £{paid} has been recorded. £{invoice.unpaid} is left to be paid")
+        
+    return render(request, 'pay_invoice.html', {'invoice': invoice})

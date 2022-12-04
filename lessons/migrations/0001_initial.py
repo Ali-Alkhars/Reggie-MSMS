@@ -214,4 +214,36 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
+        migrations.CreateModel(
+            name="Invoice",
+            fields=[
+                (
+                    "reference",
+                    models.CharField(
+                        max_length=50,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                code="invalid_reference",
+                                message="Reference number should be numbers-numbers",
+                                regex="^[0-9-]*$",
+                            )
+                        ],
+                    ),
+                ),
+                ("price", models.FloatField(max_length=20)),
+                ("unpaid", models.FloatField(max_length=20)),
+                ("creation_date", models.DateTimeField()),
+                ("update_date", models.DateTimeField()),
+                (
+                    "student",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+        ),
     ]

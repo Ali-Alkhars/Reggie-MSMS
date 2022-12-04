@@ -1,17 +1,17 @@
 {% extends 'partials/center_card.html' %}
 {% block content %}
 
-<h1 class = "home_title mt-2">MSMS</h1>
+<h1 class = "main_title mt-2">MSMS</h1>
 <p class = "home_description">Learn to play an instrument!</p>
 <p>
-    <a href='{% url 'log_in' %}' class="btn home_button btn-lg btn-secondary">
+    <a href='{% url 'log_in' %}' class="btn btn-lg btn-primary">
         Log in
     </a>
 </p>
 
 <p>
-    <a href  = '{% url 'register' %}' class="btn home_button btn-lg btn-secondary mb=2">
-        Sign up
+    <a href  = '{% url 'register' %}' class="btn btn-lg btn-primary">
+        Register as a student
     </a>
 </p>
 

@@ -1,14 +1,15 @@
-{% extends 'partials/center_card.html' %}
-{% block content %}
+{% extends 'partials/registration_form.html' %}
 
-<h1 class="mt-2">
-    Log in
-</h1>
-
-<form action="{%url 'log_in' %}" method="post">
-    {% csrf_token %}
-    {% include 'partials/bootstrap_form.html' with form=form %}
-    <input type="submit" value="Log in" class="btn btn-primary">
-
-
+{% block title %}
+Log in to MSMS
 {% endblock %}
+
+{% block thisForm %}
+    <form action="{% url 'log_in' %}" method="post">
+    <input type="hidden" name="next" value="{{ next }}">
+{% endblock %}
+
+{% block submitButton %}
+    <input type="submit" value="Log in" class="btn btn-primary">
+{% endblock %}
+
