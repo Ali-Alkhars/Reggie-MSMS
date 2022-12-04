@@ -70,6 +70,43 @@ def log_out(request):
     logout(request)
     return redirect('main')
 
+"""
+A view for all users to edit their account details
+"""
+@login_required
+def edit_account(request, action):
+    edit_logins_form = EditLoginsForm(instance=request.user)
+    edit_password_form = EditPasswordForm()
+
+    if request.method == 'POST':
+        # User chose to update their login info
+        if action == 'logins':
+            edit_logins_form = EditLoginsForm(instance=request.user, data=request.POST)
+            if edit_logins_form.is_valid():
+                messages.add_message(request, messages.SUCCESS, "Your login information has been updated!")
+                edit_logins_form.save()
+                return redirect('edit_account', 'None')
+
+        # User chose to update their password
+        elif action == 'password':
+            edit_password_form = EditPasswordForm(data=request.POST)
+            if edit_password_form.is_valid():
+                current_password = edit_password_form.cleaned_data.get('current_password')
+                if check_password(current_password, request.user.password):
+                    new_password = edit_password_form.cleaned_data.get('new_password')
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    login(request, request.user)
+                    messages.add_message(request, messages.SUCCESS, "Your password has been updated!")
+                    return redirect('edit_account', 'None')
+
+        # User is done editing
+        else:
+            return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
+
+    return render(request, 'edit_account.html', {'logins_form': edit_logins_form, 'password_form': edit_password_form})
+
+
 @login_required
 def bookings(request):
     return render(request, 'bookings.html')

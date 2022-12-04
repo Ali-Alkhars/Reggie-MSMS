@@ -1,0 +1,45 @@
+{% extends 'partials/navbar.html' %}
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-12">
+
+        <h1>
+        {% block loginsTitle %}{% endblock  %}
+        </h1>
+
+        {% block loginsForm %}{% endblock  %}
+            {% csrf_token %}
+            {% include 'partials/bootstrap_form.html' with form=logins_form %}
+            <input type="submit" value="Update logins" class="btn btn-primary">
+        </form>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+
+        <h1>
+        {% block passwordTitle %}{% endblock %}
+        </h1>
+
+        {% block passwordForm %}{% endblock %}
+            {% csrf_token %}
+            {% include 'partials/bootstrap_form.html' with form=password_form %}
+            <input type="submit" value="Update password" class="btn btn-primary">
+        </form>
+
+    </div>
+  </div>
+
+  <div class="col text-center">
+    {% block doneForm %}{% endblock %}
+      {% csrf_token %}
+      <input type="submit" value="Done editing" class="btn btn-secondary">
+    </form>
+  </div>
+
+</div>
+{% endblock %}
