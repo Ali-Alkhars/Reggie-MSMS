@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        {% if messages %}
+        <ul class="messages">
+            {% for msg in messages %}
+            {{ msg }}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <table>
+            <tr>
+                <th>student_id</th>
+                <th>Available days</th>
+                <th>Availble times</th>
+                <th>Number of lessons</th>
+                <th>Interval</th>
+                <th>Lesson duration</th>
+                <th>Learning objectives</th>
+                <th>Notes</th>
+                <th>Request status</th>
+            </tr>
+            {% for form in object_list %}
+            <tr>
+                <td>{{form.student.username}}</td>
+                <td>{{form.availableDays}}</td>
+                <td>{{form.availableTimes}}</td>
+                <td>{{form.numberOfLessons}}</td>
+                <td>{{form.IntervalBetweenLessons}}</td>
+                <td>{{form.DurationOfLesson}}</td>
+                <td>{{form.LearningObjectives}}</td>
+                <td>{{form.AdditionalNotes}}</td>
+                <td>{{form.Fulfilled}}</td>
+                {% if user.isStudent %}
+                {% if form.Fulfilled == "Pending" %}
+                <td><a href="{% url 'lesson_request_update' form.id %}">Edit</a></td>
+                <td><a href="{% url 'lesson_request_delete' form.id%}">Delete</a></td>
+                {% endif %}
+                {% endif %}
+                {% if user.isStudent == False %}
+                <td><a href="{% url 'lesson_request_update' form.id %}">Edit</a></td>
+                <td><a href="{% url 'lesson_request_delete' form.id%}">Delete</a></td>
+                {% if form.Fulfilled == "Pending" %}
+                <td><a href="{% url 'lesson_request_approve' form.id %}">Approve</a></td>
+                <td><a href="{% url 'lesson_request_deny' form.id%}">Deny</a></td>
+                {% endif %}
+                {% endif %}
+                
+            </tr>
+            {% endfor %}
+        </table>
+        
+        {% if user.isStudent %}
+        <p><a href='{%url 'lesson_request' %}' class="btn btn-lg btn-secondary"><button>Request a new lesson</button></a></p>
+        {% endif %}
+    </body>
+</html>

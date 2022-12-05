@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator, MaxValueValidator
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 class User(AbstractUser):
@@ -37,6 +38,58 @@ class User(AbstractUser):
         if not self.groups.exists():
             return False
         return self.groups.all()[0].name == 'director'
+
+
+WEEKDAY_CHOICES = [
+    ('Monday', 'Monday'),
+    ('Tuesday', 'Tuesday'),
+    ('Wednesday', 'Wednesday'),
+    ('Thursday', 'Thursday'),
+    ('Friday', 'Friday'),
+]
+
+TIME_CHOICES = [
+    ('Morning', 'Morning'),
+    ('Afternoon', 'Afternoon'),
+    ('Night', 'Night'),
+]
+
+VALUE_CHOICES = [
+    (15, '15 minutes'),
+    (30, '30 minutes'),
+    (45, '45 minutes'),
+    (60, '60 minutes'),
+    (75, '75 minutes'),
+    (90, '90 minutes'),
+    (105, '105 minutes'),
+    (120, '120 minutes'),
+]
+
+# Make sure values are not non-zero
+def validate_nonzero(value):
+    if (value <= 0):
+        raise ValidationError(
+            ('%(value) is not allowed'),
+            params={'value':value},
+        )
+
+
+class Lesson_request(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    availableDays = models.CharField(max_length=100, blank=False, choices=WEEKDAY_CHOICES)
+    availableTimes = models.CharField(max_length=255, blank=False, choices=TIME_CHOICES)
+    numberOfLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero])
+    IntervalBetweenLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero])
+    DurationOfLesson = models.PositiveIntegerField(blank = False, validators=[validate_nonzero], choices=VALUE_CHOICES)
+    LearningObjectives = models.TextField(blank=False)
+    AdditionalNotes = models.TextField(blank=True)
+    Fulfilled = models.CharField(max_length=50, blank=False, default='Pending')
+
+    def getWeekdays_choices():
+        return WEEKDAY_CHOICES
+    
+    def getTime_choices():
+        return TIME_CHOICES
 
 class Invoice(models.Model):
     """Invoice model used to create invoices of bank transfers for the lesson payments"""

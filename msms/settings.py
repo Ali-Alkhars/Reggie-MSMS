@@ -44,8 +44,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -143,3 +143,5 @@ REDIRECT_URL_WHEN_LOGGED_IN = 'home'
 
 # Login URL for redirecting users from login protected views
 LOGIN_URL = 'log_in'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
