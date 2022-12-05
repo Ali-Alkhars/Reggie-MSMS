@@ -41,8 +41,12 @@
                 {% endif %}
                 {% endif %}
                 {% if user.isStudent == False %}
+                <td><a href="{% url 'lesson_request_update' form.id %}">Edit</a></td>
+                <td><a href="{% url 'lesson_request_delete' form.id%}">Delete</a></td>
+                {% if form.Fulfilled == "Pending" %}
                 <td><a href="{% url 'lesson_request_approve' form.id %}">Approve</a></td>
                 <td><a href="{% url 'lesson_request_deny' form.id%}">Deny</a></td>
+                {% endif %}
                 {% endif %}
                 
             </tr>
