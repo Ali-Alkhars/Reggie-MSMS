@@ -24,7 +24,6 @@ def get_user_group(request):
         raise Exception("User groups do not exist. Try running 'python3 manage.py create_user_groups'")
 
     for key in USER_GROUPS.keys():
-        print(key+"\n")
         if key == request.user.groups.all()[0].name:
             return key
 

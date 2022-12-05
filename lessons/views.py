@@ -20,12 +20,9 @@ Request a lesson
 def lesson_request(request):
     if request.method == "POST":
         form = LessonRequestForm(request.POST)
-        if (userOrAdmin(request)):
-            field = form.fields['Fulfilled']
-            field.widget = field.hidden_widget()
-            form.fields['Fulfilled'].disabled = True
         if form.is_valid():
             form_to_be_submitted = form.save(commit=False)
+            form_to_be_submitted.Fulfilled = "Pending"
             form_to_be_submitted.student = request.user
             form_to_be_submitted.save()
             return redirect("lesson_page")
@@ -37,33 +34,27 @@ def lesson_request(request):
 Check all the requests and bookings of lessons
 """
 @login_required
-@permitted_groups(['student', 'admin', 'director'])
 def lesson_page(request):
     isStudent = userOrAdmin(request)
     if (isStudent):
         user_lessons = Lesson_request.objects.filter(student=request.user)
         count = Lesson_request.objects.filter(student=request.user).count()
         request.session['countOfTable'] = count
-        data = {'object_list': user_lessons, 'count': count, 'currentUser': isStudent}
+        data = {'object_list': user_lessons}
     else:
         count = Lesson_request.objects.all().count()
         request.session['countOfTable'] = count
-        data = {'object_list': Lesson_request.objects.all(), 'count': count, 'currentUser': isStudent}
+        data = {'object_list': Lesson_request.objects.all()}
     return render(request, "lesson_page.html", data)
 
 """
 Update a particular lesson request
 """
 @login_required
-@permitted_groups(['student', 'admin', 'director'])
 def lesson_request_update(request, id):
     lesson_request = Lesson_request.objects.get(id=id)
     if request.method == 'POST':
         form = LessonRequestForm(request.POST, instance=lesson_request)
-        if (userOrAdmin(request)):
-            field = form.fields['Fulfilled']
-            field.widget = field.hidden_widget()
-            form.fields['Fulfilled'].disabled = True
         if form.is_valid():
             form.save()
             return redirect('lesson_page')
@@ -75,7 +66,6 @@ def lesson_request_update(request, id):
 Delete a particular lesson request
 """
 @login_required
-@permitted_groups(['student', 'admin', 'director'])
 def lesson_request_delete(request, id):
     lesson_request = Lesson_request.objects.get(id=id)
 
@@ -84,7 +74,24 @@ def lesson_request_delete(request, id):
         return redirect('lesson_page')
     return render(request, 'lesson_request_delete.html', {'lesson_request': lesson_request})
 
+"""
+Approve a particular lesson request
+"""
+@login_required
+@permitted_groups(['admin', 'director'])
+def lesson_request_approve(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+    lesson_request.Fulfilled = "Approved"
+    lesson_request.save(update_fields=['Fulfilled'])
+    return redirect('lesson_page')
 
+@login_required
+@permitted_groups(['admin', 'director'])
+def lesson_request_deny(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+    lesson_request.Fulfilled = "Denied"
+    lesson_request.save(update_fields=['Fulfilled'])
+    return redirect('lesson_page')
 
 """
 The home page that users see when they log in
