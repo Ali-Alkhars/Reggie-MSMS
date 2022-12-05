@@ -41,6 +41,7 @@
             <span class="bi-person-circle"style="margin-right:25%;"></span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown">
+            <li><a class="dropdown-item" href="{% url 'edit_account' 'None' %}">Edit account</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'log_out' %}">Log out</a></li>
           </ul>

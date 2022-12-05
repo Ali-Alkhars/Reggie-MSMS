@@ -142,7 +142,7 @@ class EditAdminViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'edit_admin.html')
         form = response.context['password_form']
         self.assertTrue(isinstance(form, EditPasswordForm))
-        self.user.refresh_from_db()
+        self.peter.refresh_from_db()
         is_password_correct = check_password('Password123', self.peter.password)
         self.assertTrue(is_password_correct)
 
@@ -158,7 +158,7 @@ class EditAdminViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'edit_admin.html')
         form = response.context['password_form']
         self.assertTrue(isinstance(form, EditPasswordForm))
-        self.user.refresh_from_db()
+        self.peter.refresh_from_db()
         is_password_correct = check_password('Password123', self.peter.password)
         self.assertTrue(is_password_correct)
 
@@ -173,6 +173,20 @@ class EditAdminViewTestCase(TestCase):
     def test_get_edit_admin_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next(settings.LOGIN_URL, self.url)
         response = self.client.get(self.url)
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+
+    def test_post_edit_admin_password_redirects_when_not_logged_in(self):
+        self.url = reverse('edit_admin', kwargs={'action': 'password', 'user_id': self.peter.id})
+        redirect_url = reverse_with_next(settings.LOGIN_URL, self.url)
+        response = self.client.post(self.url, self.password_form_input)
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        is_password_correct = check_password('Password123', self.user.password)
+        self.assertTrue(is_password_correct)
+
+    def test_post_edit_admin_logins_redirects_when_not_logged_in(self):
+        self.url = reverse('edit_admin', kwargs={'action': 'logins', 'user_id': self.peter.id})
+        redirect_url = reverse_with_next(settings.LOGIN_URL, self.url)
+        response = self.client.post(self.url, self.logins_form_input)
         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
 
     def test_logged_out_director_cannot_access_edit_admin(self):
