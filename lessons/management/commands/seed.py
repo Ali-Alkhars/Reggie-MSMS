@@ -3,15 +3,28 @@ from faker import Faker
 from lessons.models import Invoice, User
 from django.contrib.auth.models import Group
 from django.utils import timezone
+from django.db.utils import IntegrityError 
 
 
 class Command(BaseCommand):
+    PASSWORD = "Password123"
+    USER_COUNT = 100
+
     def __init__(self):
         super().__init__()
         self.faker = Faker('en_GB')
         self.student = None
 
     def handle(self, *args, **options):
+        user_count = 0
+        while user_count < Command.USER_COUNT:
+            print(f'Seeding user {user_count}',  end='\r')
+            try:
+                self._create_student()
+            except (IntegrityError):
+                continue
+            user_count += 1
+        print('User seeding complete')
         self.student = self._create_student()
         self._create_director()
         self._create_invoices()
@@ -54,7 +67,7 @@ class Command(BaseCommand):
     def _create_student(self):
         first_name = self.faker.first_name()
         last_name = self.faker.last_name()
-        username = 'student@invoice.com'
+        username = self._username(first_name, last_name)
         user = User.objects.create_user(
             username,
             first_name=first_name,
@@ -81,3 +94,7 @@ class Command(BaseCommand):
     def _email(self, first_name, last_name):
         email = f'{first_name}.{last_name}@example.org'
         return email
+
+    def _username(self, first_name, last_name):
+        username = f'{first_name}{last_name}@example.org'
+        return username
