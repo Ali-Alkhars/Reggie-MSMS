@@ -1,4 +1,4 @@
-from lessons.models import User
+from lessons.models import Invoice, User
 from django.contrib.auth.models import Group
 from django.utils import timezone
 
@@ -89,3 +89,19 @@ def record_payment(paid, invoice):
     invoice.unpaid -= paid
     invoice.update_date = timezone.now()
     invoice.save()
+
+"""
+A helper function which creates an invoice from a given student and lesson
+"""
+def create_invoice(lesson, student):
+    lesson_price = lesson.numberOfLessons * lesson.DurationOfLesson
+
+    Invoice.objects.create (
+            reference= f"{student.id}-{lesson.id}",
+            price= lesson_price,
+            unpaid= lesson_price,
+            creation_date= timezone.now(),
+            update_date= timezone.now(),
+            student= student,
+            lesson= lesson
+        )
