@@ -118,8 +118,8 @@ class Invoice(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
 
 class TermTime(models.Model):
-    startDate = models.DateField(help_text="Enter a date after now", blank=False)
-    endDate = models.DateField(help_text="Enter a date after now and after start date", blank=False)
-    midTerm = models.DateField(blank=False)
+    startDate = models.DateField(help_text="Enter a date after now", blank=False, unique = True)
+    endDate = models.DateField(help_text="Enter a date after now and after start date", blank=False, unique=True)
+    midTerm = models.DateField(blank=False, default="2020-01-01")
     termOrder = models.CharField(max_length=100, blank=False, choices=TERM_ORDER, default="First Term")
 

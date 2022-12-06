@@ -12,11 +12,15 @@
         <td>{{term.startDate}}</td>
         <td>{{term.endDate}}</td>
         <td>{{term.midTerm}}</td>
+        {% if user.isStudent == False %}
         <td><a href="{% url 'term_time_update' term.id %}">Edit</a></td>
+        {% endif %}
     </tr>
     {% endfor %}
     {% if count < 2 %}
+    {% if user.isStudent == False %}
     <p><a href='{%url 'term_create' %}' class="btn btn-lg btn-secondary"><button>Create a new term</button></a></p>
+    {% endif %}
     {% endif %}
 </table>
 

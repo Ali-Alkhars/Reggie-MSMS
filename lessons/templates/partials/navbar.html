@@ -26,6 +26,12 @@
       </li>
     </ul>
 
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+          <a class="nav-link" href="{% url 'term_time' %}">Terms</a>
+      </li>
+    </ul>
+
     {% if user.isDirector %}
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">

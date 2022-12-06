@@ -53,23 +53,18 @@ class NewTermForm(forms.ModelForm):
             if (TermTime.objects.all().count() != 0):
                 if (termOrderUsed == "First term"):
                     try:
-                        object = TermTime.objects.get(termOrder="Second term")
+                        object = TermTime.objects.filter(termOrder="Second term")[0]
                         if (object.startDate < enddate):
                             self.add_error('endDate', 'The term must not overlap')
-                    except ObjectDoesNotExist:
+                    except IndexError:
                         pass   
                 else:
                     try: 
-                        object = TermTime.objects.get(termOrder="First term")
+                        object = TermTime.objects.filter(termOrder="First term")[0]
                         if (object.endDate > startdate):
                             self.add_error('startDate', 'The term must not overlap')
-                    except ObjectDoesNotExist:
+                    except IndexError:
                         pass
-
-        if (TermTime.objects.filter(termOrder=termOrderUsed).count() != 0):
-            if (TermTime.objects.all().count() < 2):
-                raise forms.ValidationError("There should only be one term1 and one term2")
-        
 
 # This is just a placeholder form
 class LogInForm(forms.Form):
