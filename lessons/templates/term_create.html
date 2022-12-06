@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Term create page</title>
+    </head>
+    <body>
+        <h1>Here is the term create page</h1>
+        <h2>Please create the Term here.</h2>
+        <form action="{%url 'term_create' %}" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Submit lesson"> 
+        </form>
+    </body>
+</html>

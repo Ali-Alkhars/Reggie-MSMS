@@ -1,8 +1,12 @@
 """Forms for the MSMS app"""
 from django import forms
 from django.core.validators import RegexValidator
-from lessons.models import User, Lesson_request
+from lessons.models import User, Lesson_request, TermTime
 from django.contrib.auth.models import Group
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+import datetime
+
 
 # Request form for the lesson
 class LessonRequestForm(forms.ModelForm):
@@ -23,6 +27,49 @@ class LessonRequestForm(forms.ModelForm):
             "AdditionalNotes": forms.Textarea()
         }
 
+class NewTermForm(forms.ModelForm):
+    """Form enabling admins and directors to register term time"""
+    startDate = forms.DateField(input_formats = settings.DATE_INPUT_FORMATS, label='Please follow format: yyyy-mm-dd')
+    endDate = forms.DateField(input_formats = settings.DATE_INPUT_FORMATS, label='Please follow format: yyyy-mm-dd')
+    class Meta:
+        model = TermTime
+        fields = ["termOrder"]   
+        if (TermTime.objects.all().count() == 2):
+            widgets = {'termOrder': forms.HiddenInput(),}
+    
+    def clean(self):
+        super().clean()
+        startdate = self.cleaned_data.get('startDate')
+        enddate = self.cleaned_data.get('endDate')
+        termOrderUsed = self.cleaned_data.get("termOrder")
+        
+        if (startdate is not None and enddate is not None): 
+            if enddate <= startdate:
+                raise forms.ValidationError("End date should be greater than start date")     
+            if abs((enddate - startdate).days) < 90:
+                self.add_error('endDate', 'The term should be at least 90 days long.')
+    
+        if (startdate is not None and enddate is not None):
+            if (TermTime.objects.all().count() != 0):
+                if (termOrderUsed == "First term"):
+                    try:
+                        object = TermTime.objects.get(termOrder="Second term")
+                        if (object.startDate < enddate):
+                            self.add_error('endDate', 'The term must not overlap')
+                    except ObjectDoesNotExist:
+                        pass   
+                else:
+                    try: 
+                        object = TermTime.objects.get(termOrder="First term")
+                        if (object.endDate > startdate):
+                            self.add_error('startDate', 'The term must not overlap')
+                    except ObjectDoesNotExist:
+                        pass
+
+        if (TermTime.objects.filter(termOrder=termOrderUsed).count() != 0):
+            if (TermTime.objects.all().count() < 2):
+                raise forms.ValidationError("There should only be one term1 and one term2")
+        
 
 # This is just a placeholder form
 class LogInForm(forms.Form):

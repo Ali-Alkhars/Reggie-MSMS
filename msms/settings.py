@@ -145,3 +145,7 @@ REDIRECT_URL_WHEN_LOGGED_IN = 'home'
 LOGIN_URL = 'log_in'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+DATE_INPUT_FORMATS = ["%Y-%m-%d"]
+
+USE_L10N = False

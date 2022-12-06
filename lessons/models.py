@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator, MaxValueValidator
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from datetime import datetime
 
 class User(AbstractUser):
     """User model used for creating different users in the MSMS."""
@@ -65,6 +66,11 @@ VALUE_CHOICES = [
     (120, '120 minutes'),
 ]
 
+TERM_ORDER = [
+    ('First term', 'First term'),
+    ('Second term', 'Second term'),
+]
+
 # Make sure values are not non-zero
 def validate_nonzero(value):
     if (value <= 0):
@@ -110,3 +116,10 @@ class Invoice(models.Model):
     creation_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
     update_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
+
+class TermTime(models.Model):
+    startDate = models.DateField(help_text="Enter a date after now", blank=False)
+    endDate = models.DateField(help_text="Enter a date after now and after start date", blank=False)
+    midTerm = models.DateField(blank=False)
+    termOrder = models.CharField(max_length=100, blank=False, choices=TERM_ORDER, default="First Term")
+

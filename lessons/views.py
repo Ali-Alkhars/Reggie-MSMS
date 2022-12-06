@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from .forms import LessonRequestForm, LogInForm, NewLessonForm, RegisterForm, EditLoginsForm, EditPasswordForm
-from .models import Lesson_request, User
+from .forms import LessonRequestForm, LogInForm, NewLessonForm, RegisterForm, EditLoginsForm, EditPasswordForm, NewTermForm
+from .models import Lesson_request, User, TermTime
 from django.contrib import messages
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
@@ -92,6 +92,48 @@ def lesson_request_deny(request, id):
     lesson_request.Fulfilled = "Denied"
     lesson_request.save(update_fields=['Fulfilled'])
     return redirect('lesson_page')
+
+@login_required
+@permitted_groups(['admin', 'director'])
+def term_create(request):
+    if request.method == "POST":
+        form = NewTermForm(request.POST)
+        if form.is_valid():
+            form_to_be_submitted = form.save(commit = False)
+            start_date = form.cleaned_data.get('startDate')
+            end_date = form.cleaned_data.get('endDate')
+            # form_to_be_submitted.midTerm = "2023-01-01"
+            mid_date = start_date + (end_date - start_date) / 2
+            form_to_be_submitted.midTerm = mid_date
+            form_to_be_submitted.startDate = start_date
+            form_to_be_submitted.endDate = end_date
+            form_to_be_submitted.save()
+            return redirect("term_time")
+    else:
+        form = NewTermForm(request.POST)
+    return render(request, "term_create.html", {"form":form})
+
+@login_required
+@permitted_groups(['admin', 'director'])
+def term_time_update(request, id):
+    term_time_request = TermTime.objects.get(id=id)
+    if request.method == 'POST':
+        form = NewTermForm(request.POST, instance=term_time_request)
+        form.fields['termOrder'].disabled = True
+        if form.is_valid():
+            form.save()
+            return redirect('term_time')
+    else:
+        form = NewTermForm(instance=term_time_request)
+    return render(request, 'term_time_update.html', {"form": form})
+
+@login_required
+@permitted_groups(['admin', 'director'])
+def term_time(request):
+    count = TermTime.objects.all().count()
+    data = {'object_list': TermTime.objects.all(), 'count': count}
+    return render(request, "term_time.html", data)
+
 
 """
 The home page that users see when they log in

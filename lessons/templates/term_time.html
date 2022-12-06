@@ -1,0 +1,22 @@
+<h1>Welcome to list of term times</h1>
+<table>
+    <tr>
+        <th>term</th>
+        <th>start date</th>
+        <th>end date</th>
+        <th>mid term date</th>
+    </tr>
+    {% for term in object_list %}
+    <tr>
+        <td>{{term.termOrder}}</td>
+        <td>{{term.startDate}}</td>
+        <td>{{term.endDate}}</td>
+        <td>{{term.midTerm}}</td>
+        <td><a href="{% url 'term_time_update' term.id %}">Edit</a></td>
+    </tr>
+    {% endfor %}
+    {% if count < 2 %}
+    <p><a href='{%url 'term_create' %}' class="btn btn-lg btn-secondary"><button>Create a new term</button></a></p>
+    {% endif %}
+</table>
+
