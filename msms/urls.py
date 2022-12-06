@@ -41,4 +41,10 @@ urlpatterns = [
     path('student_invoices/<int:user_id>', views.student_invoices, name='student_invoices'),
     path('students_list/', views.students_list, name='students_list'),
     path('pay_invoice/<reference>', views.pay_invoice, name='pay_invoice'),
+
+    # Terms
+    path('terms/', views.list_terms, name='terms'),
+    path('terms/add/', views.add_term, name='add_term'),
+    path('terms/<id>/edit/', views.edit_term, name='edit_term'),
+    path('terms/<id>/delete/', views.delete_term, name='delete_term'),
 ]

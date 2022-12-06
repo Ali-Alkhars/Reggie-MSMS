@@ -1,0 +1,43 @@
+{% extends 'partials/navbar.html' %}
+{% block content %}
+
+<div class="container container_padding_and_margin vh-90">
+    <h2 class = "mt-2">Manage Terms:</h2>
+    <p>You can create, edit and remove the terms for student lessons here.</p>
+
+        <!--Placeholder table -->
+        <div class="bookings_table add_bottom_margin">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+                <!--Add current bookings here-->
+                <tbody>
+                {% for row in dataset %}
+                    <tr>
+                        <th scope="row">Term {{ row.termID }}</th>
+                        <td>{{ row.startDate }}</td>
+                        <td>{{ row.endDate }}</td>
+                        <td>
+                            <a href  = '{% url 'edit_term' id=row.termID %}' class="btn mb-2 btn-sm btn-secondary mb=2">Edit</a>
+                            <a href  = '{% url 'delete_term' id=row.termID %}' class="btn mb-2 btn-sm btn-secondary mb=2">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <a href  = '{% url 'add_term' %}' class="btn mb-2 home_button btn-lg btn-secondary mb=2">
+            Add
+        </a>
+    </div>
+
+    {% endblock %}
