@@ -1,11 +1,12 @@
 {% extends 'partials/center_card.html' %}
 {% block content %}
 
+    {% include 'partials/messages.html' %}
 
-        <h1>
+    <h1>
         {% block title %}
         {% endblock %}
-        </h1>
+    </h1>
 
     {% block thisForm %}{% endblock %}
         {% csrf_token %}
