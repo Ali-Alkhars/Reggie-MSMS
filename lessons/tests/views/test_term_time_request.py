@@ -7,9 +7,8 @@ from lessons.management.commands.create_user_groups import Command
 from lessons.tests.helpers import reverse_with_next
 from django.conf import settings
 from lessons.forms import NewTermForm
-import datetime
 
-class LessonPageUpdateTestCase(TestCase):
+class TermTimeRequestTestCase(TestCase):
     """Unit tests for the term time update page"""
     fixtures = [
             'lessons/tests/fixtures/default_user.json',

@@ -3,7 +3,6 @@ from django.core.validators import RegexValidator, MaxValueValidator
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from datetime import datetime
 
 class User(AbstractUser):
     """User model used for creating different users in the MSMS."""

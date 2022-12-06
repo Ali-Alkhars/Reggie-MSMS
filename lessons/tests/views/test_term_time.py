@@ -8,7 +8,7 @@ from lessons.tests.helpers import reverse_with_next
 from django.conf import settings
 from lessons.forms import NewTermForm
 
-class LessonPageTestCase(TestCase):
+class TermTimePageTestCase(TestCase):
     """Unit tests for the term time showing page"""
     fixtures = [
             'lessons/tests/fixtures/default_user.json',
