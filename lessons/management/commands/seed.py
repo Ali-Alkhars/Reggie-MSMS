@@ -25,6 +25,7 @@ class Command(BaseCommand):
                 continue
             user_count += 1
         print('User seeding complete')
+        
         self.student = self._create_student()
         self._create_director()
         self._create_invoices()
