@@ -1,9 +1,30 @@
 """Forms for the MSMS app"""
 from django import forms
 from django.core.validators import RegexValidator
-from lessons.models import User
+from lessons.models import User, Lesson_request
 from django.contrib.auth.models import Group
 
+# Request form for the lesson
+class LessonRequestForm(forms.ModelForm):
+    class Meta:
+        model = Lesson_request
+        fields = ["availableDays", "availableTimes", "numberOfLessons", "IntervalBetweenLessons", "DurationOfLesson", "LearningObjectives", "AdditionalNotes"]
+        labels = {
+            'availableDays': "Choose a day: ",
+            'availableTimes': "Choose a time: ",
+            'numberOfLessons': "Number of lessons desired: ",
+            'IntervalBetweenLessons': "Interval between lessons (In weeks): ",
+            'DurationOfLesson': "Duration of lesson (In minutes): ",
+            'LearningObjectives': "What do you want to learn? ",
+            'AdditionalNotes': "Additional notes/comments: " 
+        }
+        widget = {
+            "LearningObjectives": forms.Textarea(),
+            "AdditionalNotes": forms.Textarea()
+        }
+
+
+# This is just a placeholder form
 class LogInForm(forms.Form):
     username = forms.EmailField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())

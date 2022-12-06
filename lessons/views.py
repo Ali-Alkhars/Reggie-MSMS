@@ -1,14 +1,97 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from lessons.forms import LogInForm, NewLessonForm, RegisterForm, EditLoginsForm, EditPasswordForm
-from django.contrib.auth.hashers import check_password
-from django.contrib.auth import authenticate, login, logout
+from .forms import LessonRequestForm, LogInForm, NewLessonForm, RegisterForm, EditLoginsForm, EditPasswordForm
+from .models import Lesson_request, User
+from django.contrib import messages
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
+from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, userOrAdmin
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate, login, logout
 from lessons.models import Invoice, User
 from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, record_payment
 from django.contrib import messages
 
+"""
+Request a lesson 
+"""
+@login_required
+@permitted_groups(['student'])
+def lesson_request(request):
+    if request.method == "POST":
+        form = LessonRequestForm(request.POST)
+        if form.is_valid():
+            form_to_be_submitted = form.save(commit=False)
+            form_to_be_submitted.Fulfilled = "Pending"
+            form_to_be_submitted.student = request.user
+            form_to_be_submitted.save()
+            return redirect("lesson_page")
+    else:
+        form = LessonRequestForm()
+    return render(request, "lesson_request.html", {"form":form})
+
+"""
+Check all the requests and bookings of lessons
+"""
+@login_required
+def lesson_page(request):
+    isStudent = userOrAdmin(request)
+    if (isStudent):
+        user_lessons = Lesson_request.objects.filter(student=request.user)
+        count = Lesson_request.objects.filter(student=request.user).count()
+        request.session['countOfTable'] = count
+        data = {'object_list': user_lessons}
+    else:
+        count = Lesson_request.objects.all().count()
+        request.session['countOfTable'] = count
+        data = {'object_list': Lesson_request.objects.all()}
+    return render(request, "lesson_page.html", data)
+
+"""
+Update a particular lesson request
+"""
+@login_required
+def lesson_request_update(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+    if request.method == 'POST':
+        form = LessonRequestForm(request.POST, instance=lesson_request)
+        if form.is_valid():
+            form.save()
+            return redirect('lesson_page')
+    else:
+        form = LessonRequestForm(instance=lesson_request)
+    return render(request, 'lesson_request_update.html', {"form": form})
+
+"""
+Delete a particular lesson request
+"""
+@login_required
+def lesson_request_delete(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+
+    if request.method == 'POST':
+        lesson_request.delete()
+        return redirect('lesson_page')
+    return render(request, 'lesson_request_delete.html', {'lesson_request': lesson_request})
+
+"""
+Approve a particular lesson request
+"""
+@login_required
+@permitted_groups(['admin', 'director'])
+def lesson_request_approve(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+    lesson_request.Fulfilled = "Approved"
+    lesson_request.save(update_fields=['Fulfilled'])
+    return redirect('lesson_page')
+
+@login_required
+@permitted_groups(['admin', 'director'])
+def lesson_request_deny(request, id):
+    lesson_request = Lesson_request.objects.get(id=id)
+    lesson_request.Fulfilled = "Denied"
+    lesson_request.save(update_fields=['Fulfilled'])
+    return redirect('lesson_page')
 
 """
 The home page that users see when they log in
@@ -70,6 +153,43 @@ def log_out(request):
     logout(request)
     return redirect('main')
 
+"""
+A view for all users to edit their account details
+"""
+@login_required
+def edit_account(request, action):
+    edit_logins_form = EditLoginsForm(instance=request.user)
+    edit_password_form = EditPasswordForm()
+
+    if request.method == 'POST':
+        # User chose to update their login info
+        if action == 'logins':
+            edit_logins_form = EditLoginsForm(instance=request.user, data=request.POST)
+            if edit_logins_form.is_valid():
+                messages.add_message(request, messages.SUCCESS, "Your login information has been updated!")
+                edit_logins_form.save()
+                return redirect('edit_account', 'None')
+
+        # User chose to update their password
+        elif action == 'password':
+            edit_password_form = EditPasswordForm(data=request.POST)
+            if edit_password_form.is_valid():
+                current_password = edit_password_form.cleaned_data.get('current_password')
+                if check_password(current_password, request.user.password):
+                    new_password = edit_password_form.cleaned_data.get('new_password')
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    login(request, request.user)
+                    messages.add_message(request, messages.SUCCESS, "Your password has been updated!")
+                    return redirect('edit_account', 'None')
+
+        # User is done editing
+        else:
+            return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
+
+    return render(request, 'edit_account.html', {'logins_form': edit_logins_form, 'password_form': edit_password_form})
+
+
 @login_required
 def bookings(request):
     return render(request, 'bookings.html')
@@ -118,6 +238,7 @@ def admin_actions(request, action, user_id):
 
     if action == 'promote':
         promote_admin_to_director(user_id)
+        messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to a director!")
 
     elif action == 'edit':

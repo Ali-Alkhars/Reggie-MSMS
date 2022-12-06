@@ -75,6 +75,14 @@ def get_user_full_name(user_id):
     return f"{user.first_name} {user.last_name}"
 
 """
+A helper function that checks if the user is student or not
+"""
+def userOrAdmin(request):
+    if (get_user_group(request) == 'student'):
+        return True
+    return False
+
+"""
 A helper function which records a payment made by a student
 """
 def record_payment(paid, invoice):

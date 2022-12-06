@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lesson request page</title>
+    </head>
+    <body>
+        <h1>Here is the lesson request page</h1>
+        <h2>Please request the lesson here.</h2>
+        <form action="{%url 'lesson_request' %}" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Submit lesson"> 
+        </form>
+    </body>
+</html>

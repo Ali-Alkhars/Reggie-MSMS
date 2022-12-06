@@ -1,0 +1,17 @@
+{% extends 'partials/edit_account_partial.html' %}
+
+{% block loginsTitle %}Edit your login details{% endblock %}
+
+{% block loginsForm %}
+<form action="{% url 'edit_account' 'logins' %}" method="post">
+{% endblock  %}
+
+{% block passwordTitle %}Edit password{% endblock %}
+
+{% block passwordForm %}
+<form action="{% url 'edit_account' 'password' %}" method="post">
+{% endblock %}
+
+{% block doneForm %}
+<form action="{% url 'edit_account' 'done' %}" method="post">
+{% endblock  %}

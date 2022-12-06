@@ -1,47 +1,17 @@
-{% extends 'partials/navbar.html' %}
-{% block content %}
-<div class="container container_padding_and_margin mt-3 mb-3 vh-90">
-    <div class="user-dashboard-info-box table-responsive mb-3 bg-white p-4 shadow-sm admin-card-borders">
+{% extends 'partials/edit_account_partial.html' %}
 
-  <div class="row">
-    <div class="col-12">
+{% block loginsTitle %}Edit admin's login details{% endblock %}
 
-        <h1>
-        Edit admin's login details
-        </h1>
+{% block loginsForm %}
+<form action="{% url 'edit_admin' 'logins' user_id %}" method="post">
+{% endblock  %}
 
-        <form action="{% url 'edit_admin' 'logins' user_id %}" method="post">
-            {% csrf_token %}
-            {% include 'partials/bootstrap_form.html' with form=logins_form %}
-            <input type="submit" value="Update logins" class="btn btn-primary">
-        </form>
+{% block passwordTitle %}Edit admin's password{% endblock %}
 
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-12">
-
-        <h1 class="mt-4">
-        Edit admin's account
-        </h1>
-
-        <form action="{% url 'edit_admin' 'password' user_id %}" method="post">
-            {% csrf_token %}
-            {% include 'partials/bootstrap_form.html' with form=password_form %}
-            <input type="submit" value="Update password" class="btn btn-primary">
-        </form>
-
-    </div>
-  </div>
-
-  <div class="col text-center">
-    <form action="{% url 'edit_admin' 'done' user_id %}" method="post">
-      {% csrf_token %}
-      <input type="submit" value="Done editing" class="btn btn-secondary">
-    </form>
-  </div>
-
-</div>
-</div>
+{% block passwordForm %}
+<form action="{% url 'edit_admin' 'password' user_id %}" method="post">
 {% endblock %}
+
+{% block doneForm %}
+<form action="{% url 'edit_admin' 'done' user_id %}" method="post">
+{% endblock  %}
