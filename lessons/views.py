@@ -5,7 +5,7 @@ from .models import Lesson_request, User, TermTime
 from django.contrib import messages
 from lessons.helpers.decorators import login_prohibited, permitted_groups
 from django.contrib.auth.decorators import login_required
-from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, userOrAdmin
+from lessons.helpers.helper_functions import promote_admin_to_director, delete_user, get_user_full_name, userOrAdmin, create_invoice
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from lessons.models import Invoice, User
@@ -83,8 +83,12 @@ def lesson_request_approve(request, id):
     lesson_request = Lesson_request.objects.get(id=id)
     lesson_request.Fulfilled = "Approved"
     lesson_request.save(update_fields=['Fulfilled'])
+    create_invoice(lesson_request, lesson_request.student)
     return redirect('lesson_page')
 
+"""
+Deny a particular lesson request
+"""
 @login_required
 @permitted_groups(['admin', 'director'])
 def lesson_request_deny(request, id):
@@ -147,8 +151,6 @@ The main landing page where users can sign-in or register as students
 @login_prohibited
 def main(request):
     return render(request, 'main.html')
-
-#The majority of these functions need overriding in some way (validation etc)
 
 """
 A page for students to register an account
@@ -279,7 +281,6 @@ def admin_actions(request, action, user_id):
 
     if action == 'promote':
         promote_admin_to_director(user_id)
-        messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to an admin!")
         messages.add_message(request, messages.SUCCESS, f"{get_user_full_name(user_id)} has been successfully promoted to a director!")
 
     elif action == 'edit':
