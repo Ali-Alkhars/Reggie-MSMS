@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Lesson request page</title>
-    </head>
-    <body>
-        <h1>Here is the lesson request page</h1>
-        <h2>Please request the lesson here.</h2>
+{% extends 'partials/navbar.html' %}
+{% block content %}
+
+<div class="container container_padding_and_margin mt-3 mb-3 vh-90">
+    <div class="user-dashboard-info-box table-responsive mb-3 bg-white p-4 shadow-sm admin-card-borders">
+<h1 class="mt-2">
+    Request a new lesson
+</h1>
+
         <form action="{%url 'lesson_request' %}" method="post">
             {% csrf_token %}
-            {{form}}
-            <input type="submit" value="Submit lesson"> 
+            {% include 'partials/bootstrap_form.html' with form=form %}
+            <input type="submit" value="Request" class="btn btn-primary">
         </form>
-    </body>
-</html>
+
+{% endblock %}

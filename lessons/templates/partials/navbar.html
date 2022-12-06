@@ -1,35 +1,13 @@
 <!--Standardized template for any content in a center card -->
 {% extends 'base.html' %}
 {% block body %}
-<!--<nav class="navbar navbar-expand navbar-dark py-lg-4" id="mainNav">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href='{% url 'home' %}'>Home</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href='{% url 'bookings' %}'>Bookings</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Products</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
-
-                    </ul>
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                          <a class="nav-link text-uppercase" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="bi-person-circle"style="margin-right:25%;"></span>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown">
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'log_out' %}">Log out</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                </div>
-        </nav>-->
 
 <nav class="navbar navbar-expand navbar-light bg-light">
     <a class="navbar-brand fw-bold" style="margin-left:1%;" href='{% url 'home' %}'><strong>MSMS</strong></a>
 
     <ul class="navbar-nav mr-auto mx-auto">
     <li class="nav-item active">
-      <a class="nav-link fw-bold text-uppercase" href='{% url 'bookings' %}' >Bookings</a>
+      <a class="nav-link fw-bold text-uppercase" href='{% url 'lesson_page' %}' >Bookings</a>
     </li>
 
 
@@ -43,11 +21,11 @@
       </li>
 
 
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+
+      <!-- <li class="nav-item active">
           <a class="nav-link" href="{% url 'lesson_page' %}">Lessons</a>
-      </li>
-    </ul>
+      </li> -->
+
 
     {% if user.isDirector %}
 

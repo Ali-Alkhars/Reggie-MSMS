@@ -14,19 +14,34 @@
                 </h3>
                 <h5>
                     To manage bookings, navigate to the bookings tab. There,
-                    you can create new bookings or view existing ones.
+                    you can view bookings {%if user.isStudent%}or create new ones{%endif%}
                 </h5>
+
+                {% if user.isStudent %}
+                <h5>
+                    You can also view your invoices by clicking My Invoices
+                </h5>
+                {% endif %}
+
+                {% if user.isAdmin %}
+                <h5>
+                    As an admin, you can click student invoices to manage
+                    invoices
+                </h5>
+                {% endif %}
+
+                {% if user.isDirector %}
+                <h5>
+                    As a director, in addition to managing student invoices,
+                    you can click manage admins to
+                    add, promote, or delete other admins
+                </h5>
+                {% endif %}
 
             </div>
 
         </div>
     </div>
 </div>
-
-<h2 class = "mt-2">Request a new lesson:</h2>
-<a href='{% url 'lesson_page' %}'>Lesson page</a>
-<a href='{% url 'lesson_request' %}' class="btn mb-2 home_button btn-lg btn-secondary mb=2">
-    Request
-</a>
 
 {% endblock %}

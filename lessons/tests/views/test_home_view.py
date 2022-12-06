@@ -21,19 +21,7 @@ class HomePageRedirectsTest(TestCase):
     def test_home_url(self):
         self.assertEqual(self.url, '/home/')
 
-    def test_get_bookings(self):
-        response = self.client.post(reverse('bookings'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'bookings.html')
-
     def test_get_home(self):
         response = self.client.post(reverse('home'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
-
-    def test_log_out(self):
-        self.url = reverse('log_out')
-        response = self.client.get(self.url, follow=True)
-        response_url = reverse('main')
-        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-        self.assertTemplateUsed(response, 'main.html')

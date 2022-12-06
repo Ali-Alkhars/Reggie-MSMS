@@ -10,13 +10,13 @@ class LessonRequestForm(forms.ModelForm):
         model = Lesson_request
         fields = ["availableDays", "availableTimes", "numberOfLessons", "IntervalBetweenLessons", "DurationOfLesson", "LearningObjectives", "AdditionalNotes"]
         labels = {
-            'availableDays': "Choose a day: ",
-            'availableTimes': "Choose a time: ",
-            'numberOfLessons': "Number of lessons desired: ",
-            'IntervalBetweenLessons': "Interval between lessons (In weeks): ",
-            'DurationOfLesson': "Duration of lesson (In minutes): ",
-            'LearningObjectives': "What do you want to learn? ",
-            'AdditionalNotes': "Additional notes/comments: " 
+            'availableDays': "Choose a day",
+            'availableTimes': "Choose a time",
+            'numberOfLessons': "Number of lessons desired",
+            'IntervalBetweenLessons': "Interval between lessons (In weeks)",
+            'DurationOfLesson': "Duration of lesson (In minutes)",
+            'LearningObjectives': "What do you want to learn",
+            'AdditionalNotes': "Additional notes/comments"
         }
         widget = {
             "LearningObjectives": forms.Textarea(),
