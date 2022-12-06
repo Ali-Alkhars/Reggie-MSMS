@@ -23,9 +23,8 @@ class LessonRequestForm(forms.ModelForm):
             "AdditionalNotes": forms.Textarea()
         }
 
-
-# This is just a placeholder form
 class LogInForm(forms.Form):
+    """Form enabling users to log in"""
     username = forms.EmailField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
@@ -34,7 +33,7 @@ class NewLessonForm(forms.Form):
     test = forms.CharField(label="TEST")
 
 class RegisterForm(forms.ModelForm):
-    """Form enabling students to register an account"""
+    """Form enabling users to register an account"""
 
     class Meta:
         """Form options."""
