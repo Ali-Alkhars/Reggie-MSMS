@@ -1,8 +1,13 @@
+import datetime
+
+from dateutil import relativedelta
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator, MaxValueValidator
-from django.db import models
+from django.db import models, transaction
 from django.core.exceptions import ValidationError
+from django.db.models import F, Max
 from django.utils import timezone
+
 
 class User(AbstractUser):
     """User model used for creating different users in the MSMS."""
@@ -65,12 +70,13 @@ VALUE_CHOICES = [
     (120, '120 minutes'),
 ]
 
+
 # Make sure values are not non-zero
 def validate_nonzero(value):
     if (value <= 0):
         raise ValidationError(
             ('%(value) is not allowed'),
-            params={'value':value},
+            params={'value': value},
         )
 
 
@@ -80,33 +86,42 @@ class Lesson_request(models.Model):
     availableTimes = models.CharField(max_length=255, blank=False, choices=TIME_CHOICES)
     numberOfLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero])
     IntervalBetweenLessons = models.PositiveIntegerField(blank=False, validators=[validate_nonzero])
-    DurationOfLesson = models.PositiveIntegerField(blank = False, validators=[validate_nonzero], choices=VALUE_CHOICES)
+    DurationOfLesson = models.PositiveIntegerField(blank=False, validators=[validate_nonzero], choices=VALUE_CHOICES)
     LearningObjectives = models.TextField(blank=False)
     AdditionalNotes = models.TextField(blank=True)
     Fulfilled = models.CharField(max_length=50, blank=False, default='Pending')
 
     def getWeekdays_choices():
         return WEEKDAY_CHOICES
-    
+
     def getTime_choices():
         return TIME_CHOICES
+
 
 class Invoice(models.Model):
     """Invoice model used to create invoices of bank transfers for the lesson payments"""
 
     reference = models.CharField(
-        unique=True, 
-        blank=False, 
-        max_length=50, 
-        primary_key=True, 
-        validators= [RegexValidator(
+        unique=True,
+        blank=False,
+        max_length=50,
+        primary_key=True,
+        validators=[RegexValidator(
             regex='^[0-9-]*$',
-            message= 'Reference number should be numbers-numbers',
+            message='Reference number should be numbers-numbers',
             code='invalid_reference'
         )]
     )
-    price = models.FloatField(blank=False, validators= [MaxValueValidator(1000000)])
-    unpaid = models.FloatField(blank=False, validators= [MaxValueValidator(1000000)])
+    price = models.FloatField(blank=False, validators=[MaxValueValidator(1000000)])
+    unpaid = models.FloatField(blank=False, validators=[MaxValueValidator(1000000)])
     creation_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
     update_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
+
+
+class Term(models.Model):
+    """Term model used to keep track of lessons per term"""
+    termID = models.IntegerField(unique=True, blank=False)
+    startDate = models.DateField(default=datetime.date.today())
+    endDate = models.DateField(default=datetime.date.today() + relativedelta.relativedelta(month=2))
+

@@ -1,0 +1,11 @@
+[
+    {
+        "model": "lessons.term",
+        "pk": 1,
+        "fields": {
+            "termID": "1",
+            "startDate": "2022-12-07",
+            "endDate": "2022-12-07"
+        }
+    }
+]
