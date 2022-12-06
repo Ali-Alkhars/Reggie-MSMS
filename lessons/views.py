@@ -118,7 +118,7 @@ def term_time_update(request, id):
     term_time_request = TermTime.objects.get(id=id)
     if request.method == 'POST':
         form = NewTermForm(request.POST, instance=term_time_request)
-        form.fields['termOrder'].disabled = True
+        # form.fields['termOrder'].disabled = True
         if form.is_valid():
             form.save()
             return redirect('term_time')

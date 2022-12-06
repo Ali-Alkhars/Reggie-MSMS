@@ -33,10 +33,13 @@ class NewTermForm(forms.ModelForm):
     endDate = forms.DateField(input_formats = settings.DATE_INPUT_FORMATS, label='Please follow format: yyyy-mm-dd')
     class Meta:
         model = TermTime
-        fields = ["termOrder"]   
-        if (TermTime.objects.all().count() == 2):
-            widgets = {'termOrder': forms.HiddenInput(),}
+        fields = ["termOrder"]  
     
+    def __init__(self, *args, **kwargs):
+        super(NewTermForm, self).__init__(*args, **kwargs)
+        if (TermTime.objects.all().count() == 2):
+            self.fields['termOrder'].widget = forms.HiddenInput()
+
     def clean(self):
         super().clean()
         startdate = self.cleaned_data.get('startDate')
