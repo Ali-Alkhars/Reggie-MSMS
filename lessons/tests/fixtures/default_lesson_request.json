@@ -9,7 +9,8 @@
             "IntervalBetweenLessons": 5,
             "DurationOfLesson": 30,
             "LearningObjectives": "I want to learn music.",
-            "AdditionalNotes": "I know how to play piano."
+            "AdditionalNotes": "I know how to play piano.",
+            "student": 2
         }
     }
 ]

@@ -12,6 +12,7 @@ class InvoiceModelTestCase(TestCase):
 
     fixtures = [
         'lessons/tests/fixtures/default_user.json',
+        'lessons/tests/fixtures/other_users.json',
         'lessons/tests/fixtures/default_lesson_request.json'
     ]
     
