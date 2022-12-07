@@ -19,14 +19,14 @@
                     <tr>
                         <th scope="col">student_id</th>
                         <th scope="col">Available days</th>
-                        <th scope="col">Availble times</th>
+                        <th scope="col">Available times</th>
                         <th scope="col">Number of lessons</th>
                         <th scope="col">Interval</th>
                         <th scope="col">Lesson duration</th>
                         <th scope="col">Learning objectives</th>
                         <th scope="col">Notes</th>
                         <th scope="col">Request status</th>
-
+                        <th colspan="4" class="text-center">Actions</th>
                     </tr>
                 </thead>
 
@@ -44,18 +44,26 @@
                         <td>{{form.AdditionalNotes}}</td>
                         <td>{{form.Fulfilled}}</td>
                         {% if user.isStudent %}
-                        {% if form.Fulfilled == "Pending" %}
-                        <td><a href="{% url 'lesson_request_update' form.id %}">Edit</a></td>
-                        <td><a href="{% url 'lesson_request_delete' form.id%}">Delete</a></td>
-                        {% endif %}
+                            {% if form.Fulfilled == "Pending" %}
+                            <td><a href="{% url 'lesson_request_update' form.id %}">Edit</a></td>
+                            <td><a href="{% url 'lesson_request_delete' form.id%}">Delete</a></td>
+                            {% endif %}
+                            {% if form.Fulfilled != "Pending" %}
+                                <td>--</td>
+                                <td>--</td>
+                            {% endif %}
                         {% endif %}
                         {% if user.isStudent == False %}
-                        <td><a href="{% url 'lesson_request_update' form.id %}">Edit</a></td>
-                        <td><a href="{% url 'lesson_request_delete' form.id%}">Delete</a></td>
-                        {% if form.Fulfilled == "Pending" %}
-                        <td><a href="{% url 'lesson_request_approve' form.id %}">Approve</a></td>
-                        <td><a href="{% url 'lesson_request_deny' form.id%}">Deny</a></td>
-                        {% endif %}
+                            <td><a href="{% url 'lesson_request_update' form.id %}">Edit</a></td>
+                            <td><a href="{% url 'lesson_request_delete' form.id%}">Delete</a></td>
+                            {% if form.Fulfilled == "Pending" %}
+                                <td><a href="{% url 'lesson_request_approve' form.id %}">Approve</a></td>
+                                <td><a href="{% url 'lesson_request_deny' form.id%}">Deny</a></td>
+                            {% endif %}
+                            {% if form.Fulfilled != "Pending" %}
+                                <td>--</td>
+                                <td>--</td>
+                            {% endif %}
                         {% endif %}
 
                     </tr>

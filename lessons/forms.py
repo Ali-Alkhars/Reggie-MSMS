@@ -14,7 +14,7 @@ class LessonRequestForm(forms.ModelForm):
             'availableTimes': "Choose a time",
             'numberOfLessons': "Number of lessons desired",
             'IntervalBetweenLessons': "Interval between lessons (In weeks)",
-            'DurationOfLesson': "Duration of lesson (In minutes)",
+            'DurationOfLesson': "Duration of lesson",
             'LearningObjectives': "What do you want to learn",
             'AdditionalNotes': "Additional notes/comments"
         }
