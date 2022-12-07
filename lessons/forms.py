@@ -4,8 +4,7 @@ from django.core.validators import RegexValidator
 from lessons.models import User, Lesson_request, TermTime
 from django.contrib.auth.models import Group
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
-import datetime
+
 
 
 # Request form for the lesson
@@ -34,6 +33,9 @@ class NewTermForm(forms.ModelForm):
     class Meta:
         model = TermTime
         fields = ["termOrder"]  
+        labels = {
+            'termOrder': "Term order:"
+        }
     
     def __init__(self, *args, **kwargs):
         super(NewTermForm, self).__init__(*args, **kwargs)
@@ -57,7 +59,7 @@ class NewTermForm(forms.ModelForm):
                 if (termOrderUsed == "First term"):
                     try:
                         object = TermTime.objects.filter(termOrder="Second term")[0]
-                        if (object.startDate < enddate | startdate > object.endDate | startdate > object.startDate):
+                        if (object.startDate < enddate or startdate > object.endDate or startdate > object.startDate):
                             self.add_error('endDate', 'The term must not overlap')
                     except IndexError:
                         pass
@@ -65,7 +67,7 @@ class NewTermForm(forms.ModelForm):
                 else:
                     try: 
                         object = TermTime.objects.filter(termOrder="First term")[0]
-                        if (object.endDate > startdate | enddate < object.startDate | startdate < object.startDate):
+                        if (object.endDate > startdate or enddate < object.startDate or startdate < object.startDate):
                             self.add_error('startDate', 'The term must not overlap')
                     except IndexError:
                         pass
