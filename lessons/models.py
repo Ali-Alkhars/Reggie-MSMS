@@ -109,4 +109,5 @@ class Invoice(models.Model):
     unpaid = models.FloatField(blank=False, validators= [MaxValueValidator(1000000)])
     creation_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
     update_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
-    student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
+    student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
+    lesson = models.ForeignKey(Lesson_request, on_delete=models.CASCADE, blank=False, null=True)
