@@ -57,7 +57,7 @@ class NewTermForm(forms.ModelForm):
                 if (termOrderUsed == "First term"):
                     try:
                         object = TermTime.objects.filter(termOrder="Second term")[0]
-                        if (object.startDate < enddate):
+                        if (object.startDate < enddate | startdate > object.endDate | startdate > object.startDate):
                             self.add_error('endDate', 'The term must not overlap')
                     except IndexError:
                         pass
@@ -65,7 +65,7 @@ class NewTermForm(forms.ModelForm):
                 else:
                     try: 
                         object = TermTime.objects.filter(termOrder="First term")[0]
-                        if (object.endDate > startdate):
+                        if (object.endDate > startdate | enddate < object.startDate | startdate < object.startDate):
                             self.add_error('startDate', 'The term must not overlap')
                     except IndexError:
                         pass
