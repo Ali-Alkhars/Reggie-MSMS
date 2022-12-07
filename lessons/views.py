@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from .forms import LessonRequestForm, LogInForm, NewLessonForm, RegisterForm, EditLoginsForm, EditPasswordForm
+from .forms import LessonRequestForm, LogInForm, RegisterForm, EditLoginsForm, EditPasswordForm
 from .models import Lesson_request, User
 from django.contrib import messages
 from lessons.helpers.decorators import login_prohibited, permitted_groups
@@ -190,31 +190,6 @@ def edit_account(request, action):
             return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
 
     return render(request, 'edit_account.html', {'logins_form': edit_logins_form, 'password_form': edit_password_form})
-
-
-@login_required
-def bookings(request):
-    return render(request, 'lesson_page.html')
-
-"""
-A page for students to make a lesson request
-NOT YET FULLY IMPLEMENTED
-"""
-@login_required
-@permitted_groups(['student'])
-def new_lesson(request):
-
-    form = NewLessonForm()
-    return render(request, 'lesson_request.html', {'form': form})
-
-"""
-A page for admins and directors to check students' lesson requests
-NOT YET FULLY IMPLEMENTED
-"""
-@login_required
-@permitted_groups(['admin', 'director'])
-def lesson_requests(request):
-    return render(request, 'temp.html')
 
 """
 A page for directors to view/edit/delete admin accounts or promote
