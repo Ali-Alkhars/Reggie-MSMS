@@ -190,6 +190,7 @@ class Command(BaseCommand):
         self._create_random_lesson(user)
 
     def _create_specific_users(self):
+        self._create_specific_student()
         self._create_specific_director()
         self._create_specific_admin()
 

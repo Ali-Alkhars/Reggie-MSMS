@@ -28,10 +28,6 @@ class LogInForm(forms.Form):
     username = forms.EmailField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
-# This is just a placeholder form
-class NewLessonForm(forms.Form):
-    test = forms.CharField(label="TEST")
-
 class RegisterForm(forms.ModelForm):
     """Form enabling users to register an account"""
 
