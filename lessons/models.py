@@ -111,3 +111,5 @@ class Invoice(models.Model):
     update_date = models.DateTimeField(blank=False, validators=[MaxValueValidator(limit_value=timezone.now)])
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
     lesson = models.ForeignKey(Lesson_request, on_delete=models.CASCADE, blank=False, null=True)
+
+
