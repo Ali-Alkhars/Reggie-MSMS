@@ -80,6 +80,8 @@ def validate_nonzero(value):
 
 
 class Lesson_request(models.Model):
+    """Lesson_request model used by students to request a new music lesson"""
+
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     availableDays = models.CharField(max_length=100, blank=False, choices=WEEKDAY_CHOICES)
     availableTimes = models.CharField(max_length=255, blank=False, choices=TIME_CHOICES)

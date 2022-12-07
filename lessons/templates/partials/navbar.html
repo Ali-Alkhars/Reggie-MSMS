@@ -1,30 +1,31 @@
 <!--Standardized template for any content in a center card -->
 {% extends 'base.html' %}
 {% block body %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" style="margin-left:1%;" href='{% url 'home' %}'>MSMS</a>
 
-    <ul class="navbar-nav mr-auto">
+<nav class="navbar navbar-expand navbar-light bg-light">
+    <a class="navbar-brand fw-bold" style="margin-left:1%;" href='{% url 'home' %}'><strong>MSMS</strong></a>
+
+    <ul class="navbar-nav mr-auto mx-auto">
     <li class="nav-item active">
-      <a class="nav-link" href='{% url 'bookings' %}' >Bookings</a>
+      <a class="nav-link fw-bold text-uppercase" href='{% url 'lesson_page' %}' >Bookings</a>
     </li>
-    </ul>
 
-    <ul class="navbar-nav mr-auto">
+
+
       <li class="nav-item active">
         {% if user.isStudent %}
-          <a class="nav-link" href="{% url 'student_invoices' user.id %}">My invoices</a>
+          <a class="nav-link fw-bold text-uppercase" href="{% url 'student_invoices' user.id %}">My invoices</a>
         {% else %}
-          <a class="nav-link" href="{% url 'students_list' %}">Student invoices</a>
+          <a class="nav-link fw-bold text-uppercase" href="{% url 'students_list' %}">Student invoices</a>
         {% endif %}
       </li>
-    </ul>
 
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+
+
+      <!-- <li class="nav-item active">
           <a class="nav-link" href="{% url 'lesson_page' %}">Lessons</a>
-      </li>
-    </ul>
+      </li> -->
+
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -33,17 +34,18 @@
     </ul>
 
     {% if user.isDirector %}
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="{% url 'admin_accounts' %}">Manage Admins</a>
-        </li>
-      </ul>
-    {% endif %}
-    
 
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+            <a class="nav-link fw-bold text-uppercase" href="{% url 'admin_accounts' %}">Manage Admins</a>
+        </li>
+
+    {% endif %}
+    </ul>
+
+
+    <ul class="navbar-nav ">
         <li class="nav-item dropdown">
-          <a class="nav-link" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link fw-bold text-uppercase" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="bi-person-circle"style="margin-right:25%;"></span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown">
