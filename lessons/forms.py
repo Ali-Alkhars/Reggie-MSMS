@@ -60,12 +60,26 @@ class NewTermForm(forms.ModelForm):
                         if (object.startDate < enddate):
                             self.add_error('endDate', 'The term must not overlap')
                     except IndexError:
-                        pass   
+                        pass
+
                 else:
                     try: 
                         object = TermTime.objects.filter(termOrder="First term")[0]
                         if (object.endDate > startdate):
                             self.add_error('startDate', 'The term must not overlap')
+                    except IndexError:
+                        pass
+            if (TermTime.objects.all().count() < 2):
+                if (termOrderUsed == 'First term'):
+                    try:
+                        object2 = TermTime.objects.filter(termOrder="First term")[0]
+                        self.add_error('termOrder', "cannot be two same terms")
+                    except IndexError:
+                        pass
+                if (termOrderUsed == 'Second term'):
+                    try:
+                        object2 = TermTime.objects.filter(termOrder="Second term")[0]
+                        self.add_error('termOrder', "cannot be two same terms")
                     except IndexError:
                         pass
 

@@ -123,3 +123,6 @@ class TermTime(models.Model):
     midTerm = models.DateField(blank=False, default="2020-01-01")
     termOrder = models.CharField(max_length=100, blank=False, choices=TERM_ORDER, default="First Term")
 
+    def getTermOrder():
+        return TERM_ORDER
+
