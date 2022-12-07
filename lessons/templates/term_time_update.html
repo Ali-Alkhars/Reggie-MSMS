@@ -1,0 +1,20 @@
+{% extends 'partials/navbar.html' %}
+{% block content %}
+
+<div class="container container_padding_and_margin mt-3 mb-3 vh-90">
+    <div class="user-dashboard-info-box table-responsive mb-3 bg-white p-4 shadow-sm admin-card-borders">
+
+        <h2 class="mt2">Update term here.</h2>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {% include 'partials/bootstrap_form.html' with form=form %}
+    <div class="text-center">
+        <input type="submit" value="Submit lesson" class="btn btn-primary"> 
+    </div>
+</form>
+
+    </div>
+</div>
+
+{% endblock %}

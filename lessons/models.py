@@ -65,6 +65,11 @@ VALUE_CHOICES = [
     (120, '120 minutes'),
 ]
 
+TERM_ORDER = [
+    ('First term', 'First term'),
+    ('Second term', 'Second term'),
+]
+
 # Make sure values are not non-zero
 def validate_nonzero(value):
     if (value <= 0):
@@ -114,4 +119,13 @@ class Invoice(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
     lesson = models.ForeignKey(Lesson_request, on_delete=models.CASCADE, blank=False, null=True)
 
+class TermTime(models.Model):
+    """Term time model used to create terms for the school year"""
+    startDate = models.DateField(help_text="Enter a date after now", blank=False, unique = True)
+    endDate = models.DateField(help_text="Enter a date after now and after start date", blank=False, unique=True)
+    midTerm = models.DateField(blank=False, default="2020-01-01")
+    termOrder = models.CharField(max_length=100, blank=False, choices=TERM_ORDER, default="First Term")
+
+    def getTermOrder():
+        return TERM_ORDER
 

@@ -1,0 +1,11 @@
+[
+    {
+        "model": "lessons.termtime",
+        "pk": 6,
+        "fields": {
+            "startDate": "2022-09-30",
+            "endDate": "2023-01-10",
+            "termOrder": "First term"
+        }
+    }
+]

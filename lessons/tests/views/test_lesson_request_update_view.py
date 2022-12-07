@@ -8,7 +8,7 @@ from lessons.tests.helpers import reverse_with_next
 from django.conf import settings
 from lessons.forms import LessonRequestForm
 
-class LessonPageUpdateTestCase(TestCase):
+class LessonRequestUpdateTestCase(TestCase):
     """Unit tests for the lesson request update page"""
     fixtures = [
             'lessons/tests/fixtures/default_user.json',
