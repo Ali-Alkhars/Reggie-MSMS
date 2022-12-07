@@ -13,7 +13,9 @@
                 <th>Start date</th>
                 <th>End date</th>
                 <th>Mid term date</th>
-                <th>Action</th>
+                {% if user.isStudent == False %}
+                    <th>Action</th>
+                {% endif %}
             </tr>
             {% for term in object_list %}
             <tr>
