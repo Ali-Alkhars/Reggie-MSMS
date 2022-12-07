@@ -1,5 +1,6 @@
 from django.test import TestCase
 from lessons.forms import NewTermForm
+from lessons.models import TermTime
 
 class TermTimeFormTestCase(TestCase):
     """Unit tests of the term time form"""
@@ -14,6 +15,8 @@ class TermTimeFormTestCase(TestCase):
             'endDate': '2023-03-01',
             'termOrder': 'First term'
         }
+        object = TermTime.objects.all()[0]
+        object.delete()
     
     def test_form_contains_required_fields(self):
         form = NewTermForm()
@@ -22,6 +25,7 @@ class TermTimeFormTestCase(TestCase):
         self.assertIn('termOrder', form.fields)
     
     def test_form_accept_valid_input(self):
+
         form = NewTermForm(data=self.form_input)
         self.assertTrue(form.is_valid())
     

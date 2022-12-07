@@ -9,7 +9,7 @@ from django.conf import settings
 from lessons.forms import NewTermForm
 import datetime
 
-class LessonPageUpdateTestCase(TestCase):
+class TermTimeUpdateTestCase(TestCase):
     """Unit tests for the term time update page"""
     fixtures = [
             'lessons/tests/fixtures/default_user.json',
@@ -38,11 +38,13 @@ class LessonPageUpdateTestCase(TestCase):
         self.url = reverse('term_time')
         self.url2 = reverse('term_create')
 
+        object = TermTime.objects.all()[0]
+        object.delete()
         self.client.post(self.url2, self.form_input, follow=True)
         self.listUsed = TermTime.objects.filter(startDate='2022-08-30')[0]
         self.url = reverse('term_time_update', kwargs={'id': self.listUsed.id})
     
-    def test_lesson_request_update_url(self):
+    def test_term_time_update_url(self):
         self.assertEqual(self.url, '/term_time/{}/update/'.format(self.listUsed.id))
     
     def test_redirect_when_user_access_lesson_request_not_logged_in(self):

@@ -120,6 +120,7 @@ class Invoice(models.Model):
     lesson = models.ForeignKey(Lesson_request, on_delete=models.CASCADE, blank=False, null=True)
 
 class TermTime(models.Model):
+    """Term time model used to create terms for the school year"""
     startDate = models.DateField(help_text="Enter a date after now", blank=False, unique = True)
     endDate = models.DateField(help_text="Enter a date after now and after start date", blank=False, unique=True)
     midTerm = models.DateField(blank=False, default="2020-01-01")

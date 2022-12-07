@@ -96,7 +96,9 @@ def lesson_request_deny(request, id):
     lesson_request.Fulfilled = "Denied"
     lesson_request.save(update_fields=['Fulfilled'])
     return redirect('lesson_page')
-
+"""
+Create a term
+"""
 @login_required
 @permitted_groups(['admin', 'director'])
 def term_create(request):
@@ -116,13 +118,15 @@ def term_create(request):
         form = NewTermForm()
     return render(request, 'term_create.html', {"form":form})
 
+"""
+Update a specific term
+"""
 @login_required
 @permitted_groups(['admin', 'director'])
 def term_time_update(request, id):
     term_time_request = TermTime.objects.get(id=id)
     if request.method == 'POST':
         form = NewTermForm(request.POST, instance=term_time_request)
-        # form.fields['termOrder'].disabled = True
         if form.is_valid():
             form.save()
             return redirect('term_time')
@@ -130,6 +134,9 @@ def term_time_update(request, id):
         form = NewTermForm(instance=term_time_request)
     return render(request, 'term_time_update.html', {"form": form})
 
+"""
+Show term of the current school year
+"""
 @login_required
 def term_time(request):
     count = TermTime.objects.all().count()
