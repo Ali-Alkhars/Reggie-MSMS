@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.test import TestCase
-from lessons.models import Invoice, User
+from lessons.models import Invoice, Lesson_request, User
 from django.contrib.auth.models import Group
 from lessons.management.commands.create_user_groups import Command
 from django.utils import timezone
@@ -10,11 +10,16 @@ from datetime import timedelta
 class InvoiceModelTestCase(TestCase):
     """Unit tests for the Invoice model."""
 
-    fixtures = ['lessons/tests/fixtures/default_user.json']
+    fixtures = [
+        'lessons/tests/fixtures/default_user.json',
+        'lessons/tests/fixtures/other_users.json',
+        'lessons/tests/fixtures/default_lesson_request.json'
+    ]
     
     def setUp(self):
         create_groups_command = Command()
         create_groups_command.handle()
+        self.lesson = Lesson_request.objects.get(AdditionalNotes= "I know how to play piano.")
         self.student = User.objects.get(username= "johndoe@example.org")
         student_group = Group.objects.get(name='student') 
         student_group.user_set.add(self.student)
@@ -24,7 +29,8 @@ class InvoiceModelTestCase(TestCase):
             unpaid= 19,
             creation_date= timezone.now(),
             update_date= timezone.now(),
-            student= self.student
+            student= self.student,
+            lesson= self.lesson
         )
 
     def test_valid_invoice(self):
@@ -70,7 +76,8 @@ class InvoiceModelTestCase(TestCase):
                 unpaid= 10,
                 creation_date= timezone.now(),
                 update_date= timezone.now(),
-                student= self.student
+                student= self.student,
+                lesson= self.lesson
             )
             invoice.full_clean()
 
@@ -112,7 +119,8 @@ class InvoiceModelTestCase(TestCase):
                 price= 19,
                 creation_date= timezone.now(),
                 update_date= timezone.now(),
-                student= self.student
+                student= self.student,
+                lesson= self.lesson
             )
             invoice.full_clean()
     
@@ -147,7 +155,8 @@ class InvoiceModelTestCase(TestCase):
                 price= 19,
                 unpaid=10,
                 update_date= timezone.now(),
-                student= self.student
+                student= self.student,
+                lesson= self.lesson
             )
             invoice.full_clean()
 
@@ -166,7 +175,8 @@ class InvoiceModelTestCase(TestCase):
                 price= 19,
                 unpaid=10,
                 creation_date= timezone.now(),
-                student= self.student
+                student= self.student,
+                lesson= self.lesson
             )
             invoice.full_clean()
 
@@ -175,15 +185,12 @@ class InvoiceModelTestCase(TestCase):
         self._assert_invoice_is_invalid()
 
     def test_student_cannot_be_blank(self):
-        with self.assertRaises(IntegrityError):
-            invoice = Invoice.objects.create (
-                reference= f"{self.student.id}-002",
-                price= 19,
-                unpaid=10,
-                creation_date= timezone.now(),
-                update_date= timezone.now()
-            )
-            invoice.full_clean()
+        self.invoice.student = None
+        self._assert_invoice_is_invalid()
+
+    def test_lesson_cannot_be_blank(self):
+        self.invoice.lesson = None
+        self._assert_invoice_is_invalid()
 
     def test_deleting_student_deletes_invoice(self):
         user_count_before = len(User.objects.all())

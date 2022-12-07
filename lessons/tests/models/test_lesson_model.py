@@ -7,6 +7,7 @@ class LessonRequestModelTestCase(TestCase):
     """Unit tests for the Lesson_request model."""
 
     fixtures = [
+        'lessons/tests/fixtures/other_users.json',
         'lessons/tests/fixtures/default_lesson_request.json'
     ]
 
