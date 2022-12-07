@@ -96,7 +96,7 @@ A helper function which creates an invoice from a given student and lesson
 def create_invoice(lesson, student):
     lesson_price = lesson.numberOfLessons * lesson.DurationOfLesson
 
-    Invoice.objects.create (
+    invoice = Invoice.objects.create (
             reference= f"{student.id}-{lesson.id}",
             price= lesson_price,
             unpaid= lesson_price,
@@ -104,4 +104,5 @@ def create_invoice(lesson, student):
             update_date= timezone.now(),
             student= student,
             lesson= lesson
-        )
+    )
+    return invoice
