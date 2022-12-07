@@ -10,13 +10,13 @@ class LessonRequestForm(forms.ModelForm):
         model = Lesson_request
         fields = ["availableDays", "availableTimes", "numberOfLessons", "IntervalBetweenLessons", "DurationOfLesson", "LearningObjectives", "AdditionalNotes"]
         labels = {
-            'availableDays': "Choose a day: ",
-            'availableTimes': "Choose a time: ",
-            'numberOfLessons': "Number of lessons desired: ",
-            'IntervalBetweenLessons': "Interval between lessons (In weeks): ",
-            'DurationOfLesson': "Duration of lesson (In minutes): ",
-            'LearningObjectives': "What do you want to learn? ",
-            'AdditionalNotes': "Additional notes/comments: " 
+            'availableDays': "Choose a day",
+            'availableTimes': "Choose a time",
+            'numberOfLessons': "Number of lessons desired",
+            'IntervalBetweenLessons': "Interval between lessons (In weeks)",
+            'DurationOfLesson': "Duration of lesson",
+            'LearningObjectives': "What do you want to learn",
+            'AdditionalNotes': "Additional notes/comments"
         }
         widget = {
             "LearningObjectives": forms.Textarea(),
@@ -64,21 +64,21 @@ class RegisterForm(forms.ModelForm):
     """Assign a given user to the student group"""
     def save_user_as_student(self):
         user = self.save()
-        student_group = Group.objects.get(name='student') 
+        student_group = Group.objects.get(name='student')
         student_group.user_set.add(user)
         return user
-    
+
     """Assign a given user to the director group"""
     def save_user_as_director(self):
         user = self.save()
-        director_group = Group.objects.get(name='director') 
+        director_group = Group.objects.get(name='director')
         director_group.user_set.add(user)
         return user
-    
+
     """Assign a given user to the admin group"""
     def save_user_as_admin(self):
         user = self.save()
-        admin_group = Group.objects.get(name='admin') 
+        admin_group = Group.objects.get(name='admin')
         admin_group.user_set.add(user)
         return user
 
@@ -94,7 +94,7 @@ class RegisterForm(forms.ModelForm):
         )
 
         return user
-    
+
 class EditLoginsForm(forms.ModelForm):
     """Form for users to update their login information"""
 

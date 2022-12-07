@@ -13,7 +13,7 @@ from lessons.helpers.helper_functions import promote_admin_to_director, delete_u
 from django.contrib import messages
 
 """
-Request a lesson 
+Request a lesson
 """
 @login_required
 @permitted_groups(['student'])
@@ -194,7 +194,7 @@ def edit_account(request, action):
 
 @login_required
 def bookings(request):
-    return render(request, 'bookings.html')
+    return render(request, 'lesson_page.html')
 
 """
 A page for students to make a lesson request
@@ -205,7 +205,7 @@ NOT YET FULLY IMPLEMENTED
 def new_lesson(request):
 
     form = NewLessonForm()
-    return render(request, 'new_lesson.html', {'form': form})
+    return render(request, 'lesson_request.html', {'form': form})
 
 """
 A page for admins and directors to check students' lesson requests
@@ -312,8 +312,8 @@ def register_super(request, user_type):
         return render(request, 'register_as_admin.html', {'form': form})
 
 """
-A page which has different functionality depending on the user. 
-1- If it's an admin or director they could check the invoices of a 
+A page which has different functionality depending on the user.
+1- If it's an admin or director they could check the invoices of a
 specific student and record their payments in the app's database.
 2- If it's a student they could check their lesson invoices status.
 """
@@ -352,5 +352,5 @@ def pay_invoice(request, reference):
             return redirect('student_invoices', invoice.student.id)
         else:
             messages.add_message(request, messages.SUCCESS, f"A payment of £{paid} has been recorded. £{invoice.unpaid} is left to be paid")
-        
+
     return render(request, 'pay_invoice.html', {'invoice': invoice})
