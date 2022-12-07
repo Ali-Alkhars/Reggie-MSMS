@@ -135,6 +135,7 @@ class Command(BaseCommand):
         lesson = Lesson_request.objects.create(
             student=student,
             availableDays='Tuesday',
+            availableTimes = 'Morning',
             numberOfLessons=random.randint(1,10),
             IntervalBetweenLessons=random.randint(1,3),
             DurationOfLesson= 60,
