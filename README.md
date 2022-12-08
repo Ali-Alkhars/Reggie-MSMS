@@ -62,3 +62,5 @@ $ python3 manage.py test
 The packages used by this application are specified in `requirements.txt`
 
 *Declare are other sources here.*
+
+Contains code from the provided Clucker source code
