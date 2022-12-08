@@ -64,3 +64,5 @@ The packages used by this application are specified in `requirements.txt`
 *Declare are other sources here.*
 
 Contains code from the provided Clucker source code
+
+Background images are free, taken from https://www.istockphoto.com/search/search-by-asset?affiliateredirect=true&assetid=154927026&assettype=image&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmusic-background&utm_medium=affiliate&utm_source=unsplash&utm_term=music+background%3A%3A%3A
